@@ -1,7 +1,7 @@
 package model
 
 const (
-	sqlQueryByID   = ""
+	sqlQueryByID   = "SELECT * FROM stock.industry WHERE id IN (?)"
 	sqlQueryByName = ""
 )
 
