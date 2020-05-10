@@ -1,7 +1,7 @@
 import tushare as ts
 
 
-class StockData:
+class StockApi:
     def __init__(self, token=''):
         self.pro = ts.pro_api(token)
 
@@ -55,7 +55,7 @@ class StockData:
         df = self.pro.daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
         return df
 
-    def get_pro_bar(self, ts_code, start_date, end_date, adj='qfq'):
+    def get_pro_bar(self, ts_code, start_date=None, end_date=None, adj='qfq'):
         """
         作用: 获取股票复权行情数据
         ts_code	    str	Y	证券代码
@@ -70,7 +70,7 @@ class StockData:
         return df
 
 
-class IndexData:
+class IndexApi:
     def __init__(self, token=''):
         self.pro = ts.pro_api(token)
 
@@ -112,7 +112,7 @@ class IndexData:
         return df
 
 
-class FundData:
+class FundApi:
     def __init__(self, token=''):
         self.pro = ts.pro_api(token)
 
@@ -147,7 +147,7 @@ class FundData:
         return df
 
 
-class Industry:
+class IndustryApi:
     def __init__(self, token=''):
         self.pro = ts.pro_api(token)
 
