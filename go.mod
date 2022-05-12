@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
-	github.com/gin-gonic/gin v1.6.3
+	github.com/gin-gonic/gin v1.7.0
 	github.com/go-sql-driver/mysql v1.4.0
 	github.com/golang/protobuf v1.4.0 // indirect
 	github.com/jmoiron/sqlx v1.2.0
