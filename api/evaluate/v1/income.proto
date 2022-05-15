@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api.evaluate.v1;
+
+option go_package = "gostock/api/evaluate/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.evaluate.v1";
+
+service Income {
+	rpc CreateIncome (CreateIncomeRequest) returns (CreateIncomeReply);
+	rpc UpdateIncome (UpdateIncomeRequest) returns (UpdateIncomeReply);
+	rpc DeleteIncome (DeleteIncomeRequest) returns (DeleteIncomeReply);
+	rpc GetIncome (GetIncomeRequest) returns (GetIncomeReply);
+	rpc ListIncome (ListIncomeRequest) returns (ListIncomeReply);
+}
+
+message CreateIncomeRequest {}
+message CreateIncomeReply {}
+
+message UpdateIncomeRequest {}
+message UpdateIncomeReply {}
+
+message DeleteIncomeRequest {}
+message DeleteIncomeReply {}
+
+message GetIncomeRequest {}
+message GetIncomeReply {}
+
+message ListIncomeRequest {}
+message ListIncomeReply {}
