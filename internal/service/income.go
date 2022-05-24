@@ -4,14 +4,16 @@ import (
 	"context"
 
 	pb "gostock/api/evaluate/v1"
+	"gostock/internal/biz"
 )
 
 type IncomeService struct {
 	pb.UnimplementedIncomeServer
+	uc *biz.IncomeUsecase
 }
 
-func NewIncomeService() *IncomeService {
-	return &IncomeService{}
+func NewIncomeService(uc *biz.IncomeUsecase) *IncomeService {
+	return &IncomeService{uc: uc}
 }
 
 func (s *IncomeService) CreateIncome(ctx context.Context, req *pb.CreateIncomeRequest) (*pb.CreateIncomeReply, error) {
