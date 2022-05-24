@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-package api.evaluate.v1;
+package evaluate.v1;
+
+import "google/api/annotations.proto";
 
 option go_package = "gostock/api/evaluate/v1;v1";
 option java_multiple_files = true;
@@ -10,7 +12,11 @@ service Income {
 	rpc CreateIncome (CreateIncomeRequest) returns (CreateIncomeReply);
 	rpc UpdateIncome (UpdateIncomeRequest) returns (UpdateIncomeReply);
 	rpc DeleteIncome (DeleteIncomeRequest) returns (DeleteIncomeReply);
-	rpc GetIncome (GetIncomeRequest) returns (GetIncomeReply);
+	rpc GetIncome (GetIncomeRequest) returns (GetIncomeReply) {
+		option (google.api.http) = {
+			get: "/evaluate/{stock_id}"
+		};
+	};
 	rpc ListIncome (ListIncomeRequest) returns (ListIncomeReply);
 }
 
@@ -23,8 +29,12 @@ message UpdateIncomeReply {}
 message DeleteIncomeRequest {}
 message DeleteIncomeReply {}
 
-message GetIncomeRequest {}
-message GetIncomeReply {}
+message GetIncomeRequest {
+	int32 stock_id  = 1;
+}
+message GetIncomeReply {
+	int32 stock_id  = 1;
+}
 
 message ListIncomeRequest {}
 message ListIncomeReply {}
