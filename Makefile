@@ -11,6 +11,8 @@ init:
 	go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
 	go install github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2@latest
 	go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
+	go install github.com/go-kratos/kratos/cmd/protoc-gen-go-errors/v2
+
 
 .PHONY: config
 # generate internal proto
@@ -29,6 +31,7 @@ api:
  	       --go-http_out=paths=source_relative:./api \
  	       --go-grpc_out=paths=source_relative:./api \
  	       --openapi_out==paths=source_relative:. \
+		   --go-errors_out=paths=source_relative:./api \
 	       $(API_PROTO_FILES)
 
 .PHONY: build

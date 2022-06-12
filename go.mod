@@ -14,6 +14,7 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
+	github.com/go-kratos/kratos/cmd/protoc-gen-go-errors/v2 v2.0.0-20220607112443-eb280903f067 // indirect
 	github.com/go-kratos/kratos/contrib/metrics/prometheus/v2 v2.0.0-20220527165723-8ad8578c40bb // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
