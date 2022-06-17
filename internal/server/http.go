@@ -3,6 +3,7 @@ package server
 import (
 	evaluate_v2 "gostock/api/evaluate/v1"
 	v1 "gostock/api/helloworld/v1"
+	stock_v1 "gostock/api/stock/v1"
 	"gostock/internal/conf"
 	"gostock/internal/service"
 
@@ -15,7 +16,8 @@ import (
 )
 
 // NewHTTPServer new a HTTP server.
-func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, income *service.IncomeService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, income *service.IncomeService,
+	stock *service.StockService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			metrics.Server(
@@ -38,5 +40,6 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, income *serv
 	srv.Handle("/metrics", promhttp.Handler())
 	v1.RegisterGreeterHTTPServer(srv, greeter)
 	evaluate_v2.RegisterIncomeHTTPServer(srv, income)
+	stock_v1.RegisterStockServiceHTTPServer(srv, stock)
 	return srv
 }

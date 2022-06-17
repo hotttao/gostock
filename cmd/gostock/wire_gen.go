@@ -20,7 +20,9 @@ import (
 
 // wireApp init kratos application.
 func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
-	dataData, cleanup, err := data.NewData(confData, logger)
+	client := data.NewEntClient(confData, logger)
+	redisClient := data.NewRedisClient(confData, logger)
+	dataData, cleanup, err := data.NewData(client, redisClient, logger)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -30,8 +32,11 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	incomeRepo := data.NewIncomeRepo(dataData, logger)
 	incomeUsecase := biz.NewIncomeUsecase(incomeRepo, logger)
 	incomeService := service.NewIncomeService(incomeUsecase)
-	httpServer := server.NewHTTPServer(confServer, greeterService, incomeService, logger)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, incomeService, logger)
+	stockInfoRepo := data.NewStockInfoRepo(dataData, logger)
+	stockInfoUsecase := biz.NewStockInfoUsecase(stockInfoRepo, logger)
+	stockService := service.NewStockInfoService(stockInfoUsecase)
+	httpServer := server.NewHTTPServer(confServer, greeterService, incomeService, stockService, logger)
+	grpcServer := server.NewGRPCServer(confServer, greeterService, incomeService, stockService, logger)
 	app := newApp(logger, httpServer, grpcServer)
 	return app, func() {
 		cleanup()

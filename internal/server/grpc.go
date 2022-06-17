@@ -3,6 +3,7 @@ package server
 import (
 	evaluate_v2 "gostock/api/evaluate/v1"
 	v1 "gostock/api/helloworld/v1"
+	stock_v1 "gostock/api/stock/v1"
 	"gostock/internal/conf"
 	"gostock/internal/service"
 
@@ -15,7 +16,8 @@ import (
 )
 
 // NewGRPCServer new a gRPC server.
-func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, income *service.IncomeService, logger log.Logger) *grpc.Server {
+func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, income *service.IncomeService,
+	stock *service.StockService, logger log.Logger) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			metrics.Server(
@@ -37,5 +39,6 @@ func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, income *serv
 	srv := grpc.NewServer(opts...)
 	v1.RegisterGreeterServer(srv, greeter)
 	evaluate_v2.RegisterIncomeServer(srv, income)
+	stock_v1.RegisterStockServiceServer(srv, stock)
 	return srv
 }

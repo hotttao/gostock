@@ -1,13 +1,12 @@
 package server
 
 import (
-	"log"
-
 	"github.com/google/wire"
 	"github.com/prometheus/client_golang/prometheus"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/jaeger"
 	"go.opentelemetry.io/otel/sdk/resource"
+	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 )
 
@@ -37,23 +36,24 @@ func init() {
 	prometheus.MustRegister(_metricSeconds, _metricRequests)
 }
 
-func initTracer() func() {
-	// 创建一个 jaeger 的 pipeline,其他收集方式可以查看 opentelemetry 文档
-	flush, err := jaeger.InstallNewPipeline(
-		jaeger.WithCollectorEndpoint("http://localhost:14268/api/traces"),
-		jaeger.WithSDKOptions(
-			sdktrace.WithSampler(sdktrace.AlwaysSample()),
-			sdktrace.WithResource(resource.NewWithAttributes(
-				semconv.ServiceNameKey.String("kratos-trace"),
-				attribute.String("exporter", "jaeger"),
-				attribute.Float64("float", 312.23),
-			)),
-		),
-	)
+func initTracer(url string) (*tracesdk.TracerProvider, error) {
+	// Create the Jaeger exporter
+	exp, err := jaeger.New(jaeger.WithCollectorEndpoint(jaeger.WithEndpoint(url)))
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return flush
+	tp := tracesdk.NewTracerProvider(
+		// Always be sure to batch in production.
+		tracesdk.WithBatcher(exp),
+		// Record information about this application in a Resource.
+		tracesdk.WithResource(resource.NewWithAttributes(
+			semconv.SchemaURL,
+			semconv.ServiceNameKey.String("kratos-trace"),
+			attribute.String("exporter", "jaeger"),
+			attribute.Float64("float", 312.23),
+		)),
+	)
+	return tp, nil
 }
 
 // ProviderSet is server providers.
