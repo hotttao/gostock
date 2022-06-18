@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/go-kratos/kratos/v2 v2.3.0
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/google/wire v0.5.0
 	google.golang.org/genproto v0.0.0-20220519153652-3a47de7e79bd
 	google.golang.org/grpc v1.46.2
@@ -13,11 +14,6 @@ require (
 require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-redis/redis/extra/rediscmd v0.2.0 // indirect
-	github.com/go-sql-driver/mysql v1.6.0 // indirect
-	github.com/google/subcommands v1.0.1 // indirect
-	github.com/pmezard/go-difflib v1.0.0 // indirect
-	golang.org/x/tools v0.1.9-0.20211216111533-8d383106f7e7 // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )
 
 require (
