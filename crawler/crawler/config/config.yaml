@@ -1,0 +1,4 @@
+defaults:
+  - _self_
+  - connect: "${oc.env:ENVIRONMENT, 'base'}"
+
