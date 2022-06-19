@@ -1,4 +1,24 @@
 defaults:
   - _self_
-  - connect: "${oc.env:ENVIRONMENT, 'base'}"
+  - connection: "${oc.env:ENVIRONMENT, 'base'}"
 
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+connection:
+  database:
+    driver: mysql
+    source: root:hy1234@tcp(127.0.0.1:3306)/gostock
+  redis:
+    addr: 127.0.0.1:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+
+crawler:
+  driver: tushare
+  tushare:
+    token: "b018fd0ff022b9949c6250ddfe5fd27010bb52dd3e86d1f5c365cdc0"

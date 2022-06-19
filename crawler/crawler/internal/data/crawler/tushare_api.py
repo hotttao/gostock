@@ -1,11 +1,12 @@
 import tushare as ts
+from crawler.internal.biz.crawler import ICrawlerRepo
 
 
-class StockApi:
-    def __init__(self, token=''):
-        self.pro = ts.pro_api(token)
+class TuShareApi(ICrawlerRepo):
+    def __init__(self, config):
+        self.pro = ts.pro_api(config.crawler.tushare.token)
 
-    def get_stock_basic(self):
+    def get_stock_list(self):
         """
         作用: 查询当前所有正常上市交易的股票列表
         """
