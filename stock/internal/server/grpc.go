@@ -39,6 +39,6 @@ func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, income *serv
 	srv := grpc.NewServer(opts...)
 	v1.RegisterGreeterServer(srv, greeter)
 	evaluate_v2.RegisterIncomeServer(srv, income)
-	stock_v1.RegisterStockServiceServer(srv, stock)
+	stock_v1.RegisterStockInfoServiceServer(srv, stock)
 	return srv
 }

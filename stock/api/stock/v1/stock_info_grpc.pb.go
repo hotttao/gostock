@@ -18,86 +18,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// StockServiceClient is the client API for StockService service.
+// StockInfoServiceClient is the client API for StockInfoService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type StockServiceClient interface {
+type StockInfoServiceClient interface {
 	GetStockInfo(ctx context.Context, in *GetStockInfoRequest, opts ...grpc.CallOption) (*StockInfo, error)
 }
 
-type stockServiceClient struct {
+type stockInfoServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewStockServiceClient(cc grpc.ClientConnInterface) StockServiceClient {
-	return &stockServiceClient{cc}
+func NewStockInfoServiceClient(cc grpc.ClientConnInterface) StockInfoServiceClient {
+	return &stockInfoServiceClient{cc}
 }
 
-func (c *stockServiceClient) GetStockInfo(ctx context.Context, in *GetStockInfoRequest, opts ...grpc.CallOption) (*StockInfo, error) {
+func (c *stockInfoServiceClient) GetStockInfo(ctx context.Context, in *GetStockInfoRequest, opts ...grpc.CallOption) (*StockInfo, error) {
 	out := new(StockInfo)
-	err := c.cc.Invoke(ctx, "/api.stock.v1.StockService/GetStockInfo", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.stock.v1.StockInfoService/GetStockInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// StockServiceServer is the server API for StockService service.
-// All implementations must embed UnimplementedStockServiceServer
+// StockInfoServiceServer is the server API for StockInfoService service.
+// All implementations must embed UnimplementedStockInfoServiceServer
 // for forward compatibility
-type StockServiceServer interface {
+type StockInfoServiceServer interface {
 	GetStockInfo(context.Context, *GetStockInfoRequest) (*StockInfo, error)
-	mustEmbedUnimplementedStockServiceServer()
+	mustEmbedUnimplementedStockInfoServiceServer()
 }
 
-// UnimplementedStockServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedStockServiceServer struct {
+// UnimplementedStockInfoServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedStockInfoServiceServer struct {
 }
 
-func (UnimplementedStockServiceServer) GetStockInfo(context.Context, *GetStockInfoRequest) (*StockInfo, error) {
+func (UnimplementedStockInfoServiceServer) GetStockInfo(context.Context, *GetStockInfoRequest) (*StockInfo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStockInfo not implemented")
 }
-func (UnimplementedStockServiceServer) mustEmbedUnimplementedStockServiceServer() {}
+func (UnimplementedStockInfoServiceServer) mustEmbedUnimplementedStockInfoServiceServer() {}
 
-// UnsafeStockServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to StockServiceServer will
+// UnsafeStockInfoServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to StockInfoServiceServer will
 // result in compilation errors.
-type UnsafeStockServiceServer interface {
-	mustEmbedUnimplementedStockServiceServer()
+type UnsafeStockInfoServiceServer interface {
+	mustEmbedUnimplementedStockInfoServiceServer()
 }
 
-func RegisterStockServiceServer(s grpc.ServiceRegistrar, srv StockServiceServer) {
-	s.RegisterService(&StockService_ServiceDesc, srv)
+func RegisterStockInfoServiceServer(s grpc.ServiceRegistrar, srv StockInfoServiceServer) {
+	s.RegisterService(&StockInfoService_ServiceDesc, srv)
 }
 
-func _StockService_GetStockInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _StockInfoService_GetStockInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetStockInfoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StockServiceServer).GetStockInfo(ctx, in)
+		return srv.(StockInfoServiceServer).GetStockInfo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.stock.v1.StockService/GetStockInfo",
+		FullMethod: "/api.stock.v1.StockInfoService/GetStockInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StockServiceServer).GetStockInfo(ctx, req.(*GetStockInfoRequest))
+		return srv.(StockInfoServiceServer).GetStockInfo(ctx, req.(*GetStockInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// StockService_ServiceDesc is the grpc.ServiceDesc for StockService service.
+// StockInfoService_ServiceDesc is the grpc.ServiceDesc for StockInfoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var StockService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.stock.v1.StockService",
-	HandlerType: (*StockServiceServer)(nil),
+var StockInfoService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "api.stock.v1.StockInfoService",
+	HandlerType: (*StockInfoServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetStockInfo",
-			Handler:    _StockService_GetStockInfo_Handler,
+			Handler:    _StockInfoService_GetStockInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

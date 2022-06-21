@@ -59,8 +59,8 @@ paths:
     /stock/{id}:
         get:
             tags:
-                - StockService
-            operationId: StockService_GetStockInfo
+                - StockInfoService
+            operationId: StockInfoService_GetStockInfo
             parameters:
                 - name: id
                   in: path
@@ -131,4 +131,4 @@ tags:
     - name: Greeter
       description: The greeting service definition.
     - name: Income
-    - name: StockService
+    - name: StockInfoService

@@ -9,6 +9,7 @@ import (
 	"gostock/internal/data/ent/predicate"
 	"gostock/internal/data/ent/stockinfo"
 	"sync"
+	"time"
 
 	"entgo.io/ent"
 )
@@ -28,14 +29,30 @@ const (
 // StockInfoMutation represents an operation that mutates the StockInfo nodes in the graph.
 type StockInfoMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *int
-	name          *string
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*StockInfo, error)
-	predicates    []predicate.StockInfo
+	op             Op
+	typ            string
+	id             *int
+	ts_code        *string
+	symbol         *string
+	name           *string
+	area           *string
+	industry       *string
+	fullname       *string
+	enname         *string
+	cnspell        *string
+	market         *string
+	exchange       *string
+	curr_type      *string
+	list_status    *stockinfo.ListStatus
+	list_date      *time.Time
+	delist_date    *string
+	is_hs          *string
+	is_leader      *bool
+	label_industry *string
+	clearedFields  map[string]struct{}
+	done           bool
+	oldValue       func(context.Context) (*StockInfo, error)
+	predicates     []predicate.StockInfo
 }
 
 var _ ent.Mutation = (*StockInfoMutation)(nil)
@@ -108,12 +125,6 @@ func (m StockInfoMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of StockInfo entities.
-func (m *StockInfoMutation) SetID(id int) {
-	m.id = &id
-}
-
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
 func (m *StockInfoMutation) ID() (id int, exists bool) {
@@ -140,6 +151,78 @@ func (m *StockInfoMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetTsCode sets the "ts_code" field.
+func (m *StockInfoMutation) SetTsCode(s string) {
+	m.ts_code = &s
+}
+
+// TsCode returns the value of the "ts_code" field in the mutation.
+func (m *StockInfoMutation) TsCode() (r string, exists bool) {
+	v := m.ts_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTsCode returns the old "ts_code" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldTsCode(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTsCode is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTsCode requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTsCode: %w", err)
+	}
+	return oldValue.TsCode, nil
+}
+
+// ResetTsCode resets all changes to the "ts_code" field.
+func (m *StockInfoMutation) ResetTsCode() {
+	m.ts_code = nil
+}
+
+// SetSymbol sets the "symbol" field.
+func (m *StockInfoMutation) SetSymbol(s string) {
+	m.symbol = &s
+}
+
+// Symbol returns the value of the "symbol" field in the mutation.
+func (m *StockInfoMutation) Symbol() (r string, exists bool) {
+	v := m.symbol
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSymbol returns the old "symbol" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldSymbol(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSymbol is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSymbol requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSymbol: %w", err)
+	}
+	return oldValue.Symbol, nil
+}
+
+// ResetSymbol resets all changes to the "symbol" field.
+func (m *StockInfoMutation) ResetSymbol() {
+	m.symbol = nil
 }
 
 // SetName sets the "name" field.
@@ -178,6 +261,536 @@ func (m *StockInfoMutation) ResetName() {
 	m.name = nil
 }
 
+// SetArea sets the "area" field.
+func (m *StockInfoMutation) SetArea(s string) {
+	m.area = &s
+}
+
+// Area returns the value of the "area" field in the mutation.
+func (m *StockInfoMutation) Area() (r string, exists bool) {
+	v := m.area
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldArea returns the old "area" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldArea(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldArea is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldArea requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldArea: %w", err)
+	}
+	return oldValue.Area, nil
+}
+
+// ResetArea resets all changes to the "area" field.
+func (m *StockInfoMutation) ResetArea() {
+	m.area = nil
+}
+
+// SetIndustry sets the "industry" field.
+func (m *StockInfoMutation) SetIndustry(s string) {
+	m.industry = &s
+}
+
+// Industry returns the value of the "industry" field in the mutation.
+func (m *StockInfoMutation) Industry() (r string, exists bool) {
+	v := m.industry
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIndustry returns the old "industry" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldIndustry(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIndustry is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIndustry requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIndustry: %w", err)
+	}
+	return oldValue.Industry, nil
+}
+
+// ResetIndustry resets all changes to the "industry" field.
+func (m *StockInfoMutation) ResetIndustry() {
+	m.industry = nil
+}
+
+// SetFullname sets the "fullname" field.
+func (m *StockInfoMutation) SetFullname(s string) {
+	m.fullname = &s
+}
+
+// Fullname returns the value of the "fullname" field in the mutation.
+func (m *StockInfoMutation) Fullname() (r string, exists bool) {
+	v := m.fullname
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFullname returns the old "fullname" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldFullname(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFullname is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFullname requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFullname: %w", err)
+	}
+	return oldValue.Fullname, nil
+}
+
+// ResetFullname resets all changes to the "fullname" field.
+func (m *StockInfoMutation) ResetFullname() {
+	m.fullname = nil
+}
+
+// SetEnname sets the "enname" field.
+func (m *StockInfoMutation) SetEnname(s string) {
+	m.enname = &s
+}
+
+// Enname returns the value of the "enname" field in the mutation.
+func (m *StockInfoMutation) Enname() (r string, exists bool) {
+	v := m.enname
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEnname returns the old "enname" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldEnname(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEnname is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEnname requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEnname: %w", err)
+	}
+	return oldValue.Enname, nil
+}
+
+// ResetEnname resets all changes to the "enname" field.
+func (m *StockInfoMutation) ResetEnname() {
+	m.enname = nil
+}
+
+// SetCnspell sets the "cnspell" field.
+func (m *StockInfoMutation) SetCnspell(s string) {
+	m.cnspell = &s
+}
+
+// Cnspell returns the value of the "cnspell" field in the mutation.
+func (m *StockInfoMutation) Cnspell() (r string, exists bool) {
+	v := m.cnspell
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCnspell returns the old "cnspell" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldCnspell(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCnspell is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCnspell requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCnspell: %w", err)
+	}
+	return oldValue.Cnspell, nil
+}
+
+// ResetCnspell resets all changes to the "cnspell" field.
+func (m *StockInfoMutation) ResetCnspell() {
+	m.cnspell = nil
+}
+
+// SetMarket sets the "market" field.
+func (m *StockInfoMutation) SetMarket(s string) {
+	m.market = &s
+}
+
+// Market returns the value of the "market" field in the mutation.
+func (m *StockInfoMutation) Market() (r string, exists bool) {
+	v := m.market
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMarket returns the old "market" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldMarket(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMarket is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMarket requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMarket: %w", err)
+	}
+	return oldValue.Market, nil
+}
+
+// ResetMarket resets all changes to the "market" field.
+func (m *StockInfoMutation) ResetMarket() {
+	m.market = nil
+}
+
+// SetExchange sets the "exchange" field.
+func (m *StockInfoMutation) SetExchange(s string) {
+	m.exchange = &s
+}
+
+// Exchange returns the value of the "exchange" field in the mutation.
+func (m *StockInfoMutation) Exchange() (r string, exists bool) {
+	v := m.exchange
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExchange returns the old "exchange" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldExchange(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExchange is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExchange requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExchange: %w", err)
+	}
+	return oldValue.Exchange, nil
+}
+
+// ResetExchange resets all changes to the "exchange" field.
+func (m *StockInfoMutation) ResetExchange() {
+	m.exchange = nil
+}
+
+// SetCurrType sets the "curr_type" field.
+func (m *StockInfoMutation) SetCurrType(s string) {
+	m.curr_type = &s
+}
+
+// CurrType returns the value of the "curr_type" field in the mutation.
+func (m *StockInfoMutation) CurrType() (r string, exists bool) {
+	v := m.curr_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCurrType returns the old "curr_type" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldCurrType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCurrType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCurrType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCurrType: %w", err)
+	}
+	return oldValue.CurrType, nil
+}
+
+// ResetCurrType resets all changes to the "curr_type" field.
+func (m *StockInfoMutation) ResetCurrType() {
+	m.curr_type = nil
+}
+
+// SetListStatus sets the "list_status" field.
+func (m *StockInfoMutation) SetListStatus(ss stockinfo.ListStatus) {
+	m.list_status = &ss
+}
+
+// ListStatus returns the value of the "list_status" field in the mutation.
+func (m *StockInfoMutation) ListStatus() (r stockinfo.ListStatus, exists bool) {
+	v := m.list_status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldListStatus returns the old "list_status" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldListStatus(ctx context.Context) (v stockinfo.ListStatus, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldListStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldListStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldListStatus: %w", err)
+	}
+	return oldValue.ListStatus, nil
+}
+
+// ResetListStatus resets all changes to the "list_status" field.
+func (m *StockInfoMutation) ResetListStatus() {
+	m.list_status = nil
+}
+
+// SetListDate sets the "list_date" field.
+func (m *StockInfoMutation) SetListDate(t time.Time) {
+	m.list_date = &t
+}
+
+// ListDate returns the value of the "list_date" field in the mutation.
+func (m *StockInfoMutation) ListDate() (r time.Time, exists bool) {
+	v := m.list_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldListDate returns the old "list_date" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldListDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldListDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldListDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldListDate: %w", err)
+	}
+	return oldValue.ListDate, nil
+}
+
+// ClearListDate clears the value of the "list_date" field.
+func (m *StockInfoMutation) ClearListDate() {
+	m.list_date = nil
+	m.clearedFields[stockinfo.FieldListDate] = struct{}{}
+}
+
+// ListDateCleared returns if the "list_date" field was cleared in this mutation.
+func (m *StockInfoMutation) ListDateCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldListDate]
+	return ok
+}
+
+// ResetListDate resets all changes to the "list_date" field.
+func (m *StockInfoMutation) ResetListDate() {
+	m.list_date = nil
+	delete(m.clearedFields, stockinfo.FieldListDate)
+}
+
+// SetDelistDate sets the "delist_date" field.
+func (m *StockInfoMutation) SetDelistDate(s string) {
+	m.delist_date = &s
+}
+
+// DelistDate returns the value of the "delist_date" field in the mutation.
+func (m *StockInfoMutation) DelistDate() (r string, exists bool) {
+	v := m.delist_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDelistDate returns the old "delist_date" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldDelistDate(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDelistDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDelistDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDelistDate: %w", err)
+	}
+	return oldValue.DelistDate, nil
+}
+
+// ClearDelistDate clears the value of the "delist_date" field.
+func (m *StockInfoMutation) ClearDelistDate() {
+	m.delist_date = nil
+	m.clearedFields[stockinfo.FieldDelistDate] = struct{}{}
+}
+
+// DelistDateCleared returns if the "delist_date" field was cleared in this mutation.
+func (m *StockInfoMutation) DelistDateCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldDelistDate]
+	return ok
+}
+
+// ResetDelistDate resets all changes to the "delist_date" field.
+func (m *StockInfoMutation) ResetDelistDate() {
+	m.delist_date = nil
+	delete(m.clearedFields, stockinfo.FieldDelistDate)
+}
+
+// SetIsHs sets the "is_hs" field.
+func (m *StockInfoMutation) SetIsHs(s string) {
+	m.is_hs = &s
+}
+
+// IsHs returns the value of the "is_hs" field in the mutation.
+func (m *StockInfoMutation) IsHs() (r string, exists bool) {
+	v := m.is_hs
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsHs returns the old "is_hs" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldIsHs(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsHs is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsHs requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsHs: %w", err)
+	}
+	return oldValue.IsHs, nil
+}
+
+// ResetIsHs resets all changes to the "is_hs" field.
+func (m *StockInfoMutation) ResetIsHs() {
+	m.is_hs = nil
+}
+
+// SetIsLeader sets the "is_leader" field.
+func (m *StockInfoMutation) SetIsLeader(b bool) {
+	m.is_leader = &b
+}
+
+// IsLeader returns the value of the "is_leader" field in the mutation.
+func (m *StockInfoMutation) IsLeader() (r bool, exists bool) {
+	v := m.is_leader
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsLeader returns the old "is_leader" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldIsLeader(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsLeader is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsLeader requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsLeader: %w", err)
+	}
+	return oldValue.IsLeader, nil
+}
+
+// ResetIsLeader resets all changes to the "is_leader" field.
+func (m *StockInfoMutation) ResetIsLeader() {
+	m.is_leader = nil
+}
+
+// SetLabelIndustry sets the "label_industry" field.
+func (m *StockInfoMutation) SetLabelIndustry(s string) {
+	m.label_industry = &s
+}
+
+// LabelIndustry returns the value of the "label_industry" field in the mutation.
+func (m *StockInfoMutation) LabelIndustry() (r string, exists bool) {
+	v := m.label_industry
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLabelIndustry returns the old "label_industry" field's value of the StockInfo entity.
+// If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockInfoMutation) OldLabelIndustry(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLabelIndustry is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLabelIndustry requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLabelIndustry: %w", err)
+	}
+	return oldValue.LabelIndustry, nil
+}
+
+// ResetLabelIndustry resets all changes to the "label_industry" field.
+func (m *StockInfoMutation) ResetLabelIndustry() {
+	m.label_industry = nil
+}
+
 // Where appends a list predicates to the StockInfoMutation builder.
 func (m *StockInfoMutation) Where(ps ...predicate.StockInfo) {
 	m.predicates = append(m.predicates, ps...)
@@ -197,9 +810,57 @@ func (m *StockInfoMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *StockInfoMutation) Fields() []string {
-	fields := make([]string, 0, 1)
+	fields := make([]string, 0, 17)
+	if m.ts_code != nil {
+		fields = append(fields, stockinfo.FieldTsCode)
+	}
+	if m.symbol != nil {
+		fields = append(fields, stockinfo.FieldSymbol)
+	}
 	if m.name != nil {
 		fields = append(fields, stockinfo.FieldName)
+	}
+	if m.area != nil {
+		fields = append(fields, stockinfo.FieldArea)
+	}
+	if m.industry != nil {
+		fields = append(fields, stockinfo.FieldIndustry)
+	}
+	if m.fullname != nil {
+		fields = append(fields, stockinfo.FieldFullname)
+	}
+	if m.enname != nil {
+		fields = append(fields, stockinfo.FieldEnname)
+	}
+	if m.cnspell != nil {
+		fields = append(fields, stockinfo.FieldCnspell)
+	}
+	if m.market != nil {
+		fields = append(fields, stockinfo.FieldMarket)
+	}
+	if m.exchange != nil {
+		fields = append(fields, stockinfo.FieldExchange)
+	}
+	if m.curr_type != nil {
+		fields = append(fields, stockinfo.FieldCurrType)
+	}
+	if m.list_status != nil {
+		fields = append(fields, stockinfo.FieldListStatus)
+	}
+	if m.list_date != nil {
+		fields = append(fields, stockinfo.FieldListDate)
+	}
+	if m.delist_date != nil {
+		fields = append(fields, stockinfo.FieldDelistDate)
+	}
+	if m.is_hs != nil {
+		fields = append(fields, stockinfo.FieldIsHs)
+	}
+	if m.is_leader != nil {
+		fields = append(fields, stockinfo.FieldIsLeader)
+	}
+	if m.label_industry != nil {
+		fields = append(fields, stockinfo.FieldLabelIndustry)
 	}
 	return fields
 }
@@ -209,8 +870,40 @@ func (m *StockInfoMutation) Fields() []string {
 // schema.
 func (m *StockInfoMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case stockinfo.FieldTsCode:
+		return m.TsCode()
+	case stockinfo.FieldSymbol:
+		return m.Symbol()
 	case stockinfo.FieldName:
 		return m.Name()
+	case stockinfo.FieldArea:
+		return m.Area()
+	case stockinfo.FieldIndustry:
+		return m.Industry()
+	case stockinfo.FieldFullname:
+		return m.Fullname()
+	case stockinfo.FieldEnname:
+		return m.Enname()
+	case stockinfo.FieldCnspell:
+		return m.Cnspell()
+	case stockinfo.FieldMarket:
+		return m.Market()
+	case stockinfo.FieldExchange:
+		return m.Exchange()
+	case stockinfo.FieldCurrType:
+		return m.CurrType()
+	case stockinfo.FieldListStatus:
+		return m.ListStatus()
+	case stockinfo.FieldListDate:
+		return m.ListDate()
+	case stockinfo.FieldDelistDate:
+		return m.DelistDate()
+	case stockinfo.FieldIsHs:
+		return m.IsHs()
+	case stockinfo.FieldIsLeader:
+		return m.IsLeader()
+	case stockinfo.FieldLabelIndustry:
+		return m.LabelIndustry()
 	}
 	return nil, false
 }
@@ -220,8 +913,40 @@ func (m *StockInfoMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *StockInfoMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case stockinfo.FieldTsCode:
+		return m.OldTsCode(ctx)
+	case stockinfo.FieldSymbol:
+		return m.OldSymbol(ctx)
 	case stockinfo.FieldName:
 		return m.OldName(ctx)
+	case stockinfo.FieldArea:
+		return m.OldArea(ctx)
+	case stockinfo.FieldIndustry:
+		return m.OldIndustry(ctx)
+	case stockinfo.FieldFullname:
+		return m.OldFullname(ctx)
+	case stockinfo.FieldEnname:
+		return m.OldEnname(ctx)
+	case stockinfo.FieldCnspell:
+		return m.OldCnspell(ctx)
+	case stockinfo.FieldMarket:
+		return m.OldMarket(ctx)
+	case stockinfo.FieldExchange:
+		return m.OldExchange(ctx)
+	case stockinfo.FieldCurrType:
+		return m.OldCurrType(ctx)
+	case stockinfo.FieldListStatus:
+		return m.OldListStatus(ctx)
+	case stockinfo.FieldListDate:
+		return m.OldListDate(ctx)
+	case stockinfo.FieldDelistDate:
+		return m.OldDelistDate(ctx)
+	case stockinfo.FieldIsHs:
+		return m.OldIsHs(ctx)
+	case stockinfo.FieldIsLeader:
+		return m.OldIsLeader(ctx)
+	case stockinfo.FieldLabelIndustry:
+		return m.OldLabelIndustry(ctx)
 	}
 	return nil, fmt.Errorf("unknown StockInfo field %s", name)
 }
@@ -231,12 +956,124 @@ func (m *StockInfoMutation) OldField(ctx context.Context, name string) (ent.Valu
 // type.
 func (m *StockInfoMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case stockinfo.FieldTsCode:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTsCode(v)
+		return nil
+	case stockinfo.FieldSymbol:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSymbol(v)
+		return nil
 	case stockinfo.FieldName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetName(v)
+		return nil
+	case stockinfo.FieldArea:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetArea(v)
+		return nil
+	case stockinfo.FieldIndustry:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIndustry(v)
+		return nil
+	case stockinfo.FieldFullname:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFullname(v)
+		return nil
+	case stockinfo.FieldEnname:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEnname(v)
+		return nil
+	case stockinfo.FieldCnspell:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCnspell(v)
+		return nil
+	case stockinfo.FieldMarket:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMarket(v)
+		return nil
+	case stockinfo.FieldExchange:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExchange(v)
+		return nil
+	case stockinfo.FieldCurrType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCurrType(v)
+		return nil
+	case stockinfo.FieldListStatus:
+		v, ok := value.(stockinfo.ListStatus)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetListStatus(v)
+		return nil
+	case stockinfo.FieldListDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetListDate(v)
+		return nil
+	case stockinfo.FieldDelistDate:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDelistDate(v)
+		return nil
+	case stockinfo.FieldIsHs:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsHs(v)
+		return nil
+	case stockinfo.FieldIsLeader:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsLeader(v)
+		return nil
+	case stockinfo.FieldLabelIndustry:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLabelIndustry(v)
 		return nil
 	}
 	return fmt.Errorf("unknown StockInfo field %s", name)
@@ -267,7 +1104,14 @@ func (m *StockInfoMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *StockInfoMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(stockinfo.FieldListDate) {
+		fields = append(fields, stockinfo.FieldListDate)
+	}
+	if m.FieldCleared(stockinfo.FieldDelistDate) {
+		fields = append(fields, stockinfo.FieldDelistDate)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -280,6 +1124,14 @@ func (m *StockInfoMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *StockInfoMutation) ClearField(name string) error {
+	switch name {
+	case stockinfo.FieldListDate:
+		m.ClearListDate()
+		return nil
+	case stockinfo.FieldDelistDate:
+		m.ClearDelistDate()
+		return nil
+	}
 	return fmt.Errorf("unknown StockInfo nullable field %s", name)
 }
 
@@ -287,8 +1139,56 @@ func (m *StockInfoMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *StockInfoMutation) ResetField(name string) error {
 	switch name {
+	case stockinfo.FieldTsCode:
+		m.ResetTsCode()
+		return nil
+	case stockinfo.FieldSymbol:
+		m.ResetSymbol()
+		return nil
 	case stockinfo.FieldName:
 		m.ResetName()
+		return nil
+	case stockinfo.FieldArea:
+		m.ResetArea()
+		return nil
+	case stockinfo.FieldIndustry:
+		m.ResetIndustry()
+		return nil
+	case stockinfo.FieldFullname:
+		m.ResetFullname()
+		return nil
+	case stockinfo.FieldEnname:
+		m.ResetEnname()
+		return nil
+	case stockinfo.FieldCnspell:
+		m.ResetCnspell()
+		return nil
+	case stockinfo.FieldMarket:
+		m.ResetMarket()
+		return nil
+	case stockinfo.FieldExchange:
+		m.ResetExchange()
+		return nil
+	case stockinfo.FieldCurrType:
+		m.ResetCurrType()
+		return nil
+	case stockinfo.FieldListStatus:
+		m.ResetListStatus()
+		return nil
+	case stockinfo.FieldListDate:
+		m.ResetListDate()
+		return nil
+	case stockinfo.FieldDelistDate:
+		m.ResetDelistDate()
+		return nil
+	case stockinfo.FieldIsHs:
+		m.ResetIsHs()
+		return nil
+	case stockinfo.FieldIsLeader:
+		m.ResetIsLeader()
+		return nil
+	case stockinfo.FieldLabelIndustry:
+		m.ResetLabelIndustry()
 		return nil
 	}
 	return fmt.Errorf("unknown StockInfo field %s", name)

@@ -11,7 +11,23 @@ var (
 	// StockInfosColumns holds the columns for the "stock_infos" table.
 	StockInfosColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "ts_code", Type: field.TypeString},
+		{Name: "symbol", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
+		{Name: "area", Type: field.TypeString},
+		{Name: "industry", Type: field.TypeString},
+		{Name: "fullname", Type: field.TypeString},
+		{Name: "enname", Type: field.TypeString},
+		{Name: "cnspell", Type: field.TypeString},
+		{Name: "market", Type: field.TypeString},
+		{Name: "exchange", Type: field.TypeString},
+		{Name: "curr_type", Type: field.TypeString},
+		{Name: "list_status", Type: field.TypeEnum, Enums: []string{"L", "D", "P"}},
+		{Name: "list_date", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "delist_date", Type: field.TypeString, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "is_hs", Type: field.TypeString},
+		{Name: "is_leader", Type: field.TypeBool, Default: false},
+		{Name: "label_industry", Type: field.TypeString},
 	}
 	// StockInfosTable holds the schema information for the "stock_infos" table.
 	StockInfosTable = &schema.Table{

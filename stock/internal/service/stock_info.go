@@ -7,7 +7,7 @@ import (
 )
 
 type StockService struct {
-	v1.UnimplementedStockServiceServer
+	v1.UnimplementedStockInfoServiceServer
 	uc *biz.StockInfoUsecase
 }
 

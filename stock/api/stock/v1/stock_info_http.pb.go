@@ -17,16 +17,16 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-type StockServiceHTTPServer interface {
+type StockInfoServiceHTTPServer interface {
 	GetStockInfo(context.Context, *GetStockInfoRequest) (*StockInfo, error)
 }
 
-func RegisterStockServiceHTTPServer(s *http.Server, srv StockServiceHTTPServer) {
+func RegisterStockInfoServiceHTTPServer(s *http.Server, srv StockInfoServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/stock/{id}", _StockService_GetStockInfo0_HTTP_Handler(srv))
+	r.GET("/stock/{id}", _StockInfoService_GetStockInfo0_HTTP_Handler(srv))
 }
 
-func _StockService_GetStockInfo0_HTTP_Handler(srv StockServiceHTTPServer) func(ctx http.Context) error {
+func _StockInfoService_GetStockInfo0_HTTP_Handler(srv StockInfoServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetStockInfoRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -35,7 +35,7 @@ func _StockService_GetStockInfo0_HTTP_Handler(srv StockServiceHTTPServer) func(c
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/api.stock.v1.StockService/GetStockInfo")
+		http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.GetStockInfo(ctx, req.(*GetStockInfoRequest))
 		})
@@ -48,23 +48,23 @@ func _StockService_GetStockInfo0_HTTP_Handler(srv StockServiceHTTPServer) func(c
 	}
 }
 
-type StockServiceHTTPClient interface {
+type StockInfoServiceHTTPClient interface {
 	GetStockInfo(ctx context.Context, req *GetStockInfoRequest, opts ...http.CallOption) (rsp *StockInfo, err error)
 }
 
-type StockServiceHTTPClientImpl struct {
+type StockInfoServiceHTTPClientImpl struct {
 	cc *http.Client
 }
 
-func NewStockServiceHTTPClient(client *http.Client) StockServiceHTTPClient {
-	return &StockServiceHTTPClientImpl{client}
+func NewStockInfoServiceHTTPClient(client *http.Client) StockInfoServiceHTTPClient {
+	return &StockInfoServiceHTTPClientImpl{client}
 }
 
-func (c *StockServiceHTTPClientImpl) GetStockInfo(ctx context.Context, in *GetStockInfoRequest, opts ...http.CallOption) (*StockInfo, error) {
+func (c *StockInfoServiceHTTPClientImpl) GetStockInfo(ctx context.Context, in *GetStockInfoRequest, opts ...http.CallOption) (*StockInfo, error) {
 	var out StockInfo
 	pattern := "/stock/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/api.stock.v1.StockService/GetStockInfo"))
+	opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

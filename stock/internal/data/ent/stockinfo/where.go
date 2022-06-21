@@ -4,6 +4,7 @@ package stockinfo
 
 import (
 	"gostock/internal/data/ent/predicate"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -91,10 +92,337 @@ func IDLTE(id int) predicate.StockInfo {
 	})
 }
 
+// TsCode applies equality check predicate on the "ts_code" field. It's identical to TsCodeEQ.
+func TsCode(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTsCode), v))
+	})
+}
+
+// Symbol applies equality check predicate on the "symbol" field. It's identical to SymbolEQ.
+func Symbol(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldSymbol), v))
+	})
+}
+
 // Name applies equality check predicate on the "name" field. It's identical to NameEQ.
 func Name(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldName), v))
+	})
+}
+
+// Area applies equality check predicate on the "area" field. It's identical to AreaEQ.
+func Area(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldArea), v))
+	})
+}
+
+// Industry applies equality check predicate on the "industry" field. It's identical to IndustryEQ.
+func Industry(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIndustry), v))
+	})
+}
+
+// Fullname applies equality check predicate on the "fullname" field. It's identical to FullnameEQ.
+func Fullname(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldFullname), v))
+	})
+}
+
+// Enname applies equality check predicate on the "enname" field. It's identical to EnnameEQ.
+func Enname(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEnname), v))
+	})
+}
+
+// Cnspell applies equality check predicate on the "cnspell" field. It's identical to CnspellEQ.
+func Cnspell(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCnspell), v))
+	})
+}
+
+// Market applies equality check predicate on the "market" field. It's identical to MarketEQ.
+func Market(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldMarket), v))
+	})
+}
+
+// Exchange applies equality check predicate on the "exchange" field. It's identical to ExchangeEQ.
+func Exchange(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldExchange), v))
+	})
+}
+
+// CurrType applies equality check predicate on the "curr_type" field. It's identical to CurrTypeEQ.
+func CurrType(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCurrType), v))
+	})
+}
+
+// ListDate applies equality check predicate on the "list_date" field. It's identical to ListDateEQ.
+func ListDate(v time.Time) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldListDate), v))
+	})
+}
+
+// DelistDate applies equality check predicate on the "delist_date" field. It's identical to DelistDateEQ.
+func DelistDate(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDelistDate), v))
+	})
+}
+
+// IsHs applies equality check predicate on the "is_hs" field. It's identical to IsHsEQ.
+func IsHs(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIsHs), v))
+	})
+}
+
+// IsLeader applies equality check predicate on the "is_leader" field. It's identical to IsLeaderEQ.
+func IsLeader(v bool) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIsLeader), v))
+	})
+}
+
+// LabelIndustry applies equality check predicate on the "label_industry" field. It's identical to LabelIndustryEQ.
+func LabelIndustry(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// TsCodeEQ applies the EQ predicate on the "ts_code" field.
+func TsCodeEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeNEQ applies the NEQ predicate on the "ts_code" field.
+func TsCodeNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeIn applies the In predicate on the "ts_code" field.
+func TsCodeIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldTsCode), v...))
+	})
+}
+
+// TsCodeNotIn applies the NotIn predicate on the "ts_code" field.
+func TsCodeNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldTsCode), v...))
+	})
+}
+
+// TsCodeGT applies the GT predicate on the "ts_code" field.
+func TsCodeGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeGTE applies the GTE predicate on the "ts_code" field.
+func TsCodeGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeLT applies the LT predicate on the "ts_code" field.
+func TsCodeLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeLTE applies the LTE predicate on the "ts_code" field.
+func TsCodeLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeContains applies the Contains predicate on the "ts_code" field.
+func TsCodeContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeHasPrefix applies the HasPrefix predicate on the "ts_code" field.
+func TsCodeHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeHasSuffix applies the HasSuffix predicate on the "ts_code" field.
+func TsCodeHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeEqualFold applies the EqualFold predicate on the "ts_code" field.
+func TsCodeEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldTsCode), v))
+	})
+}
+
+// TsCodeContainsFold applies the ContainsFold predicate on the "ts_code" field.
+func TsCodeContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldTsCode), v))
+	})
+}
+
+// SymbolEQ applies the EQ predicate on the "symbol" field.
+func SymbolEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolNEQ applies the NEQ predicate on the "symbol" field.
+func SymbolNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolIn applies the In predicate on the "symbol" field.
+func SymbolIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldSymbol), v...))
+	})
+}
+
+// SymbolNotIn applies the NotIn predicate on the "symbol" field.
+func SymbolNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldSymbol), v...))
+	})
+}
+
+// SymbolGT applies the GT predicate on the "symbol" field.
+func SymbolGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolGTE applies the GTE predicate on the "symbol" field.
+func SymbolGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolLT applies the LT predicate on the "symbol" field.
+func SymbolLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolLTE applies the LTE predicate on the "symbol" field.
+func SymbolLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolContains applies the Contains predicate on the "symbol" field.
+func SymbolContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolHasPrefix applies the HasPrefix predicate on the "symbol" field.
+func SymbolHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolHasSuffix applies the HasSuffix predicate on the "symbol" field.
+func SymbolHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolEqualFold applies the EqualFold predicate on the "symbol" field.
+func SymbolEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldSymbol), v))
+	})
+}
+
+// SymbolContainsFold applies the ContainsFold predicate on the "symbol" field.
+func SymbolContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldSymbol), v))
 	})
 }
 
@@ -206,6 +534,1393 @@ func NameEqualFold(v string) predicate.StockInfo {
 func NameContainsFold(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldName), v))
+	})
+}
+
+// AreaEQ applies the EQ predicate on the "area" field.
+func AreaEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldArea), v))
+	})
+}
+
+// AreaNEQ applies the NEQ predicate on the "area" field.
+func AreaNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldArea), v))
+	})
+}
+
+// AreaIn applies the In predicate on the "area" field.
+func AreaIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldArea), v...))
+	})
+}
+
+// AreaNotIn applies the NotIn predicate on the "area" field.
+func AreaNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldArea), v...))
+	})
+}
+
+// AreaGT applies the GT predicate on the "area" field.
+func AreaGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldArea), v))
+	})
+}
+
+// AreaGTE applies the GTE predicate on the "area" field.
+func AreaGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldArea), v))
+	})
+}
+
+// AreaLT applies the LT predicate on the "area" field.
+func AreaLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldArea), v))
+	})
+}
+
+// AreaLTE applies the LTE predicate on the "area" field.
+func AreaLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldArea), v))
+	})
+}
+
+// AreaContains applies the Contains predicate on the "area" field.
+func AreaContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldArea), v))
+	})
+}
+
+// AreaHasPrefix applies the HasPrefix predicate on the "area" field.
+func AreaHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldArea), v))
+	})
+}
+
+// AreaHasSuffix applies the HasSuffix predicate on the "area" field.
+func AreaHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldArea), v))
+	})
+}
+
+// AreaEqualFold applies the EqualFold predicate on the "area" field.
+func AreaEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldArea), v))
+	})
+}
+
+// AreaContainsFold applies the ContainsFold predicate on the "area" field.
+func AreaContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldArea), v))
+	})
+}
+
+// IndustryEQ applies the EQ predicate on the "industry" field.
+func IndustryEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryNEQ applies the NEQ predicate on the "industry" field.
+func IndustryNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryIn applies the In predicate on the "industry" field.
+func IndustryIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldIndustry), v...))
+	})
+}
+
+// IndustryNotIn applies the NotIn predicate on the "industry" field.
+func IndustryNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldIndustry), v...))
+	})
+}
+
+// IndustryGT applies the GT predicate on the "industry" field.
+func IndustryGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryGTE applies the GTE predicate on the "industry" field.
+func IndustryGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryLT applies the LT predicate on the "industry" field.
+func IndustryLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryLTE applies the LTE predicate on the "industry" field.
+func IndustryLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryContains applies the Contains predicate on the "industry" field.
+func IndustryContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryHasPrefix applies the HasPrefix predicate on the "industry" field.
+func IndustryHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryHasSuffix applies the HasSuffix predicate on the "industry" field.
+func IndustryHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryEqualFold applies the EqualFold predicate on the "industry" field.
+func IndustryEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryContainsFold applies the ContainsFold predicate on the "industry" field.
+func IndustryContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldIndustry), v))
+	})
+}
+
+// FullnameEQ applies the EQ predicate on the "fullname" field.
+func FullnameEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameNEQ applies the NEQ predicate on the "fullname" field.
+func FullnameNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameIn applies the In predicate on the "fullname" field.
+func FullnameIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldFullname), v...))
+	})
+}
+
+// FullnameNotIn applies the NotIn predicate on the "fullname" field.
+func FullnameNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldFullname), v...))
+	})
+}
+
+// FullnameGT applies the GT predicate on the "fullname" field.
+func FullnameGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameGTE applies the GTE predicate on the "fullname" field.
+func FullnameGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameLT applies the LT predicate on the "fullname" field.
+func FullnameLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameLTE applies the LTE predicate on the "fullname" field.
+func FullnameLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameContains applies the Contains predicate on the "fullname" field.
+func FullnameContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameHasPrefix applies the HasPrefix predicate on the "fullname" field.
+func FullnameHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameHasSuffix applies the HasSuffix predicate on the "fullname" field.
+func FullnameHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameEqualFold applies the EqualFold predicate on the "fullname" field.
+func FullnameEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldFullname), v))
+	})
+}
+
+// FullnameContainsFold applies the ContainsFold predicate on the "fullname" field.
+func FullnameContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldFullname), v))
+	})
+}
+
+// EnnameEQ applies the EQ predicate on the "enname" field.
+func EnnameEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameNEQ applies the NEQ predicate on the "enname" field.
+func EnnameNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameIn applies the In predicate on the "enname" field.
+func EnnameIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldEnname), v...))
+	})
+}
+
+// EnnameNotIn applies the NotIn predicate on the "enname" field.
+func EnnameNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldEnname), v...))
+	})
+}
+
+// EnnameGT applies the GT predicate on the "enname" field.
+func EnnameGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameGTE applies the GTE predicate on the "enname" field.
+func EnnameGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameLT applies the LT predicate on the "enname" field.
+func EnnameLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameLTE applies the LTE predicate on the "enname" field.
+func EnnameLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameContains applies the Contains predicate on the "enname" field.
+func EnnameContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameHasPrefix applies the HasPrefix predicate on the "enname" field.
+func EnnameHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameHasSuffix applies the HasSuffix predicate on the "enname" field.
+func EnnameHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameEqualFold applies the EqualFold predicate on the "enname" field.
+func EnnameEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldEnname), v))
+	})
+}
+
+// EnnameContainsFold applies the ContainsFold predicate on the "enname" field.
+func EnnameContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldEnname), v))
+	})
+}
+
+// CnspellEQ applies the EQ predicate on the "cnspell" field.
+func CnspellEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellNEQ applies the NEQ predicate on the "cnspell" field.
+func CnspellNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellIn applies the In predicate on the "cnspell" field.
+func CnspellIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldCnspell), v...))
+	})
+}
+
+// CnspellNotIn applies the NotIn predicate on the "cnspell" field.
+func CnspellNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldCnspell), v...))
+	})
+}
+
+// CnspellGT applies the GT predicate on the "cnspell" field.
+func CnspellGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellGTE applies the GTE predicate on the "cnspell" field.
+func CnspellGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellLT applies the LT predicate on the "cnspell" field.
+func CnspellLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellLTE applies the LTE predicate on the "cnspell" field.
+func CnspellLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellContains applies the Contains predicate on the "cnspell" field.
+func CnspellContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellHasPrefix applies the HasPrefix predicate on the "cnspell" field.
+func CnspellHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellHasSuffix applies the HasSuffix predicate on the "cnspell" field.
+func CnspellHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellEqualFold applies the EqualFold predicate on the "cnspell" field.
+func CnspellEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellContainsFold applies the ContainsFold predicate on the "cnspell" field.
+func CnspellContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldCnspell), v))
+	})
+}
+
+// MarketEQ applies the EQ predicate on the "market" field.
+func MarketEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldMarket), v))
+	})
+}
+
+// MarketNEQ applies the NEQ predicate on the "market" field.
+func MarketNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldMarket), v))
+	})
+}
+
+// MarketIn applies the In predicate on the "market" field.
+func MarketIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldMarket), v...))
+	})
+}
+
+// MarketNotIn applies the NotIn predicate on the "market" field.
+func MarketNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldMarket), v...))
+	})
+}
+
+// MarketGT applies the GT predicate on the "market" field.
+func MarketGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldMarket), v))
+	})
+}
+
+// MarketGTE applies the GTE predicate on the "market" field.
+func MarketGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldMarket), v))
+	})
+}
+
+// MarketLT applies the LT predicate on the "market" field.
+func MarketLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldMarket), v))
+	})
+}
+
+// MarketLTE applies the LTE predicate on the "market" field.
+func MarketLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldMarket), v))
+	})
+}
+
+// MarketContains applies the Contains predicate on the "market" field.
+func MarketContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldMarket), v))
+	})
+}
+
+// MarketHasPrefix applies the HasPrefix predicate on the "market" field.
+func MarketHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldMarket), v))
+	})
+}
+
+// MarketHasSuffix applies the HasSuffix predicate on the "market" field.
+func MarketHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldMarket), v))
+	})
+}
+
+// MarketEqualFold applies the EqualFold predicate on the "market" field.
+func MarketEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldMarket), v))
+	})
+}
+
+// MarketContainsFold applies the ContainsFold predicate on the "market" field.
+func MarketContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldMarket), v))
+	})
+}
+
+// ExchangeEQ applies the EQ predicate on the "exchange" field.
+func ExchangeEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeNEQ applies the NEQ predicate on the "exchange" field.
+func ExchangeNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeIn applies the In predicate on the "exchange" field.
+func ExchangeIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldExchange), v...))
+	})
+}
+
+// ExchangeNotIn applies the NotIn predicate on the "exchange" field.
+func ExchangeNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldExchange), v...))
+	})
+}
+
+// ExchangeGT applies the GT predicate on the "exchange" field.
+func ExchangeGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeGTE applies the GTE predicate on the "exchange" field.
+func ExchangeGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeLT applies the LT predicate on the "exchange" field.
+func ExchangeLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeLTE applies the LTE predicate on the "exchange" field.
+func ExchangeLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeContains applies the Contains predicate on the "exchange" field.
+func ExchangeContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeHasPrefix applies the HasPrefix predicate on the "exchange" field.
+func ExchangeHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeHasSuffix applies the HasSuffix predicate on the "exchange" field.
+func ExchangeHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeEqualFold applies the EqualFold predicate on the "exchange" field.
+func ExchangeEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldExchange), v))
+	})
+}
+
+// ExchangeContainsFold applies the ContainsFold predicate on the "exchange" field.
+func ExchangeContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldExchange), v))
+	})
+}
+
+// CurrTypeEQ applies the EQ predicate on the "curr_type" field.
+func CurrTypeEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeNEQ applies the NEQ predicate on the "curr_type" field.
+func CurrTypeNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeIn applies the In predicate on the "curr_type" field.
+func CurrTypeIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldCurrType), v...))
+	})
+}
+
+// CurrTypeNotIn applies the NotIn predicate on the "curr_type" field.
+func CurrTypeNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldCurrType), v...))
+	})
+}
+
+// CurrTypeGT applies the GT predicate on the "curr_type" field.
+func CurrTypeGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeGTE applies the GTE predicate on the "curr_type" field.
+func CurrTypeGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeLT applies the LT predicate on the "curr_type" field.
+func CurrTypeLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeLTE applies the LTE predicate on the "curr_type" field.
+func CurrTypeLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeContains applies the Contains predicate on the "curr_type" field.
+func CurrTypeContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeHasPrefix applies the HasPrefix predicate on the "curr_type" field.
+func CurrTypeHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeHasSuffix applies the HasSuffix predicate on the "curr_type" field.
+func CurrTypeHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeEqualFold applies the EqualFold predicate on the "curr_type" field.
+func CurrTypeEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeContainsFold applies the ContainsFold predicate on the "curr_type" field.
+func CurrTypeContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldCurrType), v))
+	})
+}
+
+// ListStatusEQ applies the EQ predicate on the "list_status" field.
+func ListStatusEQ(v ListStatus) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldListStatus), v))
+	})
+}
+
+// ListStatusNEQ applies the NEQ predicate on the "list_status" field.
+func ListStatusNEQ(v ListStatus) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldListStatus), v))
+	})
+}
+
+// ListStatusIn applies the In predicate on the "list_status" field.
+func ListStatusIn(vs ...ListStatus) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldListStatus), v...))
+	})
+}
+
+// ListStatusNotIn applies the NotIn predicate on the "list_status" field.
+func ListStatusNotIn(vs ...ListStatus) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldListStatus), v...))
+	})
+}
+
+// ListDateEQ applies the EQ predicate on the "list_date" field.
+func ListDateEQ(v time.Time) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldListDate), v))
+	})
+}
+
+// ListDateNEQ applies the NEQ predicate on the "list_date" field.
+func ListDateNEQ(v time.Time) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldListDate), v))
+	})
+}
+
+// ListDateIn applies the In predicate on the "list_date" field.
+func ListDateIn(vs ...time.Time) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldListDate), v...))
+	})
+}
+
+// ListDateNotIn applies the NotIn predicate on the "list_date" field.
+func ListDateNotIn(vs ...time.Time) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldListDate), v...))
+	})
+}
+
+// ListDateGT applies the GT predicate on the "list_date" field.
+func ListDateGT(v time.Time) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldListDate), v))
+	})
+}
+
+// ListDateGTE applies the GTE predicate on the "list_date" field.
+func ListDateGTE(v time.Time) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldListDate), v))
+	})
+}
+
+// ListDateLT applies the LT predicate on the "list_date" field.
+func ListDateLT(v time.Time) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldListDate), v))
+	})
+}
+
+// ListDateLTE applies the LTE predicate on the "list_date" field.
+func ListDateLTE(v time.Time) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldListDate), v))
+	})
+}
+
+// ListDateIsNil applies the IsNil predicate on the "list_date" field.
+func ListDateIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldListDate)))
+	})
+}
+
+// ListDateNotNil applies the NotNil predicate on the "list_date" field.
+func ListDateNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldListDate)))
+	})
+}
+
+// DelistDateEQ applies the EQ predicate on the "delist_date" field.
+func DelistDateEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateNEQ applies the NEQ predicate on the "delist_date" field.
+func DelistDateNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateIn applies the In predicate on the "delist_date" field.
+func DelistDateIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldDelistDate), v...))
+	})
+}
+
+// DelistDateNotIn applies the NotIn predicate on the "delist_date" field.
+func DelistDateNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldDelistDate), v...))
+	})
+}
+
+// DelistDateGT applies the GT predicate on the "delist_date" field.
+func DelistDateGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateGTE applies the GTE predicate on the "delist_date" field.
+func DelistDateGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateLT applies the LT predicate on the "delist_date" field.
+func DelistDateLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateLTE applies the LTE predicate on the "delist_date" field.
+func DelistDateLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateContains applies the Contains predicate on the "delist_date" field.
+func DelistDateContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateHasPrefix applies the HasPrefix predicate on the "delist_date" field.
+func DelistDateHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateHasSuffix applies the HasSuffix predicate on the "delist_date" field.
+func DelistDateHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateIsNil applies the IsNil predicate on the "delist_date" field.
+func DelistDateIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldDelistDate)))
+	})
+}
+
+// DelistDateNotNil applies the NotNil predicate on the "delist_date" field.
+func DelistDateNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldDelistDate)))
+	})
+}
+
+// DelistDateEqualFold applies the EqualFold predicate on the "delist_date" field.
+func DelistDateEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldDelistDate), v))
+	})
+}
+
+// DelistDateContainsFold applies the ContainsFold predicate on the "delist_date" field.
+func DelistDateContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldDelistDate), v))
+	})
+}
+
+// IsHsEQ applies the EQ predicate on the "is_hs" field.
+func IsHsEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsNEQ applies the NEQ predicate on the "is_hs" field.
+func IsHsNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsIn applies the In predicate on the "is_hs" field.
+func IsHsIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldIsHs), v...))
+	})
+}
+
+// IsHsNotIn applies the NotIn predicate on the "is_hs" field.
+func IsHsNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldIsHs), v...))
+	})
+}
+
+// IsHsGT applies the GT predicate on the "is_hs" field.
+func IsHsGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsGTE applies the GTE predicate on the "is_hs" field.
+func IsHsGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsLT applies the LT predicate on the "is_hs" field.
+func IsHsLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsLTE applies the LTE predicate on the "is_hs" field.
+func IsHsLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsContains applies the Contains predicate on the "is_hs" field.
+func IsHsContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsHasPrefix applies the HasPrefix predicate on the "is_hs" field.
+func IsHsHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsHasSuffix applies the HasSuffix predicate on the "is_hs" field.
+func IsHsHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsEqualFold applies the EqualFold predicate on the "is_hs" field.
+func IsHsEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsContainsFold applies the ContainsFold predicate on the "is_hs" field.
+func IsHsContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldIsHs), v))
+	})
+}
+
+// IsLeaderEQ applies the EQ predicate on the "is_leader" field.
+func IsLeaderEQ(v bool) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIsLeader), v))
+	})
+}
+
+// IsLeaderNEQ applies the NEQ predicate on the "is_leader" field.
+func IsLeaderNEQ(v bool) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldIsLeader), v))
+	})
+}
+
+// LabelIndustryEQ applies the EQ predicate on the "label_industry" field.
+func LabelIndustryEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryNEQ applies the NEQ predicate on the "label_industry" field.
+func LabelIndustryNEQ(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryIn applies the In predicate on the "label_industry" field.
+func LabelIndustryIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldLabelIndustry), v...))
+	})
+}
+
+// LabelIndustryNotIn applies the NotIn predicate on the "label_industry" field.
+func LabelIndustryNotIn(vs ...string) predicate.StockInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.StockInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldLabelIndustry), v...))
+	})
+}
+
+// LabelIndustryGT applies the GT predicate on the "label_industry" field.
+func LabelIndustryGT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryGTE applies the GTE predicate on the "label_industry" field.
+func LabelIndustryGTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryLT applies the LT predicate on the "label_industry" field.
+func LabelIndustryLT(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryLTE applies the LTE predicate on the "label_industry" field.
+func LabelIndustryLTE(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryContains applies the Contains predicate on the "label_industry" field.
+func LabelIndustryContains(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryHasPrefix applies the HasPrefix predicate on the "label_industry" field.
+func LabelIndustryHasPrefix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryHasSuffix applies the HasSuffix predicate on the "label_industry" field.
+func LabelIndustryHasSuffix(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryEqualFold applies the EqualFold predicate on the "label_industry" field.
+func LabelIndustryEqualFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryContainsFold applies the ContainsFold predicate on the "label_industry" field.
+func LabelIndustryContainsFold(v string) predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldLabelIndustry), v))
 	})
 }
 

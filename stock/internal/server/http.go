@@ -40,6 +40,6 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, income *serv
 	srv.Handle("/metrics", promhttp.Handler())
 	v1.RegisterGreeterHTTPServer(srv, greeter)
 	evaluate_v2.RegisterIncomeHTTPServer(srv, income)
-	stock_v1.RegisterStockServiceHTTPServer(srv, stock)
+	stock_v1.RegisterStockInfoServiceHTTPServer(srv, stock)
 	return srv
 }

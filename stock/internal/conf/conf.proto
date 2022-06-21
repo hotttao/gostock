@@ -1,5 +1,5 @@
 syntax = "proto3";
-package kratos.api;
+package stock.config;
 
 option go_package = "gostock/internal/conf;conf";
 

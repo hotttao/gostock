@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"gostock/internal/data/ent/stockinfo"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -19,15 +20,129 @@ type StockInfoCreate struct {
 	hooks    []Hook
 }
 
+// SetTsCode sets the "ts_code" field.
+func (sic *StockInfoCreate) SetTsCode(s string) *StockInfoCreate {
+	sic.mutation.SetTsCode(s)
+	return sic
+}
+
+// SetSymbol sets the "symbol" field.
+func (sic *StockInfoCreate) SetSymbol(s string) *StockInfoCreate {
+	sic.mutation.SetSymbol(s)
+	return sic
+}
+
 // SetName sets the "name" field.
 func (sic *StockInfoCreate) SetName(s string) *StockInfoCreate {
 	sic.mutation.SetName(s)
 	return sic
 }
 
-// SetID sets the "id" field.
-func (sic *StockInfoCreate) SetID(i int) *StockInfoCreate {
-	sic.mutation.SetID(i)
+// SetArea sets the "area" field.
+func (sic *StockInfoCreate) SetArea(s string) *StockInfoCreate {
+	sic.mutation.SetArea(s)
+	return sic
+}
+
+// SetIndustry sets the "industry" field.
+func (sic *StockInfoCreate) SetIndustry(s string) *StockInfoCreate {
+	sic.mutation.SetIndustry(s)
+	return sic
+}
+
+// SetFullname sets the "fullname" field.
+func (sic *StockInfoCreate) SetFullname(s string) *StockInfoCreate {
+	sic.mutation.SetFullname(s)
+	return sic
+}
+
+// SetEnname sets the "enname" field.
+func (sic *StockInfoCreate) SetEnname(s string) *StockInfoCreate {
+	sic.mutation.SetEnname(s)
+	return sic
+}
+
+// SetCnspell sets the "cnspell" field.
+func (sic *StockInfoCreate) SetCnspell(s string) *StockInfoCreate {
+	sic.mutation.SetCnspell(s)
+	return sic
+}
+
+// SetMarket sets the "market" field.
+func (sic *StockInfoCreate) SetMarket(s string) *StockInfoCreate {
+	sic.mutation.SetMarket(s)
+	return sic
+}
+
+// SetExchange sets the "exchange" field.
+func (sic *StockInfoCreate) SetExchange(s string) *StockInfoCreate {
+	sic.mutation.SetExchange(s)
+	return sic
+}
+
+// SetCurrType sets the "curr_type" field.
+func (sic *StockInfoCreate) SetCurrType(s string) *StockInfoCreate {
+	sic.mutation.SetCurrType(s)
+	return sic
+}
+
+// SetListStatus sets the "list_status" field.
+func (sic *StockInfoCreate) SetListStatus(ss stockinfo.ListStatus) *StockInfoCreate {
+	sic.mutation.SetListStatus(ss)
+	return sic
+}
+
+// SetListDate sets the "list_date" field.
+func (sic *StockInfoCreate) SetListDate(t time.Time) *StockInfoCreate {
+	sic.mutation.SetListDate(t)
+	return sic
+}
+
+// SetNillableListDate sets the "list_date" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableListDate(t *time.Time) *StockInfoCreate {
+	if t != nil {
+		sic.SetListDate(*t)
+	}
+	return sic
+}
+
+// SetDelistDate sets the "delist_date" field.
+func (sic *StockInfoCreate) SetDelistDate(s string) *StockInfoCreate {
+	sic.mutation.SetDelistDate(s)
+	return sic
+}
+
+// SetNillableDelistDate sets the "delist_date" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableDelistDate(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetDelistDate(*s)
+	}
+	return sic
+}
+
+// SetIsHs sets the "is_hs" field.
+func (sic *StockInfoCreate) SetIsHs(s string) *StockInfoCreate {
+	sic.mutation.SetIsHs(s)
+	return sic
+}
+
+// SetIsLeader sets the "is_leader" field.
+func (sic *StockInfoCreate) SetIsLeader(b bool) *StockInfoCreate {
+	sic.mutation.SetIsLeader(b)
+	return sic
+}
+
+// SetNillableIsLeader sets the "is_leader" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableIsLeader(b *bool) *StockInfoCreate {
+	if b != nil {
+		sic.SetIsLeader(*b)
+	}
+	return sic
+}
+
+// SetLabelIndustry sets the "label_industry" field.
+func (sic *StockInfoCreate) SetLabelIndustry(s string) *StockInfoCreate {
+	sic.mutation.SetLabelIndustry(s)
 	return sic
 }
 
@@ -42,6 +157,7 @@ func (sic *StockInfoCreate) Save(ctx context.Context) (*StockInfo, error) {
 		err  error
 		node *StockInfo
 	)
+	sic.defaults()
 	if len(sic.hooks) == 0 {
 		if err = sic.check(); err != nil {
 			return nil, err
@@ -99,15 +215,65 @@ func (sic *StockInfoCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (sic *StockInfoCreate) defaults() {
+	if _, ok := sic.mutation.IsLeader(); !ok {
+		v := stockinfo.DefaultIsLeader
+		sic.mutation.SetIsLeader(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (sic *StockInfoCreate) check() error {
+	if _, ok := sic.mutation.TsCode(); !ok {
+		return &ValidationError{Name: "ts_code", err: errors.New(`ent: missing required field "StockInfo.ts_code"`)}
+	}
+	if _, ok := sic.mutation.Symbol(); !ok {
+		return &ValidationError{Name: "symbol", err: errors.New(`ent: missing required field "StockInfo.symbol"`)}
+	}
 	if _, ok := sic.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "StockInfo.name"`)}
 	}
-	if v, ok := sic.mutation.ID(); ok {
-		if err := stockinfo.IDValidator(v); err != nil {
-			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "StockInfo.id": %w`, err)}
+	if _, ok := sic.mutation.Area(); !ok {
+		return &ValidationError{Name: "area", err: errors.New(`ent: missing required field "StockInfo.area"`)}
+	}
+	if _, ok := sic.mutation.Industry(); !ok {
+		return &ValidationError{Name: "industry", err: errors.New(`ent: missing required field "StockInfo.industry"`)}
+	}
+	if _, ok := sic.mutation.Fullname(); !ok {
+		return &ValidationError{Name: "fullname", err: errors.New(`ent: missing required field "StockInfo.fullname"`)}
+	}
+	if _, ok := sic.mutation.Enname(); !ok {
+		return &ValidationError{Name: "enname", err: errors.New(`ent: missing required field "StockInfo.enname"`)}
+	}
+	if _, ok := sic.mutation.Cnspell(); !ok {
+		return &ValidationError{Name: "cnspell", err: errors.New(`ent: missing required field "StockInfo.cnspell"`)}
+	}
+	if _, ok := sic.mutation.Market(); !ok {
+		return &ValidationError{Name: "market", err: errors.New(`ent: missing required field "StockInfo.market"`)}
+	}
+	if _, ok := sic.mutation.Exchange(); !ok {
+		return &ValidationError{Name: "exchange", err: errors.New(`ent: missing required field "StockInfo.exchange"`)}
+	}
+	if _, ok := sic.mutation.CurrType(); !ok {
+		return &ValidationError{Name: "curr_type", err: errors.New(`ent: missing required field "StockInfo.curr_type"`)}
+	}
+	if _, ok := sic.mutation.ListStatus(); !ok {
+		return &ValidationError{Name: "list_status", err: errors.New(`ent: missing required field "StockInfo.list_status"`)}
+	}
+	if v, ok := sic.mutation.ListStatus(); ok {
+		if err := stockinfo.ListStatusValidator(v); err != nil {
+			return &ValidationError{Name: "list_status", err: fmt.Errorf(`ent: validator failed for field "StockInfo.list_status": %w`, err)}
 		}
+	}
+	if _, ok := sic.mutation.IsHs(); !ok {
+		return &ValidationError{Name: "is_hs", err: errors.New(`ent: missing required field "StockInfo.is_hs"`)}
+	}
+	if _, ok := sic.mutation.IsLeader(); !ok {
+		return &ValidationError{Name: "is_leader", err: errors.New(`ent: missing required field "StockInfo.is_leader"`)}
+	}
+	if _, ok := sic.mutation.LabelIndustry(); !ok {
+		return &ValidationError{Name: "label_industry", err: errors.New(`ent: missing required field "StockInfo.label_industry"`)}
 	}
 	return nil
 }
@@ -120,10 +286,8 @@ func (sic *StockInfoCreate) sqlSave(ctx context.Context) (*StockInfo, error) {
 		}
 		return nil, err
 	}
-	if _spec.ID.Value != _node.ID {
-		id := _spec.ID.Value.(int64)
-		_node.ID = int(id)
-	}
+	id := _spec.ID.Value.(int64)
+	_node.ID = int(id)
 	return _node, nil
 }
 
@@ -138,9 +302,21 @@ func (sic *StockInfoCreate) createSpec() (*StockInfo, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
-	if id, ok := sic.mutation.ID(); ok {
-		_node.ID = id
-		_spec.ID.Value = id
+	if value, ok := sic.mutation.TsCode(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldTsCode,
+		})
+		_node.TsCode = value
+	}
+	if value, ok := sic.mutation.Symbol(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldSymbol,
+		})
+		_node.Symbol = value
 	}
 	if value, ok := sic.mutation.Name(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -149,6 +325,118 @@ func (sic *StockInfoCreate) createSpec() (*StockInfo, *sqlgraph.CreateSpec) {
 			Column: stockinfo.FieldName,
 		})
 		_node.Name = value
+	}
+	if value, ok := sic.mutation.Area(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldArea,
+		})
+		_node.Area = value
+	}
+	if value, ok := sic.mutation.Industry(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldIndustry,
+		})
+		_node.Industry = value
+	}
+	if value, ok := sic.mutation.Fullname(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldFullname,
+		})
+		_node.Fullname = value
+	}
+	if value, ok := sic.mutation.Enname(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldEnname,
+		})
+		_node.Enname = value
+	}
+	if value, ok := sic.mutation.Cnspell(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldCnspell,
+		})
+		_node.Cnspell = value
+	}
+	if value, ok := sic.mutation.Market(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldMarket,
+		})
+		_node.Market = value
+	}
+	if value, ok := sic.mutation.Exchange(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldExchange,
+		})
+		_node.Exchange = value
+	}
+	if value, ok := sic.mutation.CurrType(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldCurrType,
+		})
+		_node.CurrType = value
+	}
+	if value, ok := sic.mutation.ListStatus(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeEnum,
+			Value:  value,
+			Column: stockinfo.FieldListStatus,
+		})
+		_node.ListStatus = value
+	}
+	if value, ok := sic.mutation.ListDate(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: stockinfo.FieldListDate,
+		})
+		_node.ListDate = value
+	}
+	if value, ok := sic.mutation.DelistDate(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldDelistDate,
+		})
+		_node.DelistDate = value
+	}
+	if value, ok := sic.mutation.IsHs(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldIsHs,
+		})
+		_node.IsHs = value
+	}
+	if value, ok := sic.mutation.IsLeader(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: stockinfo.FieldIsLeader,
+		})
+		_node.IsLeader = value
+	}
+	if value, ok := sic.mutation.LabelIndustry(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldLabelIndustry,
+		})
+		_node.LabelIndustry = value
 	}
 	return _node, _spec
 }
@@ -167,6 +455,7 @@ func (sicb *StockInfoCreateBulk) Save(ctx context.Context) ([]*StockInfo, error)
 	for i := range sicb.builders {
 		func(i int, root context.Context) {
 			builder := sicb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*StockInfoMutation)
 				if !ok {
@@ -194,7 +483,7 @@ func (sicb *StockInfoCreateBulk) Save(ctx context.Context) ([]*StockInfo, error)
 				}
 				mutation.id = &nodes[i].ID
 				mutation.done = true
-				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
+				if specs[i].ID.Value != nil {
 					id := specs[i].ID.Value.(int64)
 					nodes[i].ID = int(id)
 				}

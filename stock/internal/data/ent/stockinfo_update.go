@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"gostock/internal/data/ent/predicate"
 	"gostock/internal/data/ent/stockinfo"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -27,9 +28,141 @@ func (siu *StockInfoUpdate) Where(ps ...predicate.StockInfo) *StockInfoUpdate {
 	return siu
 }
 
+// SetTsCode sets the "ts_code" field.
+func (siu *StockInfoUpdate) SetTsCode(s string) *StockInfoUpdate {
+	siu.mutation.SetTsCode(s)
+	return siu
+}
+
+// SetSymbol sets the "symbol" field.
+func (siu *StockInfoUpdate) SetSymbol(s string) *StockInfoUpdate {
+	siu.mutation.SetSymbol(s)
+	return siu
+}
+
 // SetName sets the "name" field.
 func (siu *StockInfoUpdate) SetName(s string) *StockInfoUpdate {
 	siu.mutation.SetName(s)
+	return siu
+}
+
+// SetArea sets the "area" field.
+func (siu *StockInfoUpdate) SetArea(s string) *StockInfoUpdate {
+	siu.mutation.SetArea(s)
+	return siu
+}
+
+// SetIndustry sets the "industry" field.
+func (siu *StockInfoUpdate) SetIndustry(s string) *StockInfoUpdate {
+	siu.mutation.SetIndustry(s)
+	return siu
+}
+
+// SetFullname sets the "fullname" field.
+func (siu *StockInfoUpdate) SetFullname(s string) *StockInfoUpdate {
+	siu.mutation.SetFullname(s)
+	return siu
+}
+
+// SetEnname sets the "enname" field.
+func (siu *StockInfoUpdate) SetEnname(s string) *StockInfoUpdate {
+	siu.mutation.SetEnname(s)
+	return siu
+}
+
+// SetCnspell sets the "cnspell" field.
+func (siu *StockInfoUpdate) SetCnspell(s string) *StockInfoUpdate {
+	siu.mutation.SetCnspell(s)
+	return siu
+}
+
+// SetMarket sets the "market" field.
+func (siu *StockInfoUpdate) SetMarket(s string) *StockInfoUpdate {
+	siu.mutation.SetMarket(s)
+	return siu
+}
+
+// SetExchange sets the "exchange" field.
+func (siu *StockInfoUpdate) SetExchange(s string) *StockInfoUpdate {
+	siu.mutation.SetExchange(s)
+	return siu
+}
+
+// SetCurrType sets the "curr_type" field.
+func (siu *StockInfoUpdate) SetCurrType(s string) *StockInfoUpdate {
+	siu.mutation.SetCurrType(s)
+	return siu
+}
+
+// SetListStatus sets the "list_status" field.
+func (siu *StockInfoUpdate) SetListStatus(ss stockinfo.ListStatus) *StockInfoUpdate {
+	siu.mutation.SetListStatus(ss)
+	return siu
+}
+
+// SetListDate sets the "list_date" field.
+func (siu *StockInfoUpdate) SetListDate(t time.Time) *StockInfoUpdate {
+	siu.mutation.SetListDate(t)
+	return siu
+}
+
+// SetNillableListDate sets the "list_date" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableListDate(t *time.Time) *StockInfoUpdate {
+	if t != nil {
+		siu.SetListDate(*t)
+	}
+	return siu
+}
+
+// ClearListDate clears the value of the "list_date" field.
+func (siu *StockInfoUpdate) ClearListDate() *StockInfoUpdate {
+	siu.mutation.ClearListDate()
+	return siu
+}
+
+// SetDelistDate sets the "delist_date" field.
+func (siu *StockInfoUpdate) SetDelistDate(s string) *StockInfoUpdate {
+	siu.mutation.SetDelistDate(s)
+	return siu
+}
+
+// SetNillableDelistDate sets the "delist_date" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableDelistDate(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetDelistDate(*s)
+	}
+	return siu
+}
+
+// ClearDelistDate clears the value of the "delist_date" field.
+func (siu *StockInfoUpdate) ClearDelistDate() *StockInfoUpdate {
+	siu.mutation.ClearDelistDate()
+	return siu
+}
+
+// SetIsHs sets the "is_hs" field.
+func (siu *StockInfoUpdate) SetIsHs(s string) *StockInfoUpdate {
+	siu.mutation.SetIsHs(s)
+	return siu
+}
+
+// SetIsLeader sets the "is_leader" field.
+func (siu *StockInfoUpdate) SetIsLeader(b bool) *StockInfoUpdate {
+	siu.mutation.SetIsLeader(b)
+	return siu
+}
+
+// SetNillableIsLeader sets the "is_leader" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableIsLeader(b *bool) *StockInfoUpdate {
+	if b != nil {
+		siu.SetIsLeader(*b)
+	}
+	return siu
+}
+
+// SetLabelIndustry sets the "label_industry" field.
+func (siu *StockInfoUpdate) SetLabelIndustry(s string) *StockInfoUpdate {
+	siu.mutation.SetLabelIndustry(s)
 	return siu
 }
 
@@ -45,12 +178,18 @@ func (siu *StockInfoUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(siu.hooks) == 0 {
+		if err = siu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = siu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*StockInfoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = siu.check(); err != nil {
+				return 0, err
 			}
 			siu.mutation = mutation
 			affected, err = siu.sqlSave(ctx)
@@ -92,6 +231,16 @@ func (siu *StockInfoUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (siu *StockInfoUpdate) check() error {
+	if v, ok := siu.mutation.ListStatus(); ok {
+		if err := stockinfo.ListStatusValidator(v); err != nil {
+			return &ValidationError{Name: "list_status", err: fmt.Errorf(`ent: validator failed for field "StockInfo.list_status": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (siu *StockInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -110,11 +259,135 @@ func (siu *StockInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := siu.mutation.TsCode(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldTsCode,
+		})
+	}
+	if value, ok := siu.mutation.Symbol(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldSymbol,
+		})
+	}
 	if value, ok := siu.mutation.Name(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
 			Column: stockinfo.FieldName,
+		})
+	}
+	if value, ok := siu.mutation.Area(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldArea,
+		})
+	}
+	if value, ok := siu.mutation.Industry(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldIndustry,
+		})
+	}
+	if value, ok := siu.mutation.Fullname(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldFullname,
+		})
+	}
+	if value, ok := siu.mutation.Enname(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldEnname,
+		})
+	}
+	if value, ok := siu.mutation.Cnspell(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldCnspell,
+		})
+	}
+	if value, ok := siu.mutation.Market(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldMarket,
+		})
+	}
+	if value, ok := siu.mutation.Exchange(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldExchange,
+		})
+	}
+	if value, ok := siu.mutation.CurrType(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldCurrType,
+		})
+	}
+	if value, ok := siu.mutation.ListStatus(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeEnum,
+			Value:  value,
+			Column: stockinfo.FieldListStatus,
+		})
+	}
+	if value, ok := siu.mutation.ListDate(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: stockinfo.FieldListDate,
+		})
+	}
+	if siu.mutation.ListDateCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Column: stockinfo.FieldListDate,
+		})
+	}
+	if value, ok := siu.mutation.DelistDate(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldDelistDate,
+		})
+	}
+	if siu.mutation.DelistDateCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldDelistDate,
+		})
+	}
+	if value, ok := siu.mutation.IsHs(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldIsHs,
+		})
+	}
+	if value, ok := siu.mutation.IsLeader(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: stockinfo.FieldIsLeader,
+		})
+	}
+	if value, ok := siu.mutation.LabelIndustry(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldLabelIndustry,
 		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, siu.driver, _spec); err != nil {
@@ -136,9 +409,141 @@ type StockInfoUpdateOne struct {
 	mutation *StockInfoMutation
 }
 
+// SetTsCode sets the "ts_code" field.
+func (siuo *StockInfoUpdateOne) SetTsCode(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetTsCode(s)
+	return siuo
+}
+
+// SetSymbol sets the "symbol" field.
+func (siuo *StockInfoUpdateOne) SetSymbol(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetSymbol(s)
+	return siuo
+}
+
 // SetName sets the "name" field.
 func (siuo *StockInfoUpdateOne) SetName(s string) *StockInfoUpdateOne {
 	siuo.mutation.SetName(s)
+	return siuo
+}
+
+// SetArea sets the "area" field.
+func (siuo *StockInfoUpdateOne) SetArea(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetArea(s)
+	return siuo
+}
+
+// SetIndustry sets the "industry" field.
+func (siuo *StockInfoUpdateOne) SetIndustry(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetIndustry(s)
+	return siuo
+}
+
+// SetFullname sets the "fullname" field.
+func (siuo *StockInfoUpdateOne) SetFullname(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetFullname(s)
+	return siuo
+}
+
+// SetEnname sets the "enname" field.
+func (siuo *StockInfoUpdateOne) SetEnname(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetEnname(s)
+	return siuo
+}
+
+// SetCnspell sets the "cnspell" field.
+func (siuo *StockInfoUpdateOne) SetCnspell(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetCnspell(s)
+	return siuo
+}
+
+// SetMarket sets the "market" field.
+func (siuo *StockInfoUpdateOne) SetMarket(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetMarket(s)
+	return siuo
+}
+
+// SetExchange sets the "exchange" field.
+func (siuo *StockInfoUpdateOne) SetExchange(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetExchange(s)
+	return siuo
+}
+
+// SetCurrType sets the "curr_type" field.
+func (siuo *StockInfoUpdateOne) SetCurrType(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetCurrType(s)
+	return siuo
+}
+
+// SetListStatus sets the "list_status" field.
+func (siuo *StockInfoUpdateOne) SetListStatus(ss stockinfo.ListStatus) *StockInfoUpdateOne {
+	siuo.mutation.SetListStatus(ss)
+	return siuo
+}
+
+// SetListDate sets the "list_date" field.
+func (siuo *StockInfoUpdateOne) SetListDate(t time.Time) *StockInfoUpdateOne {
+	siuo.mutation.SetListDate(t)
+	return siuo
+}
+
+// SetNillableListDate sets the "list_date" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableListDate(t *time.Time) *StockInfoUpdateOne {
+	if t != nil {
+		siuo.SetListDate(*t)
+	}
+	return siuo
+}
+
+// ClearListDate clears the value of the "list_date" field.
+func (siuo *StockInfoUpdateOne) ClearListDate() *StockInfoUpdateOne {
+	siuo.mutation.ClearListDate()
+	return siuo
+}
+
+// SetDelistDate sets the "delist_date" field.
+func (siuo *StockInfoUpdateOne) SetDelistDate(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetDelistDate(s)
+	return siuo
+}
+
+// SetNillableDelistDate sets the "delist_date" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableDelistDate(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetDelistDate(*s)
+	}
+	return siuo
+}
+
+// ClearDelistDate clears the value of the "delist_date" field.
+func (siuo *StockInfoUpdateOne) ClearDelistDate() *StockInfoUpdateOne {
+	siuo.mutation.ClearDelistDate()
+	return siuo
+}
+
+// SetIsHs sets the "is_hs" field.
+func (siuo *StockInfoUpdateOne) SetIsHs(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetIsHs(s)
+	return siuo
+}
+
+// SetIsLeader sets the "is_leader" field.
+func (siuo *StockInfoUpdateOne) SetIsLeader(b bool) *StockInfoUpdateOne {
+	siuo.mutation.SetIsLeader(b)
+	return siuo
+}
+
+// SetNillableIsLeader sets the "is_leader" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableIsLeader(b *bool) *StockInfoUpdateOne {
+	if b != nil {
+		siuo.SetIsLeader(*b)
+	}
+	return siuo
+}
+
+// SetLabelIndustry sets the "label_industry" field.
+func (siuo *StockInfoUpdateOne) SetLabelIndustry(s string) *StockInfoUpdateOne {
+	siuo.mutation.SetLabelIndustry(s)
 	return siuo
 }
 
@@ -161,12 +566,18 @@ func (siuo *StockInfoUpdateOne) Save(ctx context.Context) (*StockInfo, error) {
 		node *StockInfo
 	)
 	if len(siuo.hooks) == 0 {
+		if err = siuo.check(); err != nil {
+			return nil, err
+		}
 		node, err = siuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*StockInfoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = siuo.check(); err != nil {
+				return nil, err
 			}
 			siuo.mutation = mutation
 			node, err = siuo.sqlSave(ctx)
@@ -208,6 +619,16 @@ func (siuo *StockInfoUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (siuo *StockInfoUpdateOne) check() error {
+	if v, ok := siuo.mutation.ListStatus(); ok {
+		if err := stockinfo.ListStatusValidator(v); err != nil {
+			return &ValidationError{Name: "list_status", err: fmt.Errorf(`ent: validator failed for field "StockInfo.list_status": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (siuo *StockInfoUpdateOne) sqlSave(ctx context.Context) (_node *StockInfo, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -243,11 +664,135 @@ func (siuo *StockInfoUpdateOne) sqlSave(ctx context.Context) (_node *StockInfo, 
 			}
 		}
 	}
+	if value, ok := siuo.mutation.TsCode(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldTsCode,
+		})
+	}
+	if value, ok := siuo.mutation.Symbol(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldSymbol,
+		})
+	}
 	if value, ok := siuo.mutation.Name(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
 			Column: stockinfo.FieldName,
+		})
+	}
+	if value, ok := siuo.mutation.Area(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldArea,
+		})
+	}
+	if value, ok := siuo.mutation.Industry(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldIndustry,
+		})
+	}
+	if value, ok := siuo.mutation.Fullname(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldFullname,
+		})
+	}
+	if value, ok := siuo.mutation.Enname(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldEnname,
+		})
+	}
+	if value, ok := siuo.mutation.Cnspell(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldCnspell,
+		})
+	}
+	if value, ok := siuo.mutation.Market(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldMarket,
+		})
+	}
+	if value, ok := siuo.mutation.Exchange(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldExchange,
+		})
+	}
+	if value, ok := siuo.mutation.CurrType(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldCurrType,
+		})
+	}
+	if value, ok := siuo.mutation.ListStatus(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeEnum,
+			Value:  value,
+			Column: stockinfo.FieldListStatus,
+		})
+	}
+	if value, ok := siuo.mutation.ListDate(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: stockinfo.FieldListDate,
+		})
+	}
+	if siuo.mutation.ListDateCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Column: stockinfo.FieldListDate,
+		})
+	}
+	if value, ok := siuo.mutation.DelistDate(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldDelistDate,
+		})
+	}
+	if siuo.mutation.DelistDateCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldDelistDate,
+		})
+	}
+	if value, ok := siuo.mutation.IsHs(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldIsHs,
+		})
+	}
+	if value, ok := siuo.mutation.IsLeader(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: stockinfo.FieldIsLeader,
+		})
+	}
+	if value, ok := siuo.mutation.LabelIndustry(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stockinfo.FieldLabelIndustry,
 		})
 	}
 	_node = &StockInfo{config: siuo.config}

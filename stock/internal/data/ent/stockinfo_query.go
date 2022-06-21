@@ -254,12 +254,12 @@ func (siq *StockInfoQuery) Clone() *StockInfoQuery {
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		TsCode string `json:"ts_code,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.StockInfo.Query().
-//		GroupBy(stockinfo.FieldName).
+//		GroupBy(stockinfo.FieldTsCode).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (siq *StockInfoQuery) GroupBy(field string, fields ...string) *StockInfoGro
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		TsCode string `json:"ts_code,omitempty"`
 //	}
 //
 //	client.StockInfo.Query().
-//		Select(stockinfo.FieldName).
+//		Select(stockinfo.FieldTsCode).
 //		Scan(ctx, &v)
 //
 func (siq *StockInfoQuery) Select(fields ...string) *StockInfoSelect {

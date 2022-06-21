@@ -13,8 +13,8 @@ import (
 func init() {
 	stockinfoFields := schema.StockInfo{}.Fields()
 	_ = stockinfoFields
-	// stockinfoDescID is the schema descriptor for id field.
-	stockinfoDescID := stockinfoFields[0].Descriptor()
-	// stockinfo.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	stockinfo.IDValidator = stockinfoDescID.Validators[0].(func(int) error)
+	// stockinfoDescIsLeader is the schema descriptor for is_leader field.
+	stockinfoDescIsLeader := stockinfoFields[15].Descriptor()
+	// stockinfo.DefaultIsLeader holds the default value on creation for the is_leader field.
+	stockinfo.DefaultIsLeader = stockinfoDescIsLeader.Default.(bool)
 }

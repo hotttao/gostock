@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"gostock/internal/data/ent/stockinfo"
 	"strings"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -15,8 +16,40 @@ type StockInfo struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// TsCode holds the value of the "ts_code" field.
+	TsCode string `json:"ts_code,omitempty"`
+	// Symbol holds the value of the "symbol" field.
+	Symbol string `json:"symbol,omitempty"`
 	// Name holds the value of the "name" field.
 	Name string `json:"name,omitempty"`
+	// Area holds the value of the "area" field.
+	Area string `json:"area,omitempty"`
+	// Industry holds the value of the "industry" field.
+	Industry string `json:"industry,omitempty"`
+	// Fullname holds the value of the "fullname" field.
+	Fullname string `json:"fullname,omitempty"`
+	// Enname holds the value of the "enname" field.
+	Enname string `json:"enname,omitempty"`
+	// Cnspell holds the value of the "cnspell" field.
+	Cnspell string `json:"cnspell,omitempty"`
+	// Market holds the value of the "market" field.
+	Market string `json:"market,omitempty"`
+	// Exchange holds the value of the "exchange" field.
+	Exchange string `json:"exchange,omitempty"`
+	// CurrType holds the value of the "curr_type" field.
+	CurrType string `json:"curr_type,omitempty"`
+	// ListStatus holds the value of the "list_status" field.
+	ListStatus stockinfo.ListStatus `json:"list_status,omitempty"`
+	// ListDate holds the value of the "list_date" field.
+	ListDate time.Time `json:"list_date,omitempty"`
+	// DelistDate holds the value of the "delist_date" field.
+	DelistDate string `json:"delist_date,omitempty"`
+	// IsHs holds the value of the "is_hs" field.
+	IsHs string `json:"is_hs,omitempty"`
+	// IsLeader holds the value of the "is_leader" field.
+	IsLeader bool `json:"is_leader,omitempty"`
+	// LabelIndustry holds the value of the "label_industry" field.
+	LabelIndustry string `json:"label_industry,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -24,10 +57,14 @@ func (*StockInfo) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case stockinfo.FieldIsLeader:
+			values[i] = new(sql.NullBool)
 		case stockinfo.FieldID:
 			values[i] = new(sql.NullInt64)
-		case stockinfo.FieldName:
+		case stockinfo.FieldTsCode, stockinfo.FieldSymbol, stockinfo.FieldName, stockinfo.FieldArea, stockinfo.FieldIndustry, stockinfo.FieldFullname, stockinfo.FieldEnname, stockinfo.FieldCnspell, stockinfo.FieldMarket, stockinfo.FieldExchange, stockinfo.FieldCurrType, stockinfo.FieldListStatus, stockinfo.FieldDelistDate, stockinfo.FieldIsHs, stockinfo.FieldLabelIndustry:
 			values[i] = new(sql.NullString)
+		case stockinfo.FieldListDate:
+			values[i] = new(sql.NullTime)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type StockInfo", columns[i])
 		}
@@ -49,11 +86,107 @@ func (si *StockInfo) assignValues(columns []string, values []interface{}) error 
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			si.ID = int(value.Int64)
+		case stockinfo.FieldTsCode:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field ts_code", values[i])
+			} else if value.Valid {
+				si.TsCode = value.String
+			}
+		case stockinfo.FieldSymbol:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field symbol", values[i])
+			} else if value.Valid {
+				si.Symbol = value.String
+			}
 		case stockinfo.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
 				si.Name = value.String
+			}
+		case stockinfo.FieldArea:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field area", values[i])
+			} else if value.Valid {
+				si.Area = value.String
+			}
+		case stockinfo.FieldIndustry:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field industry", values[i])
+			} else if value.Valid {
+				si.Industry = value.String
+			}
+		case stockinfo.FieldFullname:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field fullname", values[i])
+			} else if value.Valid {
+				si.Fullname = value.String
+			}
+		case stockinfo.FieldEnname:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field enname", values[i])
+			} else if value.Valid {
+				si.Enname = value.String
+			}
+		case stockinfo.FieldCnspell:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field cnspell", values[i])
+			} else if value.Valid {
+				si.Cnspell = value.String
+			}
+		case stockinfo.FieldMarket:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field market", values[i])
+			} else if value.Valid {
+				si.Market = value.String
+			}
+		case stockinfo.FieldExchange:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field exchange", values[i])
+			} else if value.Valid {
+				si.Exchange = value.String
+			}
+		case stockinfo.FieldCurrType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field curr_type", values[i])
+			} else if value.Valid {
+				si.CurrType = value.String
+			}
+		case stockinfo.FieldListStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field list_status", values[i])
+			} else if value.Valid {
+				si.ListStatus = stockinfo.ListStatus(value.String)
+			}
+		case stockinfo.FieldListDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field list_date", values[i])
+			} else if value.Valid {
+				si.ListDate = value.Time
+			}
+		case stockinfo.FieldDelistDate:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field delist_date", values[i])
+			} else if value.Valid {
+				si.DelistDate = value.String
+			}
+		case stockinfo.FieldIsHs:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field is_hs", values[i])
+			} else if value.Valid {
+				si.IsHs = value.String
+			}
+		case stockinfo.FieldIsLeader:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field is_leader", values[i])
+			} else if value.Valid {
+				si.IsLeader = value.Bool
+			}
+		case stockinfo.FieldLabelIndustry:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field label_industry", values[i])
+			} else if value.Valid {
+				si.LabelIndustry = value.String
 			}
 		}
 	}
@@ -83,8 +216,40 @@ func (si *StockInfo) String() string {
 	var builder strings.Builder
 	builder.WriteString("StockInfo(")
 	builder.WriteString(fmt.Sprintf("id=%v", si.ID))
+	builder.WriteString(", ts_code=")
+	builder.WriteString(si.TsCode)
+	builder.WriteString(", symbol=")
+	builder.WriteString(si.Symbol)
 	builder.WriteString(", name=")
 	builder.WriteString(si.Name)
+	builder.WriteString(", area=")
+	builder.WriteString(si.Area)
+	builder.WriteString(", industry=")
+	builder.WriteString(si.Industry)
+	builder.WriteString(", fullname=")
+	builder.WriteString(si.Fullname)
+	builder.WriteString(", enname=")
+	builder.WriteString(si.Enname)
+	builder.WriteString(", cnspell=")
+	builder.WriteString(si.Cnspell)
+	builder.WriteString(", market=")
+	builder.WriteString(si.Market)
+	builder.WriteString(", exchange=")
+	builder.WriteString(si.Exchange)
+	builder.WriteString(", curr_type=")
+	builder.WriteString(si.CurrType)
+	builder.WriteString(", list_status=")
+	builder.WriteString(fmt.Sprintf("%v", si.ListStatus))
+	builder.WriteString(", list_date=")
+	builder.WriteString(si.ListDate.Format(time.ANSIC))
+	builder.WriteString(", delist_date=")
+	builder.WriteString(si.DelistDate)
+	builder.WriteString(", is_hs=")
+	builder.WriteString(si.IsHs)
+	builder.WriteString(", is_leader=")
+	builder.WriteString(fmt.Sprintf("%v", si.IsLeader))
+	builder.WriteString(", label_industry=")
+	builder.WriteString(si.LabelIndustry)
 	builder.WriteByte(')')
 	return builder.String()
 }
