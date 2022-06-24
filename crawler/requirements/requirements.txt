@@ -3,3 +3,5 @@ omegaconf==2.1.1
 pandas==1.4.2
 tushare==1.2.85
 protoc-gen-validate==0.4.2
+SQLAlchemy==1.4.37
+PyMySQL==1.0.2

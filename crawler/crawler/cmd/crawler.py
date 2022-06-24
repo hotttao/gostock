@@ -16,7 +16,7 @@ def start_crawler(cfg: DictConfig) -> None:
     cfg = ParseDict(cfg, Bootstrap())
     print(MessageToJson(cfg))
     crawler = wire_app(cfg)
-    df = crawler.get_stock_list()
+    df = crawler.update_stock_list()
     print(df)
 
 

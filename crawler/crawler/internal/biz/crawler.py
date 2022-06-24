@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from pandas import DataFrame
 
 
 class StockInfo:
@@ -17,7 +18,8 @@ class IStockRepo(metaclass=ABCMeta):
     def get_stock_info(self, id: int):
         pass
 
-    def save_stock_info(self, ):
+    @abstractmethod
+    def upinsert_stock_list(self, df_stock_basic):
         pass
 
 
@@ -26,7 +28,7 @@ class ICrawlerRepo(metaclass=ABCMeta):
     股票数据获取的接口
     """
     @abstractmethod
-    def get_stock_list(self):
+    def get_stock_list(self) -> DataFrame:
         pass
 
 
@@ -35,5 +37,7 @@ class CrawlerUsecase:
         self.stock_repo = stock_repo
         self.crawler_repo = crawler_repo
 
-    def get_stock_list(self):
-        return self.crawler_repo.get_stock_list()
+    def update_stock_list(self):
+        df_stock_basic = self.crawler_repo.get_stock_list()
+        self.stock_repo.upinsert_stock_list(df_stock_basic)
+        return df_stock_basic
