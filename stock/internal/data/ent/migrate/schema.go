@@ -11,7 +11,7 @@ var (
 	// StockInfosColumns holds the columns for the "stock_infos" table.
 	StockInfosColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "ts_code", Type: field.TypeString},
+		{Name: "ts_code", Type: field.TypeString, Unique: true},
 		{Name: "symbol", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "area", Type: field.TypeString},

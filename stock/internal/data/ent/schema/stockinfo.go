@@ -14,17 +14,17 @@ type StockInfo struct {
 // Fields of the StockInfo.
 func (StockInfo) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("ts_code"),   // Y	TS代码
-		field.String("symbol"),    //	Y	股票代码
-		field.String("name"),      //	Y	股票名称
-		field.String("area"),      //	Y	地域
-		field.String("industry"),  // Y	所属行业
-		field.String("fullname"),  //	N	股票全称
-		field.String("enname"),    //	N	英文全称
-		field.String("cnspell"),   //	N	拼音缩写
-		field.String("market"),    //	Y	市场类型（主板/创业板/科创板/CDR）
-		field.String("exchange"),  //	N	交易所代码
-		field.String("curr_type"), //	N	交易货币
+		field.String("ts_code").Unique(), // Y	TS代码
+		field.String("symbol"),           //	Y	股票代码
+		field.String("name"),             //	Y	股票名称
+		field.String("area"),             //	Y	地域
+		field.String("industry"),         // Y	所属行业
+		field.String("fullname"),         //	N	股票全称
+		field.String("enname"),           //	N	英文全称
+		field.String("cnspell"),          //	N	拼音缩写
+		field.String("market"),           //	Y	市场类型（主板/创业板/科创板/CDR）
+		field.String("exchange"),         //	N	交易所代码
+		field.String("curr_type"),        //	N	交易货币
 		field.Enum("list_status").
 			Values("L", "D", "P"), //	N	上市状态 L上市 D退市 P暂停上市
 		field.Time("list_date").

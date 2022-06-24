@@ -29,7 +29,7 @@ message StockInfo {
     string exchange	 = 10; //	N	交易所代码
     string curr_type = 11; //	N	交易货币
     string list_status = 12; //	N	上市状态 L上市 D退市 P暂停上市
-    string list_date = 13; //	Y	上市日期
+    string list_date = 13; //	Y	上市日期 
     string delist_date = 14; //	N	退市日期
     string is_hs = 15; //	N	是否沪深港通标的，N否 H沪股通 S深股通
 
