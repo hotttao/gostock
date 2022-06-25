@@ -177,7 +177,7 @@ func ListDate(v time.Time) predicate.StockInfo {
 }
 
 // DelistDate applies equality check predicate on the "delist_date" field. It's identical to DelistDateEQ.
-func DelistDate(v string) predicate.StockInfo {
+func DelistDate(v time.Time) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldDelistDate), v))
 	})
@@ -634,6 +634,20 @@ func AreaHasSuffix(v string) predicate.StockInfo {
 	})
 }
 
+// AreaIsNil applies the IsNil predicate on the "area" field.
+func AreaIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldArea)))
+	})
+}
+
+// AreaNotNil applies the NotNil predicate on the "area" field.
+func AreaNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldArea)))
+	})
+}
+
 // AreaEqualFold applies the EqualFold predicate on the "area" field.
 func AreaEqualFold(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
@@ -742,6 +756,20 @@ func IndustryHasPrefix(v string) predicate.StockInfo {
 func IndustryHasSuffix(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.HasSuffix(s.C(FieldIndustry), v))
+	})
+}
+
+// IndustryIsNil applies the IsNil predicate on the "industry" field.
+func IndustryIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldIndustry)))
+	})
+}
+
+// IndustryNotNil applies the NotNil predicate on the "industry" field.
+func IndustryNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldIndustry)))
 	})
 }
 
@@ -856,6 +884,20 @@ func FullnameHasSuffix(v string) predicate.StockInfo {
 	})
 }
 
+// FullnameIsNil applies the IsNil predicate on the "fullname" field.
+func FullnameIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldFullname)))
+	})
+}
+
+// FullnameNotNil applies the NotNil predicate on the "fullname" field.
+func FullnameNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldFullname)))
+	})
+}
+
 // FullnameEqualFold applies the EqualFold predicate on the "fullname" field.
 func FullnameEqualFold(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
@@ -967,6 +1009,20 @@ func EnnameHasSuffix(v string) predicate.StockInfo {
 	})
 }
 
+// EnnameIsNil applies the IsNil predicate on the "enname" field.
+func EnnameIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldEnname)))
+	})
+}
+
+// EnnameNotNil applies the NotNil predicate on the "enname" field.
+func EnnameNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldEnname)))
+	})
+}
+
 // EnnameEqualFold applies the EqualFold predicate on the "enname" field.
 func EnnameEqualFold(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
@@ -1075,6 +1131,20 @@ func CnspellHasPrefix(v string) predicate.StockInfo {
 func CnspellHasSuffix(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.HasSuffix(s.C(FieldCnspell), v))
+	})
+}
+
+// CnspellIsNil applies the IsNil predicate on the "cnspell" field.
+func CnspellIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldCnspell)))
+	})
+}
+
+// CnspellNotNil applies the NotNil predicate on the "cnspell" field.
+func CnspellNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldCnspell)))
 	})
 }
 
@@ -1300,6 +1370,20 @@ func ExchangeHasSuffix(v string) predicate.StockInfo {
 	})
 }
 
+// ExchangeIsNil applies the IsNil predicate on the "exchange" field.
+func ExchangeIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldExchange)))
+	})
+}
+
+// ExchangeNotNil applies the NotNil predicate on the "exchange" field.
+func ExchangeNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldExchange)))
+	})
+}
+
 // ExchangeEqualFold applies the EqualFold predicate on the "exchange" field.
 func ExchangeEqualFold(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
@@ -1408,6 +1492,20 @@ func CurrTypeHasPrefix(v string) predicate.StockInfo {
 func CurrTypeHasSuffix(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.HasSuffix(s.C(FieldCurrType), v))
+	})
+}
+
+// CurrTypeIsNil applies the IsNil predicate on the "curr_type" field.
+func CurrTypeIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldCurrType)))
+	})
+}
+
+// CurrTypeNotNil applies the NotNil predicate on the "curr_type" field.
+func CurrTypeNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldCurrType)))
 	})
 }
 
@@ -1549,36 +1647,22 @@ func ListDateLTE(v time.Time) predicate.StockInfo {
 	})
 }
 
-// ListDateIsNil applies the IsNil predicate on the "list_date" field.
-func ListDateIsNil() predicate.StockInfo {
-	return predicate.StockInfo(func(s *sql.Selector) {
-		s.Where(sql.IsNull(s.C(FieldListDate)))
-	})
-}
-
-// ListDateNotNil applies the NotNil predicate on the "list_date" field.
-func ListDateNotNil() predicate.StockInfo {
-	return predicate.StockInfo(func(s *sql.Selector) {
-		s.Where(sql.NotNull(s.C(FieldListDate)))
-	})
-}
-
 // DelistDateEQ applies the EQ predicate on the "delist_date" field.
-func DelistDateEQ(v string) predicate.StockInfo {
+func DelistDateEQ(v time.Time) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldDelistDate), v))
 	})
 }
 
 // DelistDateNEQ applies the NEQ predicate on the "delist_date" field.
-func DelistDateNEQ(v string) predicate.StockInfo {
+func DelistDateNEQ(v time.Time) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldDelistDate), v))
 	})
 }
 
 // DelistDateIn applies the In predicate on the "delist_date" field.
-func DelistDateIn(vs ...string) predicate.StockInfo {
+func DelistDateIn(vs ...time.Time) predicate.StockInfo {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -1595,7 +1679,7 @@ func DelistDateIn(vs ...string) predicate.StockInfo {
 }
 
 // DelistDateNotIn applies the NotIn predicate on the "delist_date" field.
-func DelistDateNotIn(vs ...string) predicate.StockInfo {
+func DelistDateNotIn(vs ...time.Time) predicate.StockInfo {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -1612,51 +1696,30 @@ func DelistDateNotIn(vs ...string) predicate.StockInfo {
 }
 
 // DelistDateGT applies the GT predicate on the "delist_date" field.
-func DelistDateGT(v string) predicate.StockInfo {
+func DelistDateGT(v time.Time) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldDelistDate), v))
 	})
 }
 
 // DelistDateGTE applies the GTE predicate on the "delist_date" field.
-func DelistDateGTE(v string) predicate.StockInfo {
+func DelistDateGTE(v time.Time) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldDelistDate), v))
 	})
 }
 
 // DelistDateLT applies the LT predicate on the "delist_date" field.
-func DelistDateLT(v string) predicate.StockInfo {
+func DelistDateLT(v time.Time) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldDelistDate), v))
 	})
 }
 
 // DelistDateLTE applies the LTE predicate on the "delist_date" field.
-func DelistDateLTE(v string) predicate.StockInfo {
+func DelistDateLTE(v time.Time) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldDelistDate), v))
-	})
-}
-
-// DelistDateContains applies the Contains predicate on the "delist_date" field.
-func DelistDateContains(v string) predicate.StockInfo {
-	return predicate.StockInfo(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldDelistDate), v))
-	})
-}
-
-// DelistDateHasPrefix applies the HasPrefix predicate on the "delist_date" field.
-func DelistDateHasPrefix(v string) predicate.StockInfo {
-	return predicate.StockInfo(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldDelistDate), v))
-	})
-}
-
-// DelistDateHasSuffix applies the HasSuffix predicate on the "delist_date" field.
-func DelistDateHasSuffix(v string) predicate.StockInfo {
-	return predicate.StockInfo(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldDelistDate), v))
 	})
 }
 
@@ -1671,20 +1734,6 @@ func DelistDateIsNil() predicate.StockInfo {
 func DelistDateNotNil() predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.NotNull(s.C(FieldDelistDate)))
-	})
-}
-
-// DelistDateEqualFold applies the EqualFold predicate on the "delist_date" field.
-func DelistDateEqualFold(v string) predicate.StockInfo {
-	return predicate.StockInfo(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldDelistDate), v))
-	})
-}
-
-// DelistDateContainsFold applies the ContainsFold predicate on the "delist_date" field.
-func DelistDateContainsFold(v string) predicate.StockInfo {
-	return predicate.StockInfo(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldDelistDate), v))
 	})
 }
 
@@ -1782,6 +1831,20 @@ func IsHsHasPrefix(v string) predicate.StockInfo {
 func IsHsHasSuffix(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.HasSuffix(s.C(FieldIsHs), v))
+	})
+}
+
+// IsHsIsNil applies the IsNil predicate on the "is_hs" field.
+func IsHsIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldIsHs)))
+	})
+}
+
+// IsHsNotNil applies the NotNil predicate on the "is_hs" field.
+func IsHsNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldIsHs)))
 	})
 }
 
@@ -1907,6 +1970,20 @@ func LabelIndustryHasPrefix(v string) predicate.StockInfo {
 func LabelIndustryHasSuffix(v string) predicate.StockInfo {
 	return predicate.StockInfo(func(s *sql.Selector) {
 		s.Where(sql.HasSuffix(s.C(FieldLabelIndustry), v))
+	})
+}
+
+// LabelIndustryIsNil applies the IsNil predicate on the "label_industry" field.
+func LabelIndustryIsNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldLabelIndustry)))
+	})
+}
+
+// LabelIndustryNotNil applies the NotNil predicate on the "label_industry" field.
+func LabelIndustryNotNil() predicate.StockInfo {
+	return predicate.StockInfo(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldLabelIndustry)))
 	})
 }
 

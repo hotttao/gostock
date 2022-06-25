@@ -45,7 +45,7 @@ type StockInfoMutation struct {
 	curr_type      *string
 	list_status    *stockinfo.ListStatus
 	list_date      *time.Time
-	delist_date    *string
+	delist_date    *time.Time
 	is_hs          *string
 	is_leader      *bool
 	label_industry *string
@@ -292,9 +292,22 @@ func (m *StockInfoMutation) OldArea(ctx context.Context) (v string, err error) {
 	return oldValue.Area, nil
 }
 
+// ClearArea clears the value of the "area" field.
+func (m *StockInfoMutation) ClearArea() {
+	m.area = nil
+	m.clearedFields[stockinfo.FieldArea] = struct{}{}
+}
+
+// AreaCleared returns if the "area" field was cleared in this mutation.
+func (m *StockInfoMutation) AreaCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldArea]
+	return ok
+}
+
 // ResetArea resets all changes to the "area" field.
 func (m *StockInfoMutation) ResetArea() {
 	m.area = nil
+	delete(m.clearedFields, stockinfo.FieldArea)
 }
 
 // SetIndustry sets the "industry" field.
@@ -328,9 +341,22 @@ func (m *StockInfoMutation) OldIndustry(ctx context.Context) (v string, err erro
 	return oldValue.Industry, nil
 }
 
+// ClearIndustry clears the value of the "industry" field.
+func (m *StockInfoMutation) ClearIndustry() {
+	m.industry = nil
+	m.clearedFields[stockinfo.FieldIndustry] = struct{}{}
+}
+
+// IndustryCleared returns if the "industry" field was cleared in this mutation.
+func (m *StockInfoMutation) IndustryCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldIndustry]
+	return ok
+}
+
 // ResetIndustry resets all changes to the "industry" field.
 func (m *StockInfoMutation) ResetIndustry() {
 	m.industry = nil
+	delete(m.clearedFields, stockinfo.FieldIndustry)
 }
 
 // SetFullname sets the "fullname" field.
@@ -364,9 +390,22 @@ func (m *StockInfoMutation) OldFullname(ctx context.Context) (v string, err erro
 	return oldValue.Fullname, nil
 }
 
+// ClearFullname clears the value of the "fullname" field.
+func (m *StockInfoMutation) ClearFullname() {
+	m.fullname = nil
+	m.clearedFields[stockinfo.FieldFullname] = struct{}{}
+}
+
+// FullnameCleared returns if the "fullname" field was cleared in this mutation.
+func (m *StockInfoMutation) FullnameCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldFullname]
+	return ok
+}
+
 // ResetFullname resets all changes to the "fullname" field.
 func (m *StockInfoMutation) ResetFullname() {
 	m.fullname = nil
+	delete(m.clearedFields, stockinfo.FieldFullname)
 }
 
 // SetEnname sets the "enname" field.
@@ -400,9 +439,22 @@ func (m *StockInfoMutation) OldEnname(ctx context.Context) (v string, err error)
 	return oldValue.Enname, nil
 }
 
+// ClearEnname clears the value of the "enname" field.
+func (m *StockInfoMutation) ClearEnname() {
+	m.enname = nil
+	m.clearedFields[stockinfo.FieldEnname] = struct{}{}
+}
+
+// EnnameCleared returns if the "enname" field was cleared in this mutation.
+func (m *StockInfoMutation) EnnameCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldEnname]
+	return ok
+}
+
 // ResetEnname resets all changes to the "enname" field.
 func (m *StockInfoMutation) ResetEnname() {
 	m.enname = nil
+	delete(m.clearedFields, stockinfo.FieldEnname)
 }
 
 // SetCnspell sets the "cnspell" field.
@@ -436,9 +488,22 @@ func (m *StockInfoMutation) OldCnspell(ctx context.Context) (v string, err error
 	return oldValue.Cnspell, nil
 }
 
+// ClearCnspell clears the value of the "cnspell" field.
+func (m *StockInfoMutation) ClearCnspell() {
+	m.cnspell = nil
+	m.clearedFields[stockinfo.FieldCnspell] = struct{}{}
+}
+
+// CnspellCleared returns if the "cnspell" field was cleared in this mutation.
+func (m *StockInfoMutation) CnspellCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldCnspell]
+	return ok
+}
+
 // ResetCnspell resets all changes to the "cnspell" field.
 func (m *StockInfoMutation) ResetCnspell() {
 	m.cnspell = nil
+	delete(m.clearedFields, stockinfo.FieldCnspell)
 }
 
 // SetMarket sets the "market" field.
@@ -508,9 +573,22 @@ func (m *StockInfoMutation) OldExchange(ctx context.Context) (v string, err erro
 	return oldValue.Exchange, nil
 }
 
+// ClearExchange clears the value of the "exchange" field.
+func (m *StockInfoMutation) ClearExchange() {
+	m.exchange = nil
+	m.clearedFields[stockinfo.FieldExchange] = struct{}{}
+}
+
+// ExchangeCleared returns if the "exchange" field was cleared in this mutation.
+func (m *StockInfoMutation) ExchangeCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldExchange]
+	return ok
+}
+
 // ResetExchange resets all changes to the "exchange" field.
 func (m *StockInfoMutation) ResetExchange() {
 	m.exchange = nil
+	delete(m.clearedFields, stockinfo.FieldExchange)
 }
 
 // SetCurrType sets the "curr_type" field.
@@ -544,9 +622,22 @@ func (m *StockInfoMutation) OldCurrType(ctx context.Context) (v string, err erro
 	return oldValue.CurrType, nil
 }
 
+// ClearCurrType clears the value of the "curr_type" field.
+func (m *StockInfoMutation) ClearCurrType() {
+	m.curr_type = nil
+	m.clearedFields[stockinfo.FieldCurrType] = struct{}{}
+}
+
+// CurrTypeCleared returns if the "curr_type" field was cleared in this mutation.
+func (m *StockInfoMutation) CurrTypeCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldCurrType]
+	return ok
+}
+
 // ResetCurrType resets all changes to the "curr_type" field.
 func (m *StockInfoMutation) ResetCurrType() {
 	m.curr_type = nil
+	delete(m.clearedFields, stockinfo.FieldCurrType)
 }
 
 // SetListStatus sets the "list_status" field.
@@ -616,31 +707,18 @@ func (m *StockInfoMutation) OldListDate(ctx context.Context) (v time.Time, err e
 	return oldValue.ListDate, nil
 }
 
-// ClearListDate clears the value of the "list_date" field.
-func (m *StockInfoMutation) ClearListDate() {
-	m.list_date = nil
-	m.clearedFields[stockinfo.FieldListDate] = struct{}{}
-}
-
-// ListDateCleared returns if the "list_date" field was cleared in this mutation.
-func (m *StockInfoMutation) ListDateCleared() bool {
-	_, ok := m.clearedFields[stockinfo.FieldListDate]
-	return ok
-}
-
 // ResetListDate resets all changes to the "list_date" field.
 func (m *StockInfoMutation) ResetListDate() {
 	m.list_date = nil
-	delete(m.clearedFields, stockinfo.FieldListDate)
 }
 
 // SetDelistDate sets the "delist_date" field.
-func (m *StockInfoMutation) SetDelistDate(s string) {
-	m.delist_date = &s
+func (m *StockInfoMutation) SetDelistDate(t time.Time) {
+	m.delist_date = &t
 }
 
 // DelistDate returns the value of the "delist_date" field in the mutation.
-func (m *StockInfoMutation) DelistDate() (r string, exists bool) {
+func (m *StockInfoMutation) DelistDate() (r time.Time, exists bool) {
 	v := m.delist_date
 	if v == nil {
 		return
@@ -651,7 +729,7 @@ func (m *StockInfoMutation) DelistDate() (r string, exists bool) {
 // OldDelistDate returns the old "delist_date" field's value of the StockInfo entity.
 // If the StockInfo object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *StockInfoMutation) OldDelistDate(ctx context.Context) (v string, err error) {
+func (m *StockInfoMutation) OldDelistDate(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldDelistDate is only allowed on UpdateOne operations")
 	}
@@ -714,9 +792,22 @@ func (m *StockInfoMutation) OldIsHs(ctx context.Context) (v string, err error) {
 	return oldValue.IsHs, nil
 }
 
+// ClearIsHs clears the value of the "is_hs" field.
+func (m *StockInfoMutation) ClearIsHs() {
+	m.is_hs = nil
+	m.clearedFields[stockinfo.FieldIsHs] = struct{}{}
+}
+
+// IsHsCleared returns if the "is_hs" field was cleared in this mutation.
+func (m *StockInfoMutation) IsHsCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldIsHs]
+	return ok
+}
+
 // ResetIsHs resets all changes to the "is_hs" field.
 func (m *StockInfoMutation) ResetIsHs() {
 	m.is_hs = nil
+	delete(m.clearedFields, stockinfo.FieldIsHs)
 }
 
 // SetIsLeader sets the "is_leader" field.
@@ -786,9 +877,22 @@ func (m *StockInfoMutation) OldLabelIndustry(ctx context.Context) (v string, err
 	return oldValue.LabelIndustry, nil
 }
 
+// ClearLabelIndustry clears the value of the "label_industry" field.
+func (m *StockInfoMutation) ClearLabelIndustry() {
+	m.label_industry = nil
+	m.clearedFields[stockinfo.FieldLabelIndustry] = struct{}{}
+}
+
+// LabelIndustryCleared returns if the "label_industry" field was cleared in this mutation.
+func (m *StockInfoMutation) LabelIndustryCleared() bool {
+	_, ok := m.clearedFields[stockinfo.FieldLabelIndustry]
+	return ok
+}
+
 // ResetLabelIndustry resets all changes to the "label_industry" field.
 func (m *StockInfoMutation) ResetLabelIndustry() {
 	m.label_industry = nil
+	delete(m.clearedFields, stockinfo.FieldLabelIndustry)
 }
 
 // Where appends a list predicates to the StockInfoMutation builder.
@@ -1048,7 +1152,7 @@ func (m *StockInfoMutation) SetField(name string, value ent.Value) error {
 		m.SetListDate(v)
 		return nil
 	case stockinfo.FieldDelistDate:
-		v, ok := value.(string)
+		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1105,11 +1209,35 @@ func (m *StockInfoMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *StockInfoMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(stockinfo.FieldListDate) {
-		fields = append(fields, stockinfo.FieldListDate)
+	if m.FieldCleared(stockinfo.FieldArea) {
+		fields = append(fields, stockinfo.FieldArea)
+	}
+	if m.FieldCleared(stockinfo.FieldIndustry) {
+		fields = append(fields, stockinfo.FieldIndustry)
+	}
+	if m.FieldCleared(stockinfo.FieldFullname) {
+		fields = append(fields, stockinfo.FieldFullname)
+	}
+	if m.FieldCleared(stockinfo.FieldEnname) {
+		fields = append(fields, stockinfo.FieldEnname)
+	}
+	if m.FieldCleared(stockinfo.FieldCnspell) {
+		fields = append(fields, stockinfo.FieldCnspell)
+	}
+	if m.FieldCleared(stockinfo.FieldExchange) {
+		fields = append(fields, stockinfo.FieldExchange)
+	}
+	if m.FieldCleared(stockinfo.FieldCurrType) {
+		fields = append(fields, stockinfo.FieldCurrType)
 	}
 	if m.FieldCleared(stockinfo.FieldDelistDate) {
 		fields = append(fields, stockinfo.FieldDelistDate)
+	}
+	if m.FieldCleared(stockinfo.FieldIsHs) {
+		fields = append(fields, stockinfo.FieldIsHs)
+	}
+	if m.FieldCleared(stockinfo.FieldLabelIndustry) {
+		fields = append(fields, stockinfo.FieldLabelIndustry)
 	}
 	return fields
 }
@@ -1125,11 +1253,35 @@ func (m *StockInfoMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *StockInfoMutation) ClearField(name string) error {
 	switch name {
-	case stockinfo.FieldListDate:
-		m.ClearListDate()
+	case stockinfo.FieldArea:
+		m.ClearArea()
+		return nil
+	case stockinfo.FieldIndustry:
+		m.ClearIndustry()
+		return nil
+	case stockinfo.FieldFullname:
+		m.ClearFullname()
+		return nil
+	case stockinfo.FieldEnname:
+		m.ClearEnname()
+		return nil
+	case stockinfo.FieldCnspell:
+		m.ClearCnspell()
+		return nil
+	case stockinfo.FieldExchange:
+		m.ClearExchange()
+		return nil
+	case stockinfo.FieldCurrType:
+		m.ClearCurrType()
 		return nil
 	case stockinfo.FieldDelistDate:
 		m.ClearDelistDate()
+		return nil
+	case stockinfo.FieldIsHs:
+		m.ClearIsHs()
+		return nil
+	case stockinfo.FieldLabelIndustry:
+		m.ClearLabelIndustry()
 		return nil
 	}
 	return fmt.Errorf("unknown StockInfo nullable field %s", name)

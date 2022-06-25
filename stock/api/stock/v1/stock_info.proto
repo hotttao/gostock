@@ -33,10 +33,10 @@ message StockInfo {
     string delist_date = 14; //	N	退市日期
     string is_hs = 15; //	N	是否沪深港通标的，N否 H沪股通 S深股通
 
-	bool is_header = 16; //	N	是否为龙头
+	bool is_leader = 16; //	N	是否为龙头
 	string label_industry = 17; //	N 自定义行业标签
 }
 
 message GetStockInfoRequest {
-	string name = 1;
+	int32 id = 1;
 }

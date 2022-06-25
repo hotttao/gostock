@@ -44,9 +44,25 @@ func (sic *StockInfoCreate) SetArea(s string) *StockInfoCreate {
 	return sic
 }
 
+// SetNillableArea sets the "area" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableArea(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetArea(*s)
+	}
+	return sic
+}
+
 // SetIndustry sets the "industry" field.
 func (sic *StockInfoCreate) SetIndustry(s string) *StockInfoCreate {
 	sic.mutation.SetIndustry(s)
+	return sic
+}
+
+// SetNillableIndustry sets the "industry" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableIndustry(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetIndustry(*s)
+	}
 	return sic
 }
 
@@ -56,15 +72,39 @@ func (sic *StockInfoCreate) SetFullname(s string) *StockInfoCreate {
 	return sic
 }
 
+// SetNillableFullname sets the "fullname" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableFullname(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetFullname(*s)
+	}
+	return sic
+}
+
 // SetEnname sets the "enname" field.
 func (sic *StockInfoCreate) SetEnname(s string) *StockInfoCreate {
 	sic.mutation.SetEnname(s)
 	return sic
 }
 
+// SetNillableEnname sets the "enname" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableEnname(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetEnname(*s)
+	}
+	return sic
+}
+
 // SetCnspell sets the "cnspell" field.
 func (sic *StockInfoCreate) SetCnspell(s string) *StockInfoCreate {
 	sic.mutation.SetCnspell(s)
+	return sic
+}
+
+// SetNillableCnspell sets the "cnspell" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableCnspell(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetCnspell(*s)
+	}
 	return sic
 }
 
@@ -80,9 +120,25 @@ func (sic *StockInfoCreate) SetExchange(s string) *StockInfoCreate {
 	return sic
 }
 
+// SetNillableExchange sets the "exchange" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableExchange(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetExchange(*s)
+	}
+	return sic
+}
+
 // SetCurrType sets the "curr_type" field.
 func (sic *StockInfoCreate) SetCurrType(s string) *StockInfoCreate {
 	sic.mutation.SetCurrType(s)
+	return sic
+}
+
+// SetNillableCurrType sets the "curr_type" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableCurrType(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetCurrType(*s)
+	}
 	return sic
 }
 
@@ -92,30 +148,30 @@ func (sic *StockInfoCreate) SetListStatus(ss stockinfo.ListStatus) *StockInfoCre
 	return sic
 }
 
+// SetNillableListStatus sets the "list_status" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableListStatus(ss *stockinfo.ListStatus) *StockInfoCreate {
+	if ss != nil {
+		sic.SetListStatus(*ss)
+	}
+	return sic
+}
+
 // SetListDate sets the "list_date" field.
 func (sic *StockInfoCreate) SetListDate(t time.Time) *StockInfoCreate {
 	sic.mutation.SetListDate(t)
 	return sic
 }
 
-// SetNillableListDate sets the "list_date" field if the given value is not nil.
-func (sic *StockInfoCreate) SetNillableListDate(t *time.Time) *StockInfoCreate {
-	if t != nil {
-		sic.SetListDate(*t)
-	}
-	return sic
-}
-
 // SetDelistDate sets the "delist_date" field.
-func (sic *StockInfoCreate) SetDelistDate(s string) *StockInfoCreate {
-	sic.mutation.SetDelistDate(s)
+func (sic *StockInfoCreate) SetDelistDate(t time.Time) *StockInfoCreate {
+	sic.mutation.SetDelistDate(t)
 	return sic
 }
 
 // SetNillableDelistDate sets the "delist_date" field if the given value is not nil.
-func (sic *StockInfoCreate) SetNillableDelistDate(s *string) *StockInfoCreate {
-	if s != nil {
-		sic.SetDelistDate(*s)
+func (sic *StockInfoCreate) SetNillableDelistDate(t *time.Time) *StockInfoCreate {
+	if t != nil {
+		sic.SetDelistDate(*t)
 	}
 	return sic
 }
@@ -123,6 +179,14 @@ func (sic *StockInfoCreate) SetNillableDelistDate(s *string) *StockInfoCreate {
 // SetIsHs sets the "is_hs" field.
 func (sic *StockInfoCreate) SetIsHs(s string) *StockInfoCreate {
 	sic.mutation.SetIsHs(s)
+	return sic
+}
+
+// SetNillableIsHs sets the "is_hs" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableIsHs(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetIsHs(*s)
+	}
 	return sic
 }
 
@@ -143,6 +207,14 @@ func (sic *StockInfoCreate) SetNillableIsLeader(b *bool) *StockInfoCreate {
 // SetLabelIndustry sets the "label_industry" field.
 func (sic *StockInfoCreate) SetLabelIndustry(s string) *StockInfoCreate {
 	sic.mutation.SetLabelIndustry(s)
+	return sic
+}
+
+// SetNillableLabelIndustry sets the "label_industry" field if the given value is not nil.
+func (sic *StockInfoCreate) SetNillableLabelIndustry(s *string) *StockInfoCreate {
+	if s != nil {
+		sic.SetLabelIndustry(*s)
+	}
 	return sic
 }
 
@@ -217,6 +289,10 @@ func (sic *StockInfoCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (sic *StockInfoCreate) defaults() {
+	if _, ok := sic.mutation.ListStatus(); !ok {
+		v := stockinfo.DefaultListStatus
+		sic.mutation.SetListStatus(v)
+	}
 	if _, ok := sic.mutation.IsLeader(); !ok {
 		v := stockinfo.DefaultIsLeader
 		sic.mutation.SetIsLeader(v)
@@ -234,29 +310,8 @@ func (sic *StockInfoCreate) check() error {
 	if _, ok := sic.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "StockInfo.name"`)}
 	}
-	if _, ok := sic.mutation.Area(); !ok {
-		return &ValidationError{Name: "area", err: errors.New(`ent: missing required field "StockInfo.area"`)}
-	}
-	if _, ok := sic.mutation.Industry(); !ok {
-		return &ValidationError{Name: "industry", err: errors.New(`ent: missing required field "StockInfo.industry"`)}
-	}
-	if _, ok := sic.mutation.Fullname(); !ok {
-		return &ValidationError{Name: "fullname", err: errors.New(`ent: missing required field "StockInfo.fullname"`)}
-	}
-	if _, ok := sic.mutation.Enname(); !ok {
-		return &ValidationError{Name: "enname", err: errors.New(`ent: missing required field "StockInfo.enname"`)}
-	}
-	if _, ok := sic.mutation.Cnspell(); !ok {
-		return &ValidationError{Name: "cnspell", err: errors.New(`ent: missing required field "StockInfo.cnspell"`)}
-	}
 	if _, ok := sic.mutation.Market(); !ok {
 		return &ValidationError{Name: "market", err: errors.New(`ent: missing required field "StockInfo.market"`)}
-	}
-	if _, ok := sic.mutation.Exchange(); !ok {
-		return &ValidationError{Name: "exchange", err: errors.New(`ent: missing required field "StockInfo.exchange"`)}
-	}
-	if _, ok := sic.mutation.CurrType(); !ok {
-		return &ValidationError{Name: "curr_type", err: errors.New(`ent: missing required field "StockInfo.curr_type"`)}
 	}
 	if _, ok := sic.mutation.ListStatus(); !ok {
 		return &ValidationError{Name: "list_status", err: errors.New(`ent: missing required field "StockInfo.list_status"`)}
@@ -266,14 +321,11 @@ func (sic *StockInfoCreate) check() error {
 			return &ValidationError{Name: "list_status", err: fmt.Errorf(`ent: validator failed for field "StockInfo.list_status": %w`, err)}
 		}
 	}
-	if _, ok := sic.mutation.IsHs(); !ok {
-		return &ValidationError{Name: "is_hs", err: errors.New(`ent: missing required field "StockInfo.is_hs"`)}
+	if _, ok := sic.mutation.ListDate(); !ok {
+		return &ValidationError{Name: "list_date", err: errors.New(`ent: missing required field "StockInfo.list_date"`)}
 	}
 	if _, ok := sic.mutation.IsLeader(); !ok {
 		return &ValidationError{Name: "is_leader", err: errors.New(`ent: missing required field "StockInfo.is_leader"`)}
-	}
-	if _, ok := sic.mutation.LabelIndustry(); !ok {
-		return &ValidationError{Name: "label_industry", err: errors.New(`ent: missing required field "StockInfo.label_industry"`)}
 	}
 	return nil
 }
@@ -408,7 +460,7 @@ func (sic *StockInfoCreate) createSpec() (*StockInfo, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := sic.mutation.DelistDate(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeTime,
 			Value:  value,
 			Column: stockinfo.FieldDelistDate,
 		})

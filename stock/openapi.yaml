@@ -122,10 +122,39 @@ components:
         StockInfo:
             type: object
             properties:
-                id:
-                    type: integer
-                    format: int32
+                tsCode:
+                    type: string
+                symbol:
+                    type: string
                 name:
+                    type: string
+                area:
+                    type: string
+                industry:
+                    type: string
+                fullname:
+                    type: string
+                enname:
+                    type: string
+                cnspell:
+                    type: string
+                market:
+                    type: string
+                exchange:
+                    type: string
+                currType:
+                    type: string
+                listStatus:
+                    type: string
+                listDate:
+                    type: string
+                delistDate:
+                    type: string
+                isHs:
+                    type: string
+                isLeader:
+                    type: boolean
+                labelIndustry:
                     type: string
 tags:
     - name: Greeter

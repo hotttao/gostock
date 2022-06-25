@@ -23,8 +23,23 @@ func (s *StockService) GetStockInfo(ctx context.Context, in *v1.GetStockInfoRequ
 		return nil, err
 	}
 	stock := &v1.StockInfo{
-		Id:   g.Id,
-		Name: g.Name,
+		TsCode:        g.TsCode,
+		Symbol:        g.Symbol,
+		Name:          g.Name,
+		Area:          g.Area,
+		Industry:      g.Industry,
+		Fullname:      g.Fullname,
+		Enname:        g.Enname,
+		Cnspell:       g.Cnspell,
+		Market:        g.Market,
+		Exchange:      g.Exchange,
+		CurrType:      g.CurrType,
+		ListStatus:    string(g.ListStatus),
+		ListDate:      g.ListDate.Format("2006-01-02 15:04:05"),
+		DelistDate:    g.DelistDate.Format("2006-01-02 15:04:05"),
+		IsHs:          g.IsHs,
+		IsLeader:      g.IsLeader,
+		LabelIndustry: g.LabelIndustry,
 	}
 	return stock, nil
 }

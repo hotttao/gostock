@@ -43,7 +43,7 @@ type StockInfo struct {
 	// ListDate holds the value of the "list_date" field.
 	ListDate time.Time `json:"list_date,omitempty"`
 	// DelistDate holds the value of the "delist_date" field.
-	DelistDate string `json:"delist_date,omitempty"`
+	DelistDate time.Time `json:"delist_date,omitempty"`
 	// IsHs holds the value of the "is_hs" field.
 	IsHs string `json:"is_hs,omitempty"`
 	// IsLeader holds the value of the "is_leader" field.
@@ -61,9 +61,9 @@ func (*StockInfo) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullBool)
 		case stockinfo.FieldID:
 			values[i] = new(sql.NullInt64)
-		case stockinfo.FieldTsCode, stockinfo.FieldSymbol, stockinfo.FieldName, stockinfo.FieldArea, stockinfo.FieldIndustry, stockinfo.FieldFullname, stockinfo.FieldEnname, stockinfo.FieldCnspell, stockinfo.FieldMarket, stockinfo.FieldExchange, stockinfo.FieldCurrType, stockinfo.FieldListStatus, stockinfo.FieldDelistDate, stockinfo.FieldIsHs, stockinfo.FieldLabelIndustry:
+		case stockinfo.FieldTsCode, stockinfo.FieldSymbol, stockinfo.FieldName, stockinfo.FieldArea, stockinfo.FieldIndustry, stockinfo.FieldFullname, stockinfo.FieldEnname, stockinfo.FieldCnspell, stockinfo.FieldMarket, stockinfo.FieldExchange, stockinfo.FieldCurrType, stockinfo.FieldListStatus, stockinfo.FieldIsHs, stockinfo.FieldLabelIndustry:
 			values[i] = new(sql.NullString)
-		case stockinfo.FieldListDate:
+		case stockinfo.FieldListDate, stockinfo.FieldDelistDate:
 			values[i] = new(sql.NullTime)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type StockInfo", columns[i])
@@ -165,10 +165,10 @@ func (si *StockInfo) assignValues(columns []string, values []interface{}) error 
 				si.ListDate = value.Time
 			}
 		case stockinfo.FieldDelistDate:
-			if value, ok := values[i].(*sql.NullString); !ok {
+			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delist_date", values[i])
 			} else if value.Valid {
-				si.DelistDate = value.String
+				si.DelistDate = value.Time
 			}
 		case stockinfo.FieldIsHs:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -243,7 +243,7 @@ func (si *StockInfo) String() string {
 	builder.WriteString(", list_date=")
 	builder.WriteString(si.ListDate.Format(time.ANSIC))
 	builder.WriteString(", delist_date=")
-	builder.WriteString(si.DelistDate)
+	builder.WriteString(si.DelistDate.Format(time.ANSIC))
 	builder.WriteString(", is_hs=")
 	builder.WriteString(si.IsHs)
 	builder.WriteString(", is_leader=")

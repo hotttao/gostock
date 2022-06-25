@@ -89,6 +89,9 @@ var (
 // ListStatus defines the type for the "list_status" enum field.
 type ListStatus string
 
+// ListStatusL is the default value of the ListStatus enum.
+const DefaultListStatus = ListStatusL
+
 // ListStatus values.
 const (
 	ListStatusL ListStatus = "L"

@@ -52,9 +52,37 @@ func (siu *StockInfoUpdate) SetArea(s string) *StockInfoUpdate {
 	return siu
 }
 
+// SetNillableArea sets the "area" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableArea(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetArea(*s)
+	}
+	return siu
+}
+
+// ClearArea clears the value of the "area" field.
+func (siu *StockInfoUpdate) ClearArea() *StockInfoUpdate {
+	siu.mutation.ClearArea()
+	return siu
+}
+
 // SetIndustry sets the "industry" field.
 func (siu *StockInfoUpdate) SetIndustry(s string) *StockInfoUpdate {
 	siu.mutation.SetIndustry(s)
+	return siu
+}
+
+// SetNillableIndustry sets the "industry" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableIndustry(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetIndustry(*s)
+	}
+	return siu
+}
+
+// ClearIndustry clears the value of the "industry" field.
+func (siu *StockInfoUpdate) ClearIndustry() *StockInfoUpdate {
+	siu.mutation.ClearIndustry()
 	return siu
 }
 
@@ -64,15 +92,57 @@ func (siu *StockInfoUpdate) SetFullname(s string) *StockInfoUpdate {
 	return siu
 }
 
+// SetNillableFullname sets the "fullname" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableFullname(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetFullname(*s)
+	}
+	return siu
+}
+
+// ClearFullname clears the value of the "fullname" field.
+func (siu *StockInfoUpdate) ClearFullname() *StockInfoUpdate {
+	siu.mutation.ClearFullname()
+	return siu
+}
+
 // SetEnname sets the "enname" field.
 func (siu *StockInfoUpdate) SetEnname(s string) *StockInfoUpdate {
 	siu.mutation.SetEnname(s)
 	return siu
 }
 
+// SetNillableEnname sets the "enname" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableEnname(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetEnname(*s)
+	}
+	return siu
+}
+
+// ClearEnname clears the value of the "enname" field.
+func (siu *StockInfoUpdate) ClearEnname() *StockInfoUpdate {
+	siu.mutation.ClearEnname()
+	return siu
+}
+
 // SetCnspell sets the "cnspell" field.
 func (siu *StockInfoUpdate) SetCnspell(s string) *StockInfoUpdate {
 	siu.mutation.SetCnspell(s)
+	return siu
+}
+
+// SetNillableCnspell sets the "cnspell" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableCnspell(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetCnspell(*s)
+	}
+	return siu
+}
+
+// ClearCnspell clears the value of the "cnspell" field.
+func (siu *StockInfoUpdate) ClearCnspell() *StockInfoUpdate {
+	siu.mutation.ClearCnspell()
 	return siu
 }
 
@@ -88,9 +158,37 @@ func (siu *StockInfoUpdate) SetExchange(s string) *StockInfoUpdate {
 	return siu
 }
 
+// SetNillableExchange sets the "exchange" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableExchange(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetExchange(*s)
+	}
+	return siu
+}
+
+// ClearExchange clears the value of the "exchange" field.
+func (siu *StockInfoUpdate) ClearExchange() *StockInfoUpdate {
+	siu.mutation.ClearExchange()
+	return siu
+}
+
 // SetCurrType sets the "curr_type" field.
 func (siu *StockInfoUpdate) SetCurrType(s string) *StockInfoUpdate {
 	siu.mutation.SetCurrType(s)
+	return siu
+}
+
+// SetNillableCurrType sets the "curr_type" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableCurrType(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetCurrType(*s)
+	}
+	return siu
+}
+
+// ClearCurrType clears the value of the "curr_type" field.
+func (siu *StockInfoUpdate) ClearCurrType() *StockInfoUpdate {
+	siu.mutation.ClearCurrType()
 	return siu
 }
 
@@ -100,36 +198,30 @@ func (siu *StockInfoUpdate) SetListStatus(ss stockinfo.ListStatus) *StockInfoUpd
 	return siu
 }
 
+// SetNillableListStatus sets the "list_status" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableListStatus(ss *stockinfo.ListStatus) *StockInfoUpdate {
+	if ss != nil {
+		siu.SetListStatus(*ss)
+	}
+	return siu
+}
+
 // SetListDate sets the "list_date" field.
 func (siu *StockInfoUpdate) SetListDate(t time.Time) *StockInfoUpdate {
 	siu.mutation.SetListDate(t)
 	return siu
 }
 
-// SetNillableListDate sets the "list_date" field if the given value is not nil.
-func (siu *StockInfoUpdate) SetNillableListDate(t *time.Time) *StockInfoUpdate {
-	if t != nil {
-		siu.SetListDate(*t)
-	}
-	return siu
-}
-
-// ClearListDate clears the value of the "list_date" field.
-func (siu *StockInfoUpdate) ClearListDate() *StockInfoUpdate {
-	siu.mutation.ClearListDate()
-	return siu
-}
-
 // SetDelistDate sets the "delist_date" field.
-func (siu *StockInfoUpdate) SetDelistDate(s string) *StockInfoUpdate {
-	siu.mutation.SetDelistDate(s)
+func (siu *StockInfoUpdate) SetDelistDate(t time.Time) *StockInfoUpdate {
+	siu.mutation.SetDelistDate(t)
 	return siu
 }
 
 // SetNillableDelistDate sets the "delist_date" field if the given value is not nil.
-func (siu *StockInfoUpdate) SetNillableDelistDate(s *string) *StockInfoUpdate {
-	if s != nil {
-		siu.SetDelistDate(*s)
+func (siu *StockInfoUpdate) SetNillableDelistDate(t *time.Time) *StockInfoUpdate {
+	if t != nil {
+		siu.SetDelistDate(*t)
 	}
 	return siu
 }
@@ -143,6 +235,20 @@ func (siu *StockInfoUpdate) ClearDelistDate() *StockInfoUpdate {
 // SetIsHs sets the "is_hs" field.
 func (siu *StockInfoUpdate) SetIsHs(s string) *StockInfoUpdate {
 	siu.mutation.SetIsHs(s)
+	return siu
+}
+
+// SetNillableIsHs sets the "is_hs" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableIsHs(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetIsHs(*s)
+	}
+	return siu
+}
+
+// ClearIsHs clears the value of the "is_hs" field.
+func (siu *StockInfoUpdate) ClearIsHs() *StockInfoUpdate {
+	siu.mutation.ClearIsHs()
 	return siu
 }
 
@@ -163,6 +269,20 @@ func (siu *StockInfoUpdate) SetNillableIsLeader(b *bool) *StockInfoUpdate {
 // SetLabelIndustry sets the "label_industry" field.
 func (siu *StockInfoUpdate) SetLabelIndustry(s string) *StockInfoUpdate {
 	siu.mutation.SetLabelIndustry(s)
+	return siu
+}
+
+// SetNillableLabelIndustry sets the "label_industry" field if the given value is not nil.
+func (siu *StockInfoUpdate) SetNillableLabelIndustry(s *string) *StockInfoUpdate {
+	if s != nil {
+		siu.SetLabelIndustry(*s)
+	}
+	return siu
+}
+
+// ClearLabelIndustry clears the value of the "label_industry" field.
+func (siu *StockInfoUpdate) ClearLabelIndustry() *StockInfoUpdate {
+	siu.mutation.ClearLabelIndustry()
 	return siu
 }
 
@@ -287,10 +407,22 @@ func (siu *StockInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: stockinfo.FieldArea,
 		})
 	}
+	if siu.mutation.AreaCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldArea,
+		})
+	}
 	if value, ok := siu.mutation.Industry(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldIndustry,
+		})
+	}
+	if siu.mutation.IndustryCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldIndustry,
 		})
 	}
@@ -301,6 +433,12 @@ func (siu *StockInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: stockinfo.FieldFullname,
 		})
 	}
+	if siu.mutation.FullnameCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldFullname,
+		})
+	}
 	if value, ok := siu.mutation.Enname(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -308,10 +446,22 @@ func (siu *StockInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: stockinfo.FieldEnname,
 		})
 	}
+	if siu.mutation.EnnameCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldEnname,
+		})
+	}
 	if value, ok := siu.mutation.Cnspell(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldCnspell,
+		})
+	}
+	if siu.mutation.CnspellCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldCnspell,
 		})
 	}
@@ -329,10 +479,22 @@ func (siu *StockInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: stockinfo.FieldExchange,
 		})
 	}
+	if siu.mutation.ExchangeCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldExchange,
+		})
+	}
 	if value, ok := siu.mutation.CurrType(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldCurrType,
+		})
+	}
+	if siu.mutation.CurrTypeCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldCurrType,
 		})
 	}
@@ -350,22 +512,16 @@ func (siu *StockInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: stockinfo.FieldListDate,
 		})
 	}
-	if siu.mutation.ListDateCleared() {
-		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Column: stockinfo.FieldListDate,
-		})
-	}
 	if value, ok := siu.mutation.DelistDate(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeTime,
 			Value:  value,
 			Column: stockinfo.FieldDelistDate,
 		})
 	}
 	if siu.mutation.DelistDateCleared() {
 		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeTime,
 			Column: stockinfo.FieldDelistDate,
 		})
 	}
@@ -373,6 +529,12 @@ func (siu *StockInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldIsHs,
+		})
+	}
+	if siu.mutation.IsHsCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldIsHs,
 		})
 	}
@@ -387,6 +549,12 @@ func (siu *StockInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldLabelIndustry,
+		})
+	}
+	if siu.mutation.LabelIndustryCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldLabelIndustry,
 		})
 	}
@@ -433,9 +601,37 @@ func (siuo *StockInfoUpdateOne) SetArea(s string) *StockInfoUpdateOne {
 	return siuo
 }
 
+// SetNillableArea sets the "area" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableArea(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetArea(*s)
+	}
+	return siuo
+}
+
+// ClearArea clears the value of the "area" field.
+func (siuo *StockInfoUpdateOne) ClearArea() *StockInfoUpdateOne {
+	siuo.mutation.ClearArea()
+	return siuo
+}
+
 // SetIndustry sets the "industry" field.
 func (siuo *StockInfoUpdateOne) SetIndustry(s string) *StockInfoUpdateOne {
 	siuo.mutation.SetIndustry(s)
+	return siuo
+}
+
+// SetNillableIndustry sets the "industry" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableIndustry(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetIndustry(*s)
+	}
+	return siuo
+}
+
+// ClearIndustry clears the value of the "industry" field.
+func (siuo *StockInfoUpdateOne) ClearIndustry() *StockInfoUpdateOne {
+	siuo.mutation.ClearIndustry()
 	return siuo
 }
 
@@ -445,15 +641,57 @@ func (siuo *StockInfoUpdateOne) SetFullname(s string) *StockInfoUpdateOne {
 	return siuo
 }
 
+// SetNillableFullname sets the "fullname" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableFullname(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetFullname(*s)
+	}
+	return siuo
+}
+
+// ClearFullname clears the value of the "fullname" field.
+func (siuo *StockInfoUpdateOne) ClearFullname() *StockInfoUpdateOne {
+	siuo.mutation.ClearFullname()
+	return siuo
+}
+
 // SetEnname sets the "enname" field.
 func (siuo *StockInfoUpdateOne) SetEnname(s string) *StockInfoUpdateOne {
 	siuo.mutation.SetEnname(s)
 	return siuo
 }
 
+// SetNillableEnname sets the "enname" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableEnname(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetEnname(*s)
+	}
+	return siuo
+}
+
+// ClearEnname clears the value of the "enname" field.
+func (siuo *StockInfoUpdateOne) ClearEnname() *StockInfoUpdateOne {
+	siuo.mutation.ClearEnname()
+	return siuo
+}
+
 // SetCnspell sets the "cnspell" field.
 func (siuo *StockInfoUpdateOne) SetCnspell(s string) *StockInfoUpdateOne {
 	siuo.mutation.SetCnspell(s)
+	return siuo
+}
+
+// SetNillableCnspell sets the "cnspell" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableCnspell(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetCnspell(*s)
+	}
+	return siuo
+}
+
+// ClearCnspell clears the value of the "cnspell" field.
+func (siuo *StockInfoUpdateOne) ClearCnspell() *StockInfoUpdateOne {
+	siuo.mutation.ClearCnspell()
 	return siuo
 }
 
@@ -469,9 +707,37 @@ func (siuo *StockInfoUpdateOne) SetExchange(s string) *StockInfoUpdateOne {
 	return siuo
 }
 
+// SetNillableExchange sets the "exchange" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableExchange(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetExchange(*s)
+	}
+	return siuo
+}
+
+// ClearExchange clears the value of the "exchange" field.
+func (siuo *StockInfoUpdateOne) ClearExchange() *StockInfoUpdateOne {
+	siuo.mutation.ClearExchange()
+	return siuo
+}
+
 // SetCurrType sets the "curr_type" field.
 func (siuo *StockInfoUpdateOne) SetCurrType(s string) *StockInfoUpdateOne {
 	siuo.mutation.SetCurrType(s)
+	return siuo
+}
+
+// SetNillableCurrType sets the "curr_type" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableCurrType(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetCurrType(*s)
+	}
+	return siuo
+}
+
+// ClearCurrType clears the value of the "curr_type" field.
+func (siuo *StockInfoUpdateOne) ClearCurrType() *StockInfoUpdateOne {
+	siuo.mutation.ClearCurrType()
 	return siuo
 }
 
@@ -481,36 +747,30 @@ func (siuo *StockInfoUpdateOne) SetListStatus(ss stockinfo.ListStatus) *StockInf
 	return siuo
 }
 
+// SetNillableListStatus sets the "list_status" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableListStatus(ss *stockinfo.ListStatus) *StockInfoUpdateOne {
+	if ss != nil {
+		siuo.SetListStatus(*ss)
+	}
+	return siuo
+}
+
 // SetListDate sets the "list_date" field.
 func (siuo *StockInfoUpdateOne) SetListDate(t time.Time) *StockInfoUpdateOne {
 	siuo.mutation.SetListDate(t)
 	return siuo
 }
 
-// SetNillableListDate sets the "list_date" field if the given value is not nil.
-func (siuo *StockInfoUpdateOne) SetNillableListDate(t *time.Time) *StockInfoUpdateOne {
-	if t != nil {
-		siuo.SetListDate(*t)
-	}
-	return siuo
-}
-
-// ClearListDate clears the value of the "list_date" field.
-func (siuo *StockInfoUpdateOne) ClearListDate() *StockInfoUpdateOne {
-	siuo.mutation.ClearListDate()
-	return siuo
-}
-
 // SetDelistDate sets the "delist_date" field.
-func (siuo *StockInfoUpdateOne) SetDelistDate(s string) *StockInfoUpdateOne {
-	siuo.mutation.SetDelistDate(s)
+func (siuo *StockInfoUpdateOne) SetDelistDate(t time.Time) *StockInfoUpdateOne {
+	siuo.mutation.SetDelistDate(t)
 	return siuo
 }
 
 // SetNillableDelistDate sets the "delist_date" field if the given value is not nil.
-func (siuo *StockInfoUpdateOne) SetNillableDelistDate(s *string) *StockInfoUpdateOne {
-	if s != nil {
-		siuo.SetDelistDate(*s)
+func (siuo *StockInfoUpdateOne) SetNillableDelistDate(t *time.Time) *StockInfoUpdateOne {
+	if t != nil {
+		siuo.SetDelistDate(*t)
 	}
 	return siuo
 }
@@ -524,6 +784,20 @@ func (siuo *StockInfoUpdateOne) ClearDelistDate() *StockInfoUpdateOne {
 // SetIsHs sets the "is_hs" field.
 func (siuo *StockInfoUpdateOne) SetIsHs(s string) *StockInfoUpdateOne {
 	siuo.mutation.SetIsHs(s)
+	return siuo
+}
+
+// SetNillableIsHs sets the "is_hs" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableIsHs(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetIsHs(*s)
+	}
+	return siuo
+}
+
+// ClearIsHs clears the value of the "is_hs" field.
+func (siuo *StockInfoUpdateOne) ClearIsHs() *StockInfoUpdateOne {
+	siuo.mutation.ClearIsHs()
 	return siuo
 }
 
@@ -544,6 +818,20 @@ func (siuo *StockInfoUpdateOne) SetNillableIsLeader(b *bool) *StockInfoUpdateOne
 // SetLabelIndustry sets the "label_industry" field.
 func (siuo *StockInfoUpdateOne) SetLabelIndustry(s string) *StockInfoUpdateOne {
 	siuo.mutation.SetLabelIndustry(s)
+	return siuo
+}
+
+// SetNillableLabelIndustry sets the "label_industry" field if the given value is not nil.
+func (siuo *StockInfoUpdateOne) SetNillableLabelIndustry(s *string) *StockInfoUpdateOne {
+	if s != nil {
+		siuo.SetLabelIndustry(*s)
+	}
+	return siuo
+}
+
+// ClearLabelIndustry clears the value of the "label_industry" field.
+func (siuo *StockInfoUpdateOne) ClearLabelIndustry() *StockInfoUpdateOne {
+	siuo.mutation.ClearLabelIndustry()
 	return siuo
 }
 
@@ -692,10 +980,22 @@ func (siuo *StockInfoUpdateOne) sqlSave(ctx context.Context) (_node *StockInfo, 
 			Column: stockinfo.FieldArea,
 		})
 	}
+	if siuo.mutation.AreaCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldArea,
+		})
+	}
 	if value, ok := siuo.mutation.Industry(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldIndustry,
+		})
+	}
+	if siuo.mutation.IndustryCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldIndustry,
 		})
 	}
@@ -706,6 +1006,12 @@ func (siuo *StockInfoUpdateOne) sqlSave(ctx context.Context) (_node *StockInfo, 
 			Column: stockinfo.FieldFullname,
 		})
 	}
+	if siuo.mutation.FullnameCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldFullname,
+		})
+	}
 	if value, ok := siuo.mutation.Enname(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -713,10 +1019,22 @@ func (siuo *StockInfoUpdateOne) sqlSave(ctx context.Context) (_node *StockInfo, 
 			Column: stockinfo.FieldEnname,
 		})
 	}
+	if siuo.mutation.EnnameCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldEnname,
+		})
+	}
 	if value, ok := siuo.mutation.Cnspell(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldCnspell,
+		})
+	}
+	if siuo.mutation.CnspellCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldCnspell,
 		})
 	}
@@ -734,10 +1052,22 @@ func (siuo *StockInfoUpdateOne) sqlSave(ctx context.Context) (_node *StockInfo, 
 			Column: stockinfo.FieldExchange,
 		})
 	}
+	if siuo.mutation.ExchangeCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: stockinfo.FieldExchange,
+		})
+	}
 	if value, ok := siuo.mutation.CurrType(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldCurrType,
+		})
+	}
+	if siuo.mutation.CurrTypeCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldCurrType,
 		})
 	}
@@ -755,22 +1085,16 @@ func (siuo *StockInfoUpdateOne) sqlSave(ctx context.Context) (_node *StockInfo, 
 			Column: stockinfo.FieldListDate,
 		})
 	}
-	if siuo.mutation.ListDateCleared() {
-		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Column: stockinfo.FieldListDate,
-		})
-	}
 	if value, ok := siuo.mutation.DelistDate(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeTime,
 			Value:  value,
 			Column: stockinfo.FieldDelistDate,
 		})
 	}
 	if siuo.mutation.DelistDateCleared() {
 		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeTime,
 			Column: stockinfo.FieldDelistDate,
 		})
 	}
@@ -778,6 +1102,12 @@ func (siuo *StockInfoUpdateOne) sqlSave(ctx context.Context) (_node *StockInfo, 
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldIsHs,
+		})
+	}
+	if siuo.mutation.IsHsCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldIsHs,
 		})
 	}
@@ -792,6 +1122,12 @@ func (siuo *StockInfoUpdateOne) sqlSave(ctx context.Context) (_node *StockInfo, 
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: stockinfo.FieldLabelIndustry,
+		})
+	}
+	if siuo.mutation.LabelIndustryCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: stockinfo.FieldLabelIndustry,
 		})
 	}

@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"gostock/internal/biz"
+	"gostock/internal/data/ent"
 
 	"github.com/go-kratos/kratos/v2/log"
 )
@@ -19,10 +20,33 @@ func NewStockInfoRepo(data *Data, logger log.Logger) biz.StockInfoRepo {
 	}
 }
 
-func (repo *stockInfoRepo) FindByID(context.Context, int32) (*biz.StockInfo, error) {
-	s := &biz.StockInfo{
-		Id:   1,
-		Name: "闻泰科技",
+func (r *stockInfoRepo) ToStockInfo(s *ent.StockInfo) *biz.StockInfo {
+	return &biz.StockInfo{
+		Id:            int32(s.ID),
+		TsCode:        s.TsCode,
+		Symbol:        s.Symbol,
+		Name:          s.Name,
+		Area:          s.Area,
+		Industry:      s.Industry,
+		Fullname:      s.Fullname,
+		Enname:        s.Enname,
+		Cnspell:       s.Cnspell,
+		Market:        s.Market,
+		Exchange:      s.Exchange,
+		CurrType:      s.CurrType,
+		ListStatus:    string(s.ListStatus),
+		ListDate:      s.ListDate,
+		DelistDate:    s.DelistDate,
+		IsHs:          s.IsHs,
+		IsLeader:      s.IsLeader,
+		LabelIndustry: s.LabelIndustry,
 	}
-	return s, nil
+}
+
+func (repo *stockInfoRepo) FindByID(ctx context.Context, id int32) (*biz.StockInfo, error) {
+	s, err := repo.data.db.StockInfo.Get(ctx, int(id))
+	if err != nil {
+		return nil, err
+	}
+	return repo.ToStockInfo(s), nil
 }
