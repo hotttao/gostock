@@ -16,6 +16,7 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/jaeger"
+	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
@@ -45,16 +46,19 @@ func setTracerProvider(url string) error {
 	}
 	tp := tracesdk.NewTracerProvider(
 		// Always be sure to batch in production.
+
+		// tracesdk.WithSampler(tracesdk.AlwaysSample()),
 		tracesdk.WithBatcher(exp),
 		// Record information about this application in a Resource.
 		tracesdk.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
-			semconv.ServiceNameKey.String("kratos-trace"),
+			semconv.ServiceNameKey.String("gostock"),
 			attribute.String("exporter", "jaeger"),
 			attribute.Float64("float", 312.23),
 		)),
 	)
 	otel.SetTracerProvider(tp)
+	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
 	return nil
 }
 

@@ -30,6 +30,14 @@ var ProviderSet = wire.NewSet(
 	NewStockInfoRepo,
 )
 
+type CustomCommenter struct{}
+
+func (mcc CustomCommenter) Tag(ctx context.Context) sqlcomment.Tags {
+	return sqlcomment.Tags{
+		"gostock": "ent-sql",
+	}
+}
+
 // Data .
 type Data struct {
 	// TODO wrapped database client
@@ -86,19 +94,34 @@ func NewEntClient(conf *conf.Data, logger log.Logger) *ent.Client {
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
+
+	// sqlDrv := dialect.DebugWithContext(db, func(ctx context.Context, i ...interface{}) {
+	// 	log.WithContext(ctx, logger).Log(log.LevelInfo, i...)
+	// 	tracer := otel.Tracer("ent.")
+	// 	kind := trace.SpanKindServer
+	// 	_, span := tracer.Start(ctx,
+	// 		"Query",
+	// 		trace.WithAttributes(
+	// 			attribute.String("sql", fmt.Sprint(i...)),
+	// 		),
+	// 		trace.WithSpanKind(kind),
+	// 	)
+	// 	span.End()
+	// })
+	// client := ent.NewClient(ent.Driver(sqlDrv))
 	// Create sqlcomment driver which wraps sqlite driver.
 	commentedDriver := sqlcomment.NewDriver(dialect.Debug(db),
 		sqlcomment.WithTagger(
 			// add tracing info with Open Telemetry.
 			sqlcomment.NewOTELTagger(),
 			// use your custom commenter
-			// CustomCommenter{},
+			CustomCommenter{},
 		),
 		// add `db_driver` version tag
 		sqlcomment.WithDriverVerTag(),
 		// add some global tags to all queries
 		sqlcomment.WithTags(sqlcomment.Tags{
-			sqlcomment.KeyApplication: "stock",
+			sqlcomment.KeyApplication: "gostock",
 			sqlcomment.KeyFramework:   "go-chi",
 		}))
 	// Create and configure ent client
