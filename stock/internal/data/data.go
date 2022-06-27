@@ -2,12 +2,16 @@ package data
 
 import (
 	"context"
+	"fmt"
 	"gostock/internal/conf"
 	"gostock/internal/data/ent"
 	"gostock/internal/data/ent/migrate"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/trace"
 
 	"ariga.io/sqlcomment"
 	"github.com/go-kratos/kratos/v2/log"
@@ -95,22 +99,22 @@ func NewEntClient(conf *conf.Data, logger log.Logger) *ent.Client {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	// sqlDrv := dialect.DebugWithContext(db, func(ctx context.Context, i ...interface{}) {
-	// 	log.WithContext(ctx, logger).Log(log.LevelInfo, i...)
-	// 	tracer := otel.Tracer("ent.")
-	// 	kind := trace.SpanKindServer
-	// 	_, span := tracer.Start(ctx,
-	// 		"Query",
-	// 		trace.WithAttributes(
-	// 			attribute.String("sql", fmt.Sprint(i...)),
-	// 		),
-	// 		trace.WithSpanKind(kind),
-	// 	)
-	// 	span.End()
-	// })
+	sqlDrv := dialect.DebugWithContext(db, func(ctx context.Context, i ...interface{}) {
+		log.WithContext(ctx, logger).Log(log.LevelInfo, i...)
+		tracer := otel.Tracer("ent.")
+		kind := trace.SpanKindServer
+		_, span := tracer.Start(ctx,
+			"Query",
+			trace.WithAttributes(
+				attribute.String("sql", fmt.Sprint(i...)),
+			),
+			trace.WithSpanKind(kind),
+		)
+		span.End()
+	})
 	// client := ent.NewClient(ent.Driver(sqlDrv))
 	// Create sqlcomment driver which wraps sqlite driver.
-	commentedDriver := sqlcomment.NewDriver(dialect.Debug(db),
+	commentedDriver := sqlcomment.NewDriver(dialect.Debug(sqlDrv),
 		sqlcomment.WithTagger(
 			// add tracing info with Open Telemetry.
 			sqlcomment.NewOTELTagger(),
