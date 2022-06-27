@@ -23,4 +23,4 @@ class StockRepo(IStockRepo):
             df_stock_basic (DataFrame): _description_
         """
         df_stock_basic.to_sql(name=StockInfo.__tablename__, con=self.db.sqlalchemy_client, 
-                              if_exists='replace')
+                              if_exists='append', index=False)

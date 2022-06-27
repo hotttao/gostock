@@ -6,6 +6,10 @@ import (
 	"gostock/internal/data/ent"
 	"gostock/internal/data/ent/migrate"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
+
+	"ariga.io/sqlcomment"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-redis/redis/extra/redisotel"
 	"github.com/go-redis/redis/v8"
@@ -75,13 +79,31 @@ func NewRedisClient(conf *conf.Data, logger log.Logger) *redis.Client {
 func NewEntClient(conf *conf.Data, logger log.Logger) *ent.Client {
 	l := log.NewHelper(log.With(logger, "module", "ent/data/logger-service"))
 
-	client, err := ent.Open(
+	db, err := sql.Open(
 		conf.Database.Driver,
 		conf.Database.Source,
 	)
 	if err != nil {
-		l.Fatalf("failed opening connection to db: %v", err)
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
+	// Create sqlcomment driver which wraps sqlite driver.
+	commentedDriver := sqlcomment.NewDriver(dialect.Debug(db),
+		sqlcomment.WithTagger(
+			// add tracing info with Open Telemetry.
+			sqlcomment.NewOTELTagger(),
+			// use your custom commenter
+			// CustomCommenter{},
+		),
+		// add `db_driver` version tag
+		sqlcomment.WithDriverVerTag(),
+		// add some global tags to all queries
+		sqlcomment.WithTags(sqlcomment.Tags{
+			sqlcomment.KeyApplication: "stock",
+			sqlcomment.KeyFramework:   "go-chi",
+		}))
+	// Create and configure ent client
+	client := ent.NewClient(ent.Driver(commentedDriver))
+
 	// Run the auto migration tool.
 	if err := client.Schema.Create(context.Background(), migrate.WithForeignKeys(false)); err != nil {
 		l.Fatalf("failed creating schema resources: %v", err)
