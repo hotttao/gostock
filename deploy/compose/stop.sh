@@ -7,3 +7,4 @@ ROOT=$(dirname  $SHELL_PATH)
 docker-compose -f $ROOT/mysql/docker-compose.yaml down
 docker-compose -f $ROOT/redis/docker-compose.yaml down
 docker-compose -f $ROOT/jaeper/jaeper-hotrod.yaml down
+docker-compose -f $ROOT/tig/docker-compose.yaml down
