@@ -1,5 +1,5 @@
 import tushare as ts
-from crawler.internal.biz.crawler import ICrawlerRepo
+from crawler.crawler.internal.biz.stock_info import ICrawlerRepo
 
 
 class TuShareApi(ICrawlerRepo):

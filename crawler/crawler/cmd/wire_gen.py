@@ -1,10 +1,10 @@
 from crawler.internal.config.config_pb2 import Bootstrap
 
 from crawler.internal.data.crawler.tushare_api import TuShareApi
-from crawler.internal.data.crawler.stock import StockRepo
+from crawler.crawler.internal.data.stock_info import StockRepo
 from crawler.internal.data.data import DB, NewRedisClient, NewSqlalchemyClient
 
-from crawler.internal.biz.crawler import CrawlerUsecase
+from crawler.crawler.internal.biz.stock_info import StockInfoUsecase
 
 
 def wire_app(config: Bootstrap):
@@ -15,5 +15,5 @@ def wire_app(config: Bootstrap):
 
     crawler_repo = TuShareApi(config)
     stock_repo = StockRepo(db=db)
-    crawler_usecase = CrawlerUsecase(crawler_repo=crawler_repo, stock_repo=stock_repo)
+    crawler_usecase = StockInfoUsecase(crawler_repo=crawler_repo, stock_repo=stock_repo)
     return crawler_usecase
