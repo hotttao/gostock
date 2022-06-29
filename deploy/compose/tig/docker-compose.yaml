@@ -7,10 +7,11 @@ services:
     - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     depends_on:
       - influxdb
-    links:
-      - influxdb
-    ports:
-    - '127.0.0.1:8125:8125/udp'
+    network_mode: host
+    # links:
+      # - influxdb
+    # ports:
+    # - '127.0.0.1:8125:8125/udp'
 
   influxdb:
     container_name: influxdb
