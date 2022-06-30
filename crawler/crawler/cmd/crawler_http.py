@@ -2,23 +2,21 @@ import hydra
 from omegaconf import DictConfig, OmegaConf
 from crawler.internal.config.config_pb2 import Bootstrap
 from crawler.cmd.wire_gen import wire_stock_info
+from crawler.internal.server.http import NewHTTPServer
 from google.protobuf.json_format import ParseDict, MessageToJson
 
 
-def new_app(config: Bootstrap):
-    pass
-
-
 @hydra.main(config_path='../config', config_name='config.yaml')
-def start_crawler(cfg: DictConfig) -> None:
+def start_http(cfg: DictConfig) -> None:
 
     print(OmegaConf.to_yaml(cfg))
     cfg = ParseDict(cfg, Bootstrap())
     print(MessageToJson(cfg))
-    crawler = wire_stock_info(cfg)
-    df = crawler.update_stock_list()
-    print(df)
+    _, stock_info_service = wire_stock_info(cfg)
+    http_srv = NewHTTPServer(cfg.server, stock_info_service)
+    app = http_srv.app
+    app.run()
 
 
 if __name__ == '__main__':
-    start_crawler()
+    start_http()

@@ -5,3 +5,4 @@ tushare==1.2.85
 protoc-gen-validate==0.4.2
 SQLAlchemy==1.4.37
 PyMySQL==1.0.2
+protobuf==3.18.1

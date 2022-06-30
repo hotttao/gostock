@@ -7,7 +7,7 @@ from abc import ABCMeta
 from abc import abstractmethod
 from typing import Tuple
 from flask import request
-from pykit.context import Context
+from pykit.transport.http.context import Context
 from pykit.transport import http
 from api.stock.v1.stock_pb2 import StockBasicRequest, StockBasic
 
@@ -27,24 +27,19 @@ def RegisterStockInfoServiceHTTPServer(s: http.Server, srv: IStockInfoServiceHTT
 
 def _StockInfoService_GetStockInfo0_HTTP_Handler(srv: IStockInfoServiceHTTPServer):
     def _hanlder(**kwargs):
-        # var in GetStockInfoRequest
-        # if err := ctx.BindQuery(& in); err != nil {
-        #     return err
-        # }
-        # if err := ctx.BindVars(& in); err != nil {
-        #     return err
-        # }
+        ctx = Context(request)
+        req = StockBasicRequest()
+        req = ctx.bind(kwargs, req)
+        req = ctx.bind_vars(req)
         # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
         # h := ctx.Middleware(func(ctx context.Context, req interface{})(interface{}, error) {
         #     return srv.GetStockInfo(ctx, req.(*GetStockInfoRequest))
         # })
-        # out, err := h(ctx, & in)
-        # if err != nil {
-        #     return err
-        # }
-        # reply == out.(*StockInfo)
-        # return ctx.Result(200, reply)
-        pass
+        h = srv.GetStockInfo
+        reply, err = h(ctx, req)
+        if err:
+            return err
+        return ctx.result(reply)
     return _hanlder
 
 

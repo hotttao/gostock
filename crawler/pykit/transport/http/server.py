@@ -6,7 +6,7 @@ from flask import request
 
 class Server:
     def __init__(self) -> None:
-        self.app = flask.Flask()
+        self.app = flask.Flask('test')
         self.err = None  # error
         self.network = None  # string
         self.address = None  # string

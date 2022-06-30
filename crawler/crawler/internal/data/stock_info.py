@@ -4,7 +4,7 @@ Description:
 
 
 from pandas import DataFrame
-from crawler.crawler.internal.biz.stock_info import IStockInfoRepo
+from crawler.internal.biz.stock_info import IStockInfoRepo
 from crawler.internal.data.data import DB
 from crawler.internal.data.sqlalchemy.schema.stock_info import StockInfo
 
