@@ -10,4 +10,4 @@ services:
     volumes:
       - ./mariadb10.3/conf.d:/etc/mysql/conf.d:ro
       - ./mariadb10.3/logs:/var/log/mysql:rw
-      - ./mariadb10.3/data:/var/lib/mysql
+      - /home/tao/deploy/compose/data/mariadb:/var/lib/mysql

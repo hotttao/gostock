@@ -21,7 +21,7 @@ services:
       - '127.0.0.1:8086:8086'
     volumes:
       - ./:/imports
-      - ./data/influxdb:/var/lib/influxdb
+      - /home/tao/deploy/compose/data/influxdb:/var/lib/influxdb
 
   grafana:
     container_name: grafana
@@ -34,7 +34,7 @@ services:
     ports:
       - '127.0.0.1:3000:3000'
     volumes:
-      - ./data/grafana:/var/lib/grafana
+      - /home/tao/deploy/compose/data/grafana:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/dashboards/:/var/lib/grafana/dashboards/
 
