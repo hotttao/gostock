@@ -21,7 +21,7 @@ class IStockInfoServiceHTTPServer(metaclass=ABCMeta):
 
 def RegisterStockInfoServiceHTTPServer(s: http.Server, srv: IStockInfoServiceHTTPServer):
     # r := s.Route("/")
-    s.get("/stock/{id}", _StockInfoService_GetStockInfo0_HTTP_Handler(srv))
+    s.get("/stock/<id>", _StockInfoService_GetStockInfo0_HTTP_Handler(srv))
     pass
 
 

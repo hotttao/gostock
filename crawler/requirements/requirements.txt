@@ -1,3 +1,4 @@
+Flask==2.1.2
 hydra-core==1.1.1
 omegaconf==2.1.1
 pandas==1.4.2
@@ -6,3 +7,4 @@ protoc-gen-validate==0.4.2
 SQLAlchemy==1.4.37
 PyMySQL==1.0.2
 protobuf==3.18.1
+google-api-python-client==2.52.0

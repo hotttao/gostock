@@ -9,6 +9,6 @@ class StockInfoService(IStockInfoServiceHTTPServer):
     def __init__(self, uc: StockInfoUsecase):
         self.uc = uc
 
-    def GetStockInfo(context: Context, req: StockBasicRequest) -> Tuple[StockBasic, Exception]:
+    def GetStockInfo(self, context: Context, req: StockBasicRequest) -> Tuple[StockBasic, Exception]:
         res = StockBasic(ts_code='1', name='test')
         return res, None
