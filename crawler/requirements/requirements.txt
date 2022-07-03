@@ -8,3 +8,4 @@ SQLAlchemy==1.4.37
 PyMySQL==1.0.2
 protobuf==3.18.1
 google-api-python-client==2.52.0
+python-consul==1.1.0

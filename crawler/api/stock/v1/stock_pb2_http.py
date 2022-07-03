@@ -7,8 +7,8 @@ from abc import ABCMeta
 from abc import abstractmethod
 from typing import Tuple
 from flask import request
-from pykit.transport.http.context import Context
 from pykit.transport import http
+from pykit.transport.http.context import Context
 from api.stock.v1.stock_pb2 import StockBasicRequest, StockBasic
 
 
@@ -57,9 +57,9 @@ class StockInfoServiceHTTPClientImpl(StockInfoServiceHTTPClient):
 
     def GetStockInfo(self, ctx: Context, req: StockBasicRequest,
                      *args, **kwargs) -> Tuple[StockBasic, Exception]:
-        # out = StockInfo()
-        # pattern = "/stock/{id}"
-        # path = binding.EncodeURL(pattern, in , true)
+        # out = StockBasic()
+        # pattern = "/stock/<id>"
+        # path = binding.EncodeURL(pattern, req, true)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
         # return out, err

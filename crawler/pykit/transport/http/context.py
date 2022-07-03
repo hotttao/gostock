@@ -1,10 +1,12 @@
+
 from typing import Dict, Any
+from flask import Request
 from google.protobuf.json_format import ParseDict
 from google.protobuf.json_format import MessageToDict
 
 
 class Context:
-    def __init__(self, reqest) -> None:
+    def __init__(self, reqest: Request) -> None:
         self.request = reqest
 
     def bind(self, params: Dict[str, Any], req_proto: Any):
