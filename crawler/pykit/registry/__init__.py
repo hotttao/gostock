@@ -1,3 +1,4 @@
+import json
 from abc import ABCMeta, abstractmethod
 from typing import List, Tuple
 from pykit import context
@@ -16,10 +17,24 @@ class ServiceInstance:
         #   http:#127.0.0.1:8000?isSecure=false
         #   grpc:#127.0.0.1:9000?isSecure=false
         self.id = id
+        self.name = name
         self.version = version
         self.endpoints = endpoints
         self.metadata = metadata or {}
-        self.name = name
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'version': self.version,
+            'endpoints': self.endpoints,
+            'metadata': self.metadata
+        }
+
+    def __str__(self) -> str:
+        return json.dumps(self.to_dict(), indent=4)
+
+    __repr__ = __str__
 
 # Watcher is service watcher.
 

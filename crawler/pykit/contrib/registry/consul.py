@@ -1,4 +1,5 @@
 
+import json
 from urllib.parse import urlparse
 import consul
 from typing import List, Tuple, Dict
@@ -11,8 +12,10 @@ from pykit.registry.watcher import BaseThread
 
 
 class ConsulClient:
-    def __init__(self, host, port, scheme, verify=True):
-        self.client = consul.Consul(host, port, scheme, verify=verify)
+    def __init__(self, host='127.0.0.1',
+                 port=8500,
+                 token=None):
+        self.client = consul.Consul(host, port, token=token)
 
     def resolve(self, ctx: context.Context, nodes: List[Dict]) -> List[ServiceInstance]:
         """将 consule 保存的结果解析为 ServiceInstance
@@ -22,15 +25,24 @@ class ConsulClient:
         """
         instances = []
         for node in nodes:
-            i = ServiceInstance(id=node['ID'], name=node['Node'], version=node['Version'],
-                                metadata=node['Metadata'], endpoint=node['Endpoints'])
+            print(json.dumps(node, indent=4))
+            service = node['Service']
+            endpoint = f"http://{service['Address']}:{service['Port']}"
+            version = ''
+            for i in service['Tags']:
+                tag = i.split('=', 1)
+                if len(tag) == 2 and tag[0] == 'version':
+                    version = tag[1]
+
+            i = ServiceInstance(id=service['ID'], name=service['Service'], version=version,
+                                metadata=service['Meta'], endpoints=[endpoint])
             instances.append(i)
         return instances
 
     def service(self, ctx: context.Context, service: str, index: int,
-                passing: bool) -> Tuple[List[ServiceInstance], int, error.Error]:
+                passing: bool = True) -> Tuple[List[ServiceInstance], int, error.Error]:
         index, nodes = self.client.health.service(service=service, passing=passing, index=index, wait=55)
-        return self.resolver(ctx, nodes), index, None
+        return self.resolve(ctx, nodes), index, None
 
     def deregister(self, ctx: context.Context, service: ServiceInstance) -> error.Error:
         self.client.agent.service.deregister(service_id=service.id)
@@ -45,6 +57,7 @@ class ConsulClient:
                                                service_id=service.id,
                                                address=host_info.hostname,
                                                port=host_info.port,
+                                               tags=[f'version={service.version}'],
                                                check=check)
         return None
 
