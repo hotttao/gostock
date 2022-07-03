@@ -49,4 +49,3 @@ class BaseThread(threading.Thread):
     def start(self):
         self.on_thread_start()
         threading.Thread.start(self)
-

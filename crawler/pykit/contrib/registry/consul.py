@@ -1,8 +1,10 @@
-
+import copy
 import json
+import threading
 from urllib.parse import urlparse
 import consul
 from typing import List, Tuple, Dict
+
 from pykit import error
 from pykit import context
 
@@ -39,9 +41,10 @@ class ConsulClient:
             instances.append(i)
         return instances
 
-    def service(self, ctx: context.Context, service: str, index: int,
+    def service(self, ctx: context.Context, service: str, index: int = 0,
                 passing: bool = True) -> Tuple[List[ServiceInstance], int, error.Error]:
         index, nodes = self.client.health.service(service=service, passing=passing, index=index, wait=55)
+        # index, nodes = self.client.catalog.service(service=service, passing=passing, index=index, wait=55)
         return self.resolve(ctx, nodes), index, None
 
     def deregister(self, ctx: context.Context, service: ServiceInstance) -> error.Error:
@@ -63,26 +66,71 @@ class ConsulClient:
 
 
 class ConsulImp(Registrar, Discovery):
+    def __init__(self, client: ConsulClient):
+        self.client = client
+        self.register = {}
+        self.lock = threading.Lock()
+
     def deregister(self, ctx: context.Context, service: ServiceInstance) -> error.Error:
-        pass
+        return self.client.deregister(ctx, service)
 
     def register(self, ctx: context.Context, service: ServiceInstance) -> error.Error:
-        return super().register(service)
+        return self.client.register(ctx, service)
 
     def get_service(self, ctx: context.Context,
                     service_name: str) -> Tuple[List[ServiceInstance], error.Error]:
-        # poll a key for updates
-        index = None
-        index, data = self.client.kv.get(self.endpoint, index=index)
-        print(data['Value'])
+        with self.lock:
+            server_set = self.register.get(service_name, None)
+            if server_set:
+                instances = copy.deepcopy(server_set.instances)
+                return instances, None
+        return [], None
 
-    def watch(ctx: context.Context, service_name: str) -> Tuple[Watcher, error.Error]:
-        return super().watch(service_name)
+    def watch(self, ctx: context.Context, service_name: str) -> Tuple[Watcher, error.Error]:
+        with self.lock:
+            if service_name not in self.register:
+                instances, last_index, err = self.client.service(ctx, service_name)
+                print("init instance: %s" % instances)
+                server_set = ServerSet(service_name=service_name, service_instances=instances)
+                self.register[service_name] = server_set
+            server_set = self.register[service_name]
+            watcher = ConsulWatcher(service_set=server_set, imp=self)
+            watcher.start()
+            return watcher, None
+
+
+class ServerSet:
+    def __init__(self, service_name: str, service_instances: List[ServiceInstance]) -> None:
+        self.service_name = service_name
+        self.service_instances = service_instances
+        self.lock = threading.Lock()
+
+    @property
+    def instances(self):
+        with self.lock:
+            return self.service_instances
+
+    def update_instance(self, service_instances: List[ServiceInstance]):
+        with self.lock:
+            self.service_instances = service_instances
 
 
 class ConsulWatcher(BaseThread):
-    def __init__(self,):
-        pass
+    def __init__(self, service_set: ServerSet, imp: ConsulImp):
+        self.service_set = service_set
+        self.imp = imp
+        super(ConsulWatcher, self).__init__()
 
     def run(self):
-        pass
+        last_index = 0
+        while True:
+            if self.stopped_event.wait(timeout=1):
+                return
+            print('consule watcher running')
+            s = self.imp.client.service(None, service=self.service_set.service_name)
+            instances, tmp_index, error = s
+            print(json.dumps(instances, indent=4))
+            if tmp_index != last_index and tmp_index != 0:
+                print('update instances')
+                self.service_set.update_instance(instances)
+                last_index = tmp_index
