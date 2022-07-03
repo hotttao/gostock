@@ -8,3 +8,4 @@ docker-compose -f $ROOT/mysql/docker-compose.yaml up -d
 docker-compose -f $ROOT/redis/docker-compose.yaml up -d
 docker-compose -f $ROOT/jaeper/jaeper-hotrod.yaml up -d
 docker-compose -f $ROOT/tig/docker-compose.yaml up -d
+docker-compose -f $ROOT/consul/docker-compose.yaml up -d
