@@ -10,15 +10,17 @@ class WeightedNode(Node):
 
     # Raw returns the original node
     @abstractmethod
-    def Raw() -> Node:
+    def raw() -> Node:
         pass
 
     # Weight is the runtime calculated weight@abstractmethod
-    def Weight() -> float:
+    @abstractmethod
+    @property
+    def weight() -> float:
         pass
 
     # Pick the node@abstractmethod
-    def Pick() -> DoneFunc:
+    def pick() -> DoneFunc:
         pass
 
     # PickElapsed is time elapsed since the latest pick
