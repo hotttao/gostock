@@ -15,6 +15,10 @@ class DefaultNode(Node):
         self.name = name
         self.metadata = metadata or {}
 
+    @property
+    def initial_weight(self) -> int:
+        return self.weight
+
     @classmethod
     def build(cls, schema: str, address: str, instance: ServiceInstance):
         """_summary_

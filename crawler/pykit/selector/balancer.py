@@ -34,13 +34,6 @@ class Balancer(metaclass=ABCMeta):
         pass
 
 
-# BalancerBuilder build balancer
-class BalancerBuilder(metaclass=ABCMeta):
-    @abstractmethod
-    def build() -> Balancer:
-        pass
-
-
 # WeightedNodeBuilder is WeightedNode Builder
 class WeightedNodeBuilder:
     def build(Node) -> WeightedNode:
