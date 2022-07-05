@@ -38,6 +38,6 @@ class WrrBalancer(balancer.Balancer):
         return selected, d, None
 
 
-def NewWrr(filters):
-    selector = DefaultSelector(node_builder=DirectNode, balancer=WrrBalancer(), filters=filter)
+def NewWrr(filters=None):
+    selector = DefaultSelector(node_builder=DirectNode, balancer=WrrBalancer(), filters=filters)
     return selector

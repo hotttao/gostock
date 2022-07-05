@@ -11,10 +11,10 @@ from pykit.selector.balancer import Balancer, WeightedNodeBuilder
 
 class DefaultSelector(Selector):
     def __init__(self, node_builder: WeightedNodeBuilder, balancer: Balancer,
-                 filters: List[Filter]):
+                 filters: List[Filter] = None):
         self.node_builder = node_builder
         self.balancer = balancer
-        self.filters = filters
+        self.filters = filters or []
         self.nodes = None
 
         # Apply update nodes info.
