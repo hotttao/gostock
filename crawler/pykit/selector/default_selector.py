@@ -1,9 +1,9 @@
 
 from typing import List
-from typing import Tuple
+from typing import Tuple, Callable
 from pykit.error import Error
 from pykit import context
-from pykit.selector import Filter, Selector, DoneFunc, Node
+from pykit.selector import Selector, Node
 from pykit.selector.balancer import Balancer, WeightedNodeBuilder
 
 # Default is composite selector.
@@ -11,7 +11,7 @@ from pykit.selector.balancer import Balancer, WeightedNodeBuilder
 
 class DefaultSelector(Selector):
     def __init__(self, node_builder: WeightedNodeBuilder, balancer: Balancer,
-                 filters: List[Filter] = None):
+                 filters: List[Callable] = None):
         self.node_builder = node_builder
         self.balancer = balancer
         self.filters = filters or []
@@ -25,7 +25,7 @@ class DefaultSelector(Selector):
         self.nodes = weighted_nodes
 
     # Select is select one node.
-    def select(self, ctx: context.Context, filters: List[Filter]) -> Tuple[Node, DoneFunc, Error]:
+    def select(self, ctx: context.Context, filters: List[Callable]) -> Tuple[Node, Callable, Error]:
 
         nodes = self.nodes
         if not nodes:

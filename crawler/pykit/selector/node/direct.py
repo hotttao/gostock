@@ -1,5 +1,6 @@
 
 import time
+from typing import Callable
 from pykit import selector
 
 
@@ -23,7 +24,7 @@ class DirectNode:
         self.last_pick = last_pick
         self.node = node
 
-    def pick(self) -> selector.DoneFunc:
+    def pick(self) -> Callable:
         now = int(time.time())
         self.last_pick = now
         return None

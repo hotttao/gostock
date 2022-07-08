@@ -16,40 +16,40 @@ class ReplyMeta(metaclass=ABCMeta):
 
 class Node(metaclass=ABCMeta):
     # Scheme is service node scheme
-    @abstractmethod
     @property
+    @abstractmethod
     def scheme() -> str:
         pass
 
     # Address is the unique address under the same service
-    @abstractmethod
     @property
+    @abstractmethod
     def address() -> str:
         pass
 
     # ServiceName is service name
-    @abstractmethod
     @property
+    @abstractmethod
     def service_name() -> str:
         pass
 
     # InitialWeight is the initial value of scheduling weight
     # if not set return nil
-    @abstractmethod
     @property
+    @abstractmethod
     def initial_weight() -> int:
         pass
 
     # Version is service node version
-    @abstractmethod
     @property
+    @abstractmethod
     def version() -> str:
         pass
 
     # Metadata is the kv pair metadata associated with the service instance.
     # version,namespace,region,protocol etc..
-    @abstractmethod
     @property
+    @abstractmethod
     def metadata() -> Dict[str, str]:
         pass
 
@@ -78,8 +78,8 @@ class Rebalancer(metaclass=ABCMeta):
         pass
 
 
-Filter: Callable[[context.Context, List[Node]], List[Node]] = None
-DoneFunc: Callable[[context.Context, DoneInfo]] = None
+# Filter: Callable[[context.Context, List[Node]], List[Node]] = None
+# DoneFunc: Callable[[context.Context, DoneInfo]] = None
 
 
 class Selector(Rebalancer):
@@ -88,7 +88,7 @@ class Selector(Rebalancer):
     # Select nodes
     # if err == nil, selected and done must not be empty.
     @abstractmethod
-    def select(ctx: context.Context, filters: List[Filter]) -> Tuple[Node, DoneFunc, Error]:
+    def select(ctx: context.Context, filters: List[Callable]) -> Tuple[Node, Callable, Error]:
         pass
 
 

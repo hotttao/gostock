@@ -1,8 +1,10 @@
 from abc import ABCMeta, abstractmethod
-from typing import List, Tuple
+from typing import Tuple
+from typing import List
+from typing import Callable
 from pykit.error import Error
 from pykit import context
-from pykit.selector import Node, DoneFunc
+from pykit.selector import Node
 
 
 # WeightedNode calculates scheduling weight in real time
@@ -14,13 +16,13 @@ class WeightedNode(Node):
         pass
 
     # Weight is the runtime calculated weight@abstractmethod
-    @abstractmethod
     @property
+    @abstractmethod
     def weight() -> float:
         pass
 
     # Pick the node@abstractmethod
-    def pick() -> DoneFunc:
+    def pick() -> Callable:
         pass
 
     # PickElapsed is time elapsed since the latest pick
@@ -32,7 +34,7 @@ class WeightedNode(Node):
 class Balancer(metaclass=ABCMeta):
     # Balancer is balancer interface
     @abstractmethod
-    def pick(ctx: context.Context, nodes: List[WeightedNode]) -> Tuple[WeightedNode, DoneFunc, Error]:
+    def pick(ctx: context.Context, nodes: List[WeightedNode]) -> Tuple[WeightedNode, Callable, Error]:
         pass
 
 

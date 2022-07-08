@@ -1,18 +1,19 @@
 
 from typing import List, Tuple
+from typing import Callable
 from pykit.error import Error
 from pykit import context
 from pykit.selector import balancer
 from pykit.selector.node.direct import DirectNode
 from pykit.selector.default_selector import DefaultSelector
-from pykit.selector.balancer import WeightedNode, DoneFunc
+from pykit.selector.balancer import WeightedNode
 
 
 class WrrBalancer(balancer.Balancer):
     def __init__(self):
         self.current_weight = {}
 
-    def pick(self, ctx: context.Context, nodes: List[WeightedNode]) -> Tuple[WeightedNode, DoneFunc, Error]:
+    def pick(self, ctx: context.Context, nodes: List[WeightedNode]) -> Tuple[WeightedNode, Callable, Error]:
         if not nodes:
             return None, None, Error()
 

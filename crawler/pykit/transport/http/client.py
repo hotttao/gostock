@@ -1,5 +1,5 @@
 from typing import List
-from urllib import urlparse
+from urllib.parse import urlparse
 from pykit.selector import Selector
 from pykit.selector import wrr
 from pykit.registry import Discovery
