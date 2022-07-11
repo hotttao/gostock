@@ -1,11 +1,11 @@
 syntax = "proto3";
 
 // 股票基本信息获取和更新
-package api.stock.v1;
+package api.crawler.v1;
 
-option go_package = "gostock/api/stock/v1;v1";
+option go_package = "gostock/api/crawler/v1;v1";
 option java_multiple_files = true;
-option java_package = "api.stock.v1";
+option java_package = "api.crawler.v1";
 
 
 

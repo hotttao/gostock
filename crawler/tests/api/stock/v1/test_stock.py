@@ -2,8 +2,8 @@
 
 """
 import grpc
-from api.stock.v1.stock_pb2 import StockBasicRequest
-from api.stock.v1.stock_pb2_grpc import StockServiceStub
+from api.crawler.v1.stock_info_pb2 import StockBasicRequest
+from api.crawler.v1.stock_info_pb2_grpc import StockServiceStub
 from google.protobuf.json_format import MessageToJson
 
 

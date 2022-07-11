@@ -9,7 +9,7 @@ from typing import Tuple
 from flask import request
 from pykit.transport import http
 from pykit.transport.http.context import Context
-from api.stock.v1.stock_pb2 import StockBasicRequest, StockBasic
+from api.crawler.v1.stock_info_pb2 import StockBasicRequest, StockBasic
 
 
 class IStockInfoServiceHTTPServer(metaclass=ABCMeta):

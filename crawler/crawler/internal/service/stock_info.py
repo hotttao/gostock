@@ -1,8 +1,8 @@
 
 from typing import Tuple
 from pykit.transport.http.context import Context
-from api.stock.v1.stock_pb2 import StockBasicRequest, StockBasic
-from api.stock.v1.stock_pb2_grpc import StockServiceServicer
+from api.crawler.v1.stock_info_pb2 import StockBasicRequest, StockBasic
+from api.crawler.v1.stock_info_pb2_grpc import StockServiceServicer
 from crawler.internal.biz.stock_info import StockInfoUsecase
 
 

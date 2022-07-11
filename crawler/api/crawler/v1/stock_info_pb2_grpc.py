@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from api.stock.v1 import index_pb2 as api_dot_stock_dot_v1_dot_index__pb2
-from api.stock.v1 import stock_pb2 as api_dot_stock_dot_v1_dot_stock__pb2
+from api.crawler.v1 import index_pb2 as api_dot_crawler_dot_v1_dot_index__pb2
+from api.crawler.v1 import stock_info_pb2 as api_dot_crawler_dot_v1_dot_stock__info__pb2
 
 
 class StockServiceStub(object):
@@ -16,14 +16,14 @@ class StockServiceStub(object):
             channel: A grpc.Channel.
         """
         self.GetStockInfo = channel.unary_unary(
-                '/api.stock.v1.StockService/GetStockInfo',
-                request_serializer=api_dot_stock_dot_v1_dot_stock__pb2.StockBasicRequest.SerializeToString,
-                response_deserializer=api_dot_stock_dot_v1_dot_stock__pb2.StockBasic.FromString,
+                '/api.crawler.v1.StockService/GetStockInfo',
+                request_serializer=api_dot_crawler_dot_v1_dot_stock__info__pb2.StockBasicRequest.SerializeToString,
+                response_deserializer=api_dot_crawler_dot_v1_dot_stock__info__pb2.StockBasic.FromString,
                 )
         self.GetIndexInfo = channel.unary_unary(
-                '/api.stock.v1.StockService/GetIndexInfo',
-                request_serializer=api_dot_stock_dot_v1_dot_index__pb2.IndexRequest.SerializeToString,
-                response_deserializer=api_dot_stock_dot_v1_dot_index__pb2.Index.FromString,
+                '/api.crawler.v1.StockService/GetIndexInfo',
+                request_serializer=api_dot_crawler_dot_v1_dot_index__pb2.IndexRequest.SerializeToString,
+                response_deserializer=api_dot_crawler_dot_v1_dot_index__pb2.Index.FromString,
                 )
 
 
@@ -47,17 +47,17 @@ def add_StockServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetStockInfo': grpc.unary_unary_rpc_method_handler(
                     servicer.GetStockInfo,
-                    request_deserializer=api_dot_stock_dot_v1_dot_stock__pb2.StockBasicRequest.FromString,
-                    response_serializer=api_dot_stock_dot_v1_dot_stock__pb2.StockBasic.SerializeToString,
+                    request_deserializer=api_dot_crawler_dot_v1_dot_stock__info__pb2.StockBasicRequest.FromString,
+                    response_serializer=api_dot_crawler_dot_v1_dot_stock__info__pb2.StockBasic.SerializeToString,
             ),
             'GetIndexInfo': grpc.unary_unary_rpc_method_handler(
                     servicer.GetIndexInfo,
-                    request_deserializer=api_dot_stock_dot_v1_dot_index__pb2.IndexRequest.FromString,
-                    response_serializer=api_dot_stock_dot_v1_dot_index__pb2.Index.SerializeToString,
+                    request_deserializer=api_dot_crawler_dot_v1_dot_index__pb2.IndexRequest.FromString,
+                    response_serializer=api_dot_crawler_dot_v1_dot_index__pb2.Index.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'api.stock.v1.StockService', rpc_method_handlers)
+            'api.crawler.v1.StockService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -76,9 +76,9 @@ class StockService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/api.stock.v1.StockService/GetStockInfo',
-            api_dot_stock_dot_v1_dot_stock__pb2.StockBasicRequest.SerializeToString,
-            api_dot_stock_dot_v1_dot_stock__pb2.StockBasic.FromString,
+        return grpc.experimental.unary_unary(request, target, '/api.crawler.v1.StockService/GetStockInfo',
+            api_dot_crawler_dot_v1_dot_stock__info__pb2.StockBasicRequest.SerializeToString,
+            api_dot_crawler_dot_v1_dot_stock__info__pb2.StockBasic.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -93,8 +93,8 @@ class StockService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/api.stock.v1.StockService/GetIndexInfo',
-            api_dot_stock_dot_v1_dot_index__pb2.IndexRequest.SerializeToString,
-            api_dot_stock_dot_v1_dot_index__pb2.Index.FromString,
+        return grpc.experimental.unary_unary(request, target, '/api.crawler.v1.StockService/GetIndexInfo',
+            api_dot_crawler_dot_v1_dot_index__pb2.IndexRequest.SerializeToString,
+            api_dot_crawler_dot_v1_dot_index__pb2.Index.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
