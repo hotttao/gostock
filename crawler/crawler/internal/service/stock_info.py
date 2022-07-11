@@ -10,9 +10,9 @@ class StockInfoService(StockServiceServicer):
     def __init__(self, uc: StockInfoUsecase):
         self.uc = uc
 
-    def GetStockInfo(self, context: Context, req: StockBasicRequest) -> Tuple[StockBasic, Exception]:
+    def GetStockInfo(self, req: StockBasicRequest, context: Context) -> Tuple[StockBasic]:
         # request = context.request
         # print(request.headers, request.accept_charsets, request.accept_mimetypes)
         # print(request.content_type, request.content_encoding)
         res = StockBasic(ts_code='1', name='test')
-        return res, None
+        return res

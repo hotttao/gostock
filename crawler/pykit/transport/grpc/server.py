@@ -14,7 +14,7 @@ class Server:
                  ):
         self.error = error
         self.address = address
-        self.network = network
+        self.network = network or 'tcp'
 
         # endpoint * url.URL
         # timeout    time.Duration
@@ -35,8 +35,9 @@ class Server:
         """
         """
 
-        url_obj = parse.urlparse(self.address)
-        self.endpoint = parse.ParseResult(scheme='grpc', netloc=url_obj.netloc, query='isSecure=false',
+        # url_obj = parse.urlparse(self.address)
+        # print(url_obj)
+        self.endpoint = parse.ParseResult(scheme='grpc', netloc=self.address, query='isSecure=false',
                                           path='', params='', fragment='')
         return
 
@@ -53,6 +54,7 @@ class Server:
         """
 
         """
+        # print(self.address, self.endpoint)
         self.server.add_insecure_port(self.endpoint.netloc)
         self.server.start()
         self.server.wait_for_termination()

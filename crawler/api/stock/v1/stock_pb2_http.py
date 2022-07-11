@@ -36,9 +36,7 @@ def _StockInfoService_GetStockInfo0_HTTP_Handler(srv: IStockInfoServiceHTTPServe
         #     return srv.GetStockInfo(ctx, req.(*GetStockInfoRequest))
         # })
         h = srv.GetStockInfo
-        reply, err = h(ctx, req)
-        if err:
-            return err
+        reply = h(ctx, req)
         return ctx.result(reply)
     return _hanlder
 
