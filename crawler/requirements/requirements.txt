@@ -14,3 +14,4 @@ grpcio-tools==1.47.0
 grpcio==1.47.0
 grpcio-health-checking==1.47.0
 grpcio-reflection==1.47.0
+grpc-interceptor==0.14.2

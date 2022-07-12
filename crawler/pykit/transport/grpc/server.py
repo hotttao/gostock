@@ -1,3 +1,4 @@
+
 import grpc
 from urllib import parse
 from typing import List
@@ -6,6 +7,7 @@ from grpc_health.v1 import health
 from grpc_health.v1 import health_pb2_grpc
 from pykit.error import Error
 from pykit.middleware import Middleware
+from pykit.transport.grpc.interceptor import MiddlewareInterceptor
 
 
 class Server:
@@ -28,7 +30,11 @@ class Server:
 
     def init(self):
         self.listen_and_endpoint()
-        self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+        interceptors = [self.server_interceptor()]
+        if self.interceptor:
+            interceptors.extend(self.interceptor)
+        self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=10),
+                                  interceptors=interceptors)
         health_pb2_grpc.add_HealthServicer_to_server(server=self.server, servicer=self.health)
 
     def listen_and_endpoint(self):
@@ -61,3 +67,9 @@ class Server:
 
     def stop(self):
         pass
+
+    def server_interceptor(self):
+        """
+        返回包含自定义中间件的 grpc unary_interceptor
+        """
+        return MiddlewareInterceptor(middlewares=self.middleware)
