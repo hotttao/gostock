@@ -22,6 +22,7 @@ func (s *StockService) GetStockInfo(ctx context.Context, in *v1.GetStockInfoRequ
 	if err != nil {
 		return nil, err
 	}
+	// return nil, v1.ErrorStockNotFound("stock: %v", in.Id)
 	stock := &v1.StockInfo{
 		TsCode:        g.TsCode,
 		Symbol:        g.Symbol,
