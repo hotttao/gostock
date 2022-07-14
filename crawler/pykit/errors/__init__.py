@@ -3,10 +3,7 @@ import copy
 import grpc
 from typing import Dict
 from pykit.errors.errors_pb2 import Status
-
-# httpstatus "github.com/go-kratos/kratos/v2/transport/http/status"
-# "google.golang.org/genproto/googleapis/rpc/errdetails"
-# "google.golang.org/grpc/status"
+from pykit.transport.http import status as http_status
 
 
 # UnknownCode is unknown code for error info.
@@ -37,8 +34,8 @@ class Error(Exception):
         return Status(code=self.code, reason=self.reason, message=self.message, metadata=self.metadata)
 
     def __str__(self):
-        status = self.status
-        s = f"error: code = {status.code} reason = {status.reason} message = {status.message} metadata = {status.metadata} cause = {self.cause}"
+        s = (f"error: code = {self.code} reason = {self.reason} "
+             f"message = {self.message} metadata = {self.metadata} cause = {self.cause}")
         return s
 
     __repr__ = __str__
@@ -56,7 +53,7 @@ class Error(Exception):
 
     def __eq__(self, error: Exception):
         if self.Is(error):
-            return error.Code == self.Code & & error.Reason == self.Reason
+            return error.Code == self.Code & error.Reason == self.Reason
         return False
     # WithCause with the underlying cause of the error.
 
@@ -71,16 +68,15 @@ class Error(Exception):
         err.metadata = md
         return err
 
-    
     # def to_grpc_status():
-    #     # GRPCStatus returns the Status represented by se.
-    #     s = grpc.Status()
-    #     s, _ = status.New(httpstatus.ToGRPCCode(int(e.Code)), e.Message).
-    #         WithDetails(& errdetails.ErrorInfo{
-    #             Reason: e.Reason,
-    #             Metadata: e.Metadata,
-    #         })
-    #     return s
+        # GRPCStatus returns the Status represented by se.
+        # s = grpc.Status()
+        # s, _ = status.New(httpstatus.ToGRPCCode(int(e.Code)), e.Message).
+        #     WithDetails(& errdetails.ErrorInfo{
+        #         Reason: e.Reason,
+        #         Metadata: e.Metadata,
+        #     })
+        # return s
 
 
 def Code(err: Exception) -> int:
@@ -102,20 +98,19 @@ def Reason(err: Exception) -> str:
 
 def FromError(err: Exception) -> Error:
     # FromError try to convert an error to *Error.
-	# It supports wrapped errors.
+    # It supports wrapped errors.
     if not err:
         return None
     if Error.Is(err):
         return err
-    # gs, ok := status.FromError(err)
-    # if !ok {
-    #     return New(UnknownCode, UnknownReason, err.Error())
-    # }
-    # ret := New(
-    #     httpstatus.FromGRPCCode(gs.Code()),
-    #     UnknownReason,
-    #     gs.Message(),
-    # )
+    if not isinstance(err, grpc.RpcError):
+        return Error(code=UnknownCode, reason=UnknownReason, message=str(err))
+
+    ret = Error(
+        http_status.from_grpc_code(err.code()),
+        UnknownReason,
+        message=err.details(),
+    )
     # for _, detail := range gs.Details() {
     #     switch d := detail.(type) {
     #         case * errdetails.ErrorInfo:
@@ -123,5 +118,4 @@ def FromError(err: Exception) -> Error:
     #         return ret.WithMetadata(d.Metadata)
     #     }
     # }
-    # return ret
-
+    return ret

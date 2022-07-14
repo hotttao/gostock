@@ -6,8 +6,9 @@ from google.protobuf.json_format import MessageToDict
 
 
 class Context:
-    def __init__(self, reqest: Request) -> None:
-        self.request = reqest
+    def __init__(self, request: Request, url_params: Dict = None) -> None:
+        self.request = request
+        self.url_params = url_params or {}
 
     def bind(self, params: Dict[str, Any], req_proto: Any):
         """_summary_
@@ -24,6 +25,8 @@ class Context:
         Args:
             proto (_type_): _description_
         """
+        if self.url_params:
+            self.bind(self.url_params, req_proto)
         params = self.request.args
         return self.bind(params, req_proto)
 

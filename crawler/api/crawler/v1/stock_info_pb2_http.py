@@ -6,45 +6,38 @@ protoc-gen-python-http v1.0.1
 from abc import ABCMeta
 from abc import abstractmethod
 from typing import Tuple
-from flask import request
 from pykit.transport import http
-from pykit.transport.http.context import Context
 from api.crawler.v1.stock_info_pb2 import StockBasicRequest, StockBasic
 
 
 class IStockInfoServiceHTTPServer(metaclass=ABCMeta):
 
     @abstractmethod
-    def GetStockInfo(context: Context, req: StockBasicRequest) -> Tuple[StockBasic, Exception]:
+    def GetStockInfo(context: http.Context, req: StockBasicRequest) -> Tuple[StockBasic, Exception]:
         pass
 
 
 def RegisterStockInfoServiceHTTPServer(s: http.Server, srv: IStockInfoServiceHTTPServer):
-    # r := s.Route("/")
-    s.get("/stock/<id>", _StockInfoService_GetStockInfo0_HTTP_Handler(srv))
+    r = s.router("/")
+    r.get("/stock/<id>", _StockInfoService_GetStockInfo0_HTTP_Handler(r, srv))
     pass
 
 
-def _StockInfoService_GetStockInfo0_HTTP_Handler(srv: IStockInfoServiceHTTPServer):
-    def _hanlder(**kwargs):
-        ctx = Context(request)
+def _StockInfoService_GetStockInfo0_HTTP_Handler(router: http.Router, srv: IStockInfoServiceHTTPServer):
+    def _stock_info_hanlder(ctx: http.Context):
         req = StockBasicRequest()
-        req = ctx.bind(kwargs, req)
         req = ctx.bind_vars(req)
         # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
-        # h := ctx.Middleware(func(ctx context.Context, req interface{})(interface{}, error) {
-        #     return srv.GetStockInfo(ctx, req.(*GetStockInfoRequest))
-        # })
-        h = srv.GetStockInfo
+        h = router.middleware(srv.GetStockInfo)
         reply = h(ctx, req)
         return ctx.result(reply)
-    return _hanlder
+    return _stock_info_hanlder
 
 
 class StockInfoServiceHTTPClient(metaclass=ABCMeta):
 
     @abstractmethod
-    def GetStockInfo(self, ctx: Context, req: StockBasicRequest, *args,
+    def GetStockInfo(self, ctx: http.Context, req: StockBasicRequest, *args,
                      **kwargs) -> Tuple[StockBasic, Exception]:
         pass
 
@@ -53,7 +46,7 @@ class StockInfoServiceHTTPClientImpl(StockInfoServiceHTTPClient):
     def __init__(self, cc: http.Client):
         self.cc = cc
 
-    def GetStockInfo(self, ctx: Context, req: StockBasicRequest,
+    def GetStockInfo(self, ctx: http.Context, req: StockBasicRequest,
                      *args, **kwargs) -> Tuple[StockBasic, Exception]:
         # out = StockBasic()
         # pattern = "/stock/<id>"

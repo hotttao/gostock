@@ -1,5 +1,4 @@
 
-from typing import Tuple
 from pykit.transport.http.context import Context
 from api.crawler.v1.stock_info_pb2 import StockBasicRequest, StockBasic
 from api.crawler.v1.stock_info_pb2_grpc import StockServiceServicer
@@ -10,7 +9,7 @@ class StockInfoService(StockServiceServicer):
     def __init__(self, uc: StockInfoUsecase):
         self.uc = uc
 
-    def GetStockInfo(self, req: StockBasicRequest, context: Context) -> Tuple[StockBasic]:
+    def GetStockInfo(self, req: StockBasicRequest, context: Context) -> StockBasic:
         # request = context.request
         # print(request.headers, request.accept_charsets, request.accept_mimetypes)
         # print(request.content_type, request.content_encoding)

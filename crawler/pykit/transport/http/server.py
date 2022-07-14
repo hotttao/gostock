@@ -1,12 +1,12 @@
 
 import flask
+from typing import List, Callable
 from urllib import parse
-from typing import Callable, Any
-from flask import request
+from pykit.transport import http
 
 
 class Server:
-    def __init__(self, address) -> None:
+    def __init__(self, address, middlewares: List[Callable] = None,) -> None:
         self.app = flask.Flask('test')
         self.err = None  # error
         self.network = None  # string
@@ -14,7 +14,7 @@ class Server:
         self.endpoint = None
         self.timeout = None  # time.Duration
         self.filters = []  # []FilterFunc
-        self.ms = []  # []middleware.Middleware
+        self.middlewares = middlewares or []  # []middleware.Middleware
         self.dec = []  # DecodeRequestFunc
         self.enc = None  # EncodeResponseFunc
         self.ene = None  # EncodeErrorFunc
@@ -34,15 +34,12 @@ class Server:
                                           path='', params='', fragment='')
         return
 
-    def handler(self, method: str, url: str, h: Callable[[request], Any]):
+    def router(self, prefix=''):
+        return http.router.Router(self, prefix=prefix)
+
+    def handler(self, method: str, url: str, h: Callable):
         # self.app.route()
         self.app.add_url_rule(rule=url, view_func=h, methods=[method])
-
-    def get(self, url: str, h: Callable[[request], Any]):
-        self.handler('GET', url, h)
-
-    def post(self, url: str, h: Callable[[request], Any]):
-        self.handler('POST', url, h)
 
 
 class Client:
