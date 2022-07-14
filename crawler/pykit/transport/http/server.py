@@ -35,7 +35,7 @@ class Server:
         return
 
     def router(self, prefix=''):
-        return http.router.Router(self, prefix=prefix)
+        return http.Router(self, prefix=prefix)
 
     def handler(self, method: str, url: str, h: Callable):
         # self.app.route()

@@ -79,24 +79,24 @@ class Error(Exception):
         # return s
 
 
-def Code(err: Exception) -> int:
+def code(err: Exception) -> int:
     # Code returns the http code for an error.
     # It supports wrapped errors.
     if not err:
         return 200
-    return int(FromError(err).Code)
+    return int(from_error(err).Code)
 
 
-def Reason(err: Exception) -> str:
+def reason(err: Exception) -> str:
     # Reason returns the reason for a particular error.
     # It supports wrapped errors.
     if not err:
         return UnknownReason
 
-    return FromError(err).Reason
+    return from_error(err).Reason
 
 
-def FromError(err: Exception) -> Error:
+def from_error(err: Exception) -> Error:
     # FromError try to convert an error to *Error.
     # It supports wrapped errors.
     if not err:

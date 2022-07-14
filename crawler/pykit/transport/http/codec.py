@@ -1,4 +1,29 @@
 
+from typing import Tuple
+from pykit import errors
+from pykit.transport import http
+from pykit import encoding
+
+
+def DefaultErrorEncoder(ctx: http.Context, err: Exception):
+    se = errors.from_error(err)
+    codec, _ = codec_for_request(ctx, "Accept")
+    try:
+        codec.Marshal(se.to_status())
+    except Exception:
+        pass
+    # w.Header().Set("Content-Type", httputil.ContentType(codec.Name()))
+    # w.WriteHeader(int(se.Code))
+    # _, _ = w.Write(body)
+
+
+def codec_for_request(ctx: http.Context, name: str) -> Tuple[encoding.Codec, bool]:
+    for accept in ctx.headers.getlist('Accept'):
+        print(accept)
+        # codec = encoding.GetCodec(httputil.ContentSubtype(accept))
+        # if codec:
+        #     return codec, True
+    return encoding.get_codec("json"), False
 
 # def DefaultRequestDecoder(request) {
 # 	codec, ok := CodecForRequest(r, "Content-Type")
@@ -34,27 +59,4 @@
 # 		return err
 # 	}
 # 	return nil
-# }
-
-# def DefaultErrorEncoder(w http.ResponseWriter, r *http.Request, err error) {
-# 	se := errors.FromError(err)
-# 	codec, _ := CodecForRequest(r, "Accept")
-# 	body, err := codec.Marshal(se)
-# 	if err != nil {
-# 		w.WriteHeader(http.StatusInternalServerError)
-# 		return
-# 	}
-# 	w.Header().Set("Content-Type", httputil.ContentType(codec.Name()))
-# 	w.WriteHeader(int(se.Code))
-# 	_, _ = w.Write(body)
-# }
-
-# def codec_for_request(request, name string) (encoding.Codec, bool) {
-# 	for _, accept := range r.Header[name] {
-# 		codec := encoding.GetCodec(httputil.ContentSubtype(accept))
-# 		if codec != nil {
-# 			return codec, true
-# 		}
-# 	}
-# 	return encoding.GetCodec("json"), false
 # }

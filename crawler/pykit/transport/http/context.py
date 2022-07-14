@@ -18,6 +18,10 @@ class Context:
             proto (_type_): _description_
         """
         return ParseDict(params, req_proto, ignore_unknown_fields=True)
+    
+    @property
+    def headers(self):
+        return self.request.headers
 
     def bind_vars(self, req_proto):
         """_summary_

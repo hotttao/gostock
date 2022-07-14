@@ -20,7 +20,7 @@ class Router:
             try:
                 return h(ctx)
             except Exception as e:
-                self.srv.ene(request, e)
+                self.srv.ene(ctx, e)
         self.srv.handler(method=method, url=os.path.join(self.prefix, url), h=_router_hanlder)
 
     def get(self, url: str, h: Callable):
