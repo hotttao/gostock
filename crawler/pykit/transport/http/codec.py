@@ -5,11 +5,11 @@ from pykit.transport import http
 from pykit import encoding
 
 
-def DefaultErrorEncoder(ctx: http.Context, err: Exception):
-    se = errors.from_error(err)
+def default_error_encoder(ctx: http.Context, err: Exception):
+    err = errors.from_error(err)
     codec, _ = codec_for_request(ctx, "Accept")
     try:
-        codec.Marshal(se.to_status())
+        return codec.marshal(err.to_status()), err.code
     except Exception:
         pass
     # w.Header().Set("Content-Type", httputil.ContentType(codec.Name()))

@@ -1,7 +1,7 @@
 
 from typing import List
 from typing import Tuple, Callable
-from pykit.error import Error
+from pykit.errors import Error
 from pykit import context
 from pykit.selector import Selector, Node
 from pykit.selector.balancer import Balancer, WeightedNodeBuilder

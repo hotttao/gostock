@@ -1,5 +1,6 @@
 
 from pykit.transport.http.context import Context
+from api.crawler.v1.error_reason_pb2_erros import error_stock_not_found
 from api.crawler.v1.stock_info_pb2 import StockBasicRequest, StockBasic
 from api.crawler.v1.stock_info_pb2_grpc import StockServiceServicer
 from crawler.internal.biz.stock_info import StockInfoUsecase
@@ -10,8 +11,7 @@ class StockInfoService(StockServiceServicer):
         self.uc = uc
 
     def GetStockInfo(self, req: StockBasicRequest, context: Context) -> StockBasic:
-        # request = context.request
-        # print(request.headers, request.accept_charsets, request.accept_mimetypes)
-        # print(request.content_type, request.content_encoding)
+
         res = StockBasic(ts_code='1', name='test')
+        raise error_stock_not_found(f"stock: {req.id} not found")
         return res

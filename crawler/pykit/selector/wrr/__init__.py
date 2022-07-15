@@ -1,7 +1,7 @@
 
 from typing import List, Tuple
 from typing import Callable
-from pykit.error import Error
+from pykit.errors import Error
 from pykit import context
 from pykit.selector import balancer
 from pykit.selector.node.direct import DirectNode

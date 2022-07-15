@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from typing import Callable, Dict, List, Tuple
-from pykit.error import Error
+from pykit.errors import Error
 from pykit import context
 
 # Node is node(metaclass=ABCMeta).

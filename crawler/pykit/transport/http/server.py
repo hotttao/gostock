@@ -6,7 +6,8 @@ from pykit.transport import http
 
 
 class Server:
-    def __init__(self, address, middlewares: List[Callable] = None,) -> None:
+    def __init__(self, address, middlewares: List[Callable] = None, 
+                 error_encoder: Callable = None) -> None:
         self.app = flask.Flask('test')
         self.err = None  # error
         self.network = None  # string
@@ -17,7 +18,7 @@ class Server:
         self.middlewares = middlewares or []  # []middleware.Middleware
         self.dec = []  # DecodeRequestFunc
         self.enc = None  # EncodeResponseFunc
-        self.ene = None  # EncodeErrorFunc
+        self.error_encoder = error_encoder or http.default_error_encoder  # EncodeErrorFunc
         self.init()
 
     def init(self):

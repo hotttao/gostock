@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 from typing import Tuple
 from typing import List
 from typing import Callable
-from pykit.error import Error
+from pykit.errors import Error
 from pykit import context
 from pykit.selector import Node
 

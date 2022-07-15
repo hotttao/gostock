@@ -2,7 +2,7 @@ import json
 from abc import ABCMeta, abstractmethod
 from typing import List, Tuple
 from pykit import context
-from pykit import error
+from pykit import errors
 
 
 #  ServiceInstance is an instance of a service in a discovery system.
@@ -45,24 +45,24 @@ class Watcher(metaclass=ABCMeta):
     # 2.any service instance changes found.
     # if the above two conditions are not met, it will block until context deadline exceeded or canceled
     @abstractmethod
-    def next() -> Tuple[List[ServiceInstance], error.Error]:
+    def next() -> Tuple[List[ServiceInstance], errors.Error]:
         pass
 
     # Stop close the watcher.
     @abstractmethod
-    def stop() -> error.Error:
+    def stop() -> errors.Error:
         pass
 
 
 class Registrar(metaclass=ABCMeta):
     #  Register the registration.
     @abstractmethod
-    def register(ctx: context.Context, service: ServiceInstance) -> error.Error:
+    def register(ctx: context.Context, service: ServiceInstance) -> errors.Error:
         pass
 
     # Deregister the registration.
     @abstractmethod
-    def deregister(ctx: context.Context, service: ServiceInstance) -> error.Error:
+    def deregister(ctx: context.Context, service: ServiceInstance) -> errors.Error:
         pass
 
 
@@ -70,10 +70,10 @@ class Registrar(metaclass=ABCMeta):
 class Discovery(metaclass=ABCMeta):
     # GetService return the service instances in memory according to the service name.
     @abstractmethod
-    def get_service(ctx: context.Context, service_name: str) -> Tuple[List[ServiceInstance], error.Error]:
+    def get_service(ctx: context.Context, service_name: str) -> Tuple[List[ServiceInstance], errors.Error]:
         pass
 
     # Watch creates a watcher according to the service name.
     @abstractmethod
-    def watch(ctx: context.Context, service_name: str) -> Tuple[Watcher, error.Error]:
+    def watch(ctx: context.Context, service_name: str) -> Tuple[Watcher, errors.Error]:
         pass
