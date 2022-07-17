@@ -1,28 +1,34 @@
 
 from typing import Tuple
+from flask import Request
+from flask import Response
 from pykit import errors
-from pykit.transport import http
-from pykit import encoding
+from pykit.encoding import encoding
 
 
-def default_error_encoder(ctx: http.Context, err: Exception):
+def default_error_encoder(request: Request, response: Response, err: Exception):
     err = errors.from_error(err)
-    codec, _ = codec_for_request(ctx, "Accept")
-    try:
-        return codec.marshal(err.to_status()), err.code
-    except Exception:
-        pass
+    codec, _ = codec_for_request(request, "Accept")
+    # try:
+    data = codec.marshal(v=err.to_status())
+    response.set_data(data)
+    response.status = err.code
+    response.mimetype = f'application/{codec.name}'
+    return response
+    # except Exception:
+    # pass
     # w.Header().Set("Content-Type", httputil.ContentType(codec.Name()))
     # w.WriteHeader(int(se.Code))
     # _, _ = w.Write(body)
 
 
-def codec_for_request(ctx: http.Context, name: str) -> Tuple[encoding.Codec, bool]:
-    for accept in ctx.headers.getlist('Accept'):
-        print(accept)
-        # codec = encoding.GetCodec(httputil.ContentSubtype(accept))
-        # if codec:
-        #     return codec, True
+def codec_for_request(request: Request, name: str) -> Tuple[encoding.Codec, bool]:
+    accept = request.content_type
+    print(accept)
+    if accept:
+        codec = encoding.get_codec(accept)
+        if codec:
+            return codec, True
     return encoding.get_codec("json"), False
 
 # def DefaultRequestDecoder(request) {
@@ -43,20 +49,19 @@ def codec_for_request(ctx: http.Context, name: str) -> Tuple[encoding.Codec, boo
 # 	return nil
 # }
 
-# def DefaultResponseEncoder(request) {
-# 	if v == nil {
-# 		_, err := w.Write(nil)
-# 		return err
-# 	}
-# 	codec, _ := CodecForRequest(r, "Accept")
-# 	data, err := codec.Marshal(v)
-# 	if err != nil {
-# 		return err
-# 	}
-# 	w.Header().Set("Content-Type", httputil.ContentType(codec.Name()))
-# 	_, err = w.Write(data)
-# 	if err != nil {
-# 		return err
-# 	}
-# 	return nil
-# }
+
+def default_response_encoder(request: Request, response: Response, v):
+    if not v:
+        response.set_data('')
+        return response
+    try:
+        codec, _ = codec_for_request(request, "Accept")
+        data = codec.marshal(v)
+
+    except Exception:
+        pass
+
+    response.mimetype = f'application/{codec.name}'
+    response.set_data(data)
+
+    return response

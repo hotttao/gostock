@@ -1,13 +1,15 @@
 
 from typing import Dict, Any
-from flask import Request
+from flask import Request, Response
+# from pykit.transport.http import Router
 from google.protobuf.json_format import ParseDict
-from google.protobuf.json_format import MessageToDict
 
 
 class Context:
-    def __init__(self, request: Request, url_params: Dict = None) -> None:
+    def __init__(self, router, request: Request, url_params: Dict = None) -> None:
+        self.router = router
         self.request = request
+        self.response = Response()
         self.url_params = url_params or {}
 
     def bind(self, params: Dict[str, Any], req_proto: Any):
@@ -18,7 +20,7 @@ class Context:
             proto (_type_): _description_
         """
         return ParseDict(params, req_proto, ignore_unknown_fields=True)
-    
+
     @property
     def headers(self):
         return self.request.headers
@@ -41,4 +43,7 @@ class Context:
             code (_type_): _description_
             res_proto (_type_): _description_
         """
-        return MessageToDict(res_proto), code
+        self.response.status = code
+        self.router.srv.encoder_response(request=self.request, response=self.response, 
+                                         v=res_proto)
+        return self.response

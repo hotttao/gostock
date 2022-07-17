@@ -4,6 +4,7 @@ import grpc
 from typing import Dict
 from pykit.errors.errors_pb2 import Status
 from pykit.transport.http import status as http_status
+from google.protobuf.json_format import MessageToDict
 
 
 # UnknownCode is unknown code for error info.
@@ -31,7 +32,12 @@ class Error(Exception):
                      reason=self.reason)
 
     def to_status(self):
-        return Status(code=self.code, reason=self.reason, message=self.message, metadata=self.metadata)
+        print('&&&&&&&&&&&&&&&&&&&&')
+        status = Status(code=self.code, reason=self.reason, message=self.message, metadata=self.metadata)
+        a = MessageToDict(status)
+        print('==============')
+        print(type(a))
+        return status
 
     def __str__(self):
         s = (f"error: code = {self.code} reason = {self.reason} "

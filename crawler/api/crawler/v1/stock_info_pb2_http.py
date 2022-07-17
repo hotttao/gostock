@@ -29,7 +29,7 @@ def _StockInfoService_GetStockInfo0_HTTP_Handler(router: http.Router, srv: IStoc
         req = ctx.bind_vars(req)
         # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
         h = router.middleware(srv.GetStockInfo)
-        reply = h(ctx, req)
+        reply = h(req, ctx)
         return ctx.result(reply)
     return _stock_info_hanlder
 

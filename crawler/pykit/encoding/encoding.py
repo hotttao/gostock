@@ -6,12 +6,12 @@ registered_codecs = {}
 class Codec(metaclass=ABCMeta):
 
     @abstractmethod
-    def marshal(v):
+    def marshal(self, v):
         # Marshal returns the wire format of v.
         pass
 
     @abstractmethod
-    def unmarshal(data):
+    def unmarshal(self, data):
         # Unmarshal parses the wire format into v.
         pass
 
@@ -34,7 +34,7 @@ def register_codec(codec: Codec):
         raise ValueError("cannot register Codec with empty string result for Name()")
 
     content_subtype = codec.name.lower()
-    registered_codecs[content_subtype] = codec
+    registered_codecs[content_subtype] = codec()
 
 
 def get_codec(content_subtype: str) -> Codec:
@@ -42,4 +42,4 @@ def get_codec(content_subtype: str) -> Codec:
     # registered for the content-subtype.
     #
     # The content-subtype is expected to be lowercase.
-    return registered_codecs.get_codec(content_subtype.lower())
+    return registered_codecs.get(content_subtype.lower())

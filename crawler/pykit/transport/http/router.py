@@ -16,11 +16,12 @@ class Router:
         生成注册到 web 框架的路由
         """
         def _router_hanlder(**kwargs):
-            ctx = http.Context(request=request, url_params=kwargs)
+            ctx = http.Context(request=request, url_params=kwargs, router=self)
             try:
                 return h(ctx)
             except Exception as e:
-                return self.srv.error_encoder(ctx, e)
+                print(e)
+                return self.srv.encoder_error(request=ctx.request, response=ctx.response, err=e)
         self.srv.handler(method=method, url=os.path.join(self.prefix, url), h=_router_hanlder)
 
     def get(self, url: str, h: Callable):
