@@ -13,7 +13,8 @@ init:
 .PHONY: config
 # generate internal proto
 config:
-	protoc --proto_path=./ \
+	python -m grpc_tools.protoc \
+		   --proto_path=./ \
 	       --proto_path=./third_party \
  	       --python_out=paths=source_relative:./ \
 	       $(INTERNAL_PROTO_FILES)

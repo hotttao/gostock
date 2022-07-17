@@ -1,5 +1,5 @@
 
-ERROR_PROTO_FILES=$(shell find errors -name *.proto)
+ERROR_PROTO_FILES=$(shell find pykit/errors -name *.proto)
 API_PROTO_FILES=$(shell find api -name *.proto)
 
 .PHONY: init
@@ -13,9 +13,10 @@ init:
 .PHONY: errors
 # generate internal proto
 errors:
-	protoc --proto_path=./ \
+	python -m grpc_tools.protoc \
+		   --proto_path=./ \
 	       --proto_path=./third_party \
- 	       --python_out=paths=source_relative:./ \
+ 	       --python_out=./ \
 	       $(ERROR_PROTO_FILES)
 
 .PHONY: api
