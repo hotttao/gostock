@@ -15,7 +15,8 @@ def start_http(cfg: DictConfig) -> None:
     _, stock_info_service = wire_stock_info(cfg)
     http_srv = NewHTTPServer(cfg.server, stock_info_service)
     app = http_srv.app
-    app.run(host=http_srv.endpoint.hostname, port=http_srv.endpoint.port)
+    app.run(host=http_srv.endpoint.hostname, port=http_srv.endpoint.port,
+            debug=True)
 
 
 if __name__ == '__main__':

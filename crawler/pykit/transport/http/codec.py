@@ -23,10 +23,12 @@ def default_error_encoder(request: Request, response: Response, err: Exception):
 
 
 def codec_for_request(request: Request, name: str) -> Tuple[encoding.Codec, bool]:
-    accept = request.content_type
-    print(accept)
-    if accept:
-        codec = encoding.get_codec(accept)
+    accept_mimetypes = request.accept_mimetypes
+
+    for accept in accept_mimetypes:
+        content_subtype = accept[0].split("/")[1]
+        # print(content_subtype)
+        codec = encoding.get_codec(content_subtype)
         if codec:
             return codec, True
     return encoding.get_codec("json"), False

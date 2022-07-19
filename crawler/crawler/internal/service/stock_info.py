@@ -13,5 +13,5 @@ class StockInfoService(StockServiceServicer):
     def GetStockInfo(self, req: StockBasicRequest, context: Context) -> StockBasic:
 
         res = StockBasic(ts_code='1', name='test')
-        raise error_stock_not_found(f"stock: {req.is_hs} not found")
+        # raise error_stock_not_found(f"stock: {req.is_hs} not found")
         return res
