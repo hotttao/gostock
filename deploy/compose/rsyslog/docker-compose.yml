@@ -1,9 +1,10 @@
 rsyslog:
   image: vimagick/rsyslog
+  container_name: rsyslog
   ports:
     - "514:514/tcp"
     - "514:514/udp"
   volumes:
-    - ./rsyslogd.conf:/etc/rsyslogd.conf
+    - ./rsyslog.conf:/etc/rsyslogd.conf
     - ./data:/var/log
   restart: always

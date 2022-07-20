@@ -1,0 +1,16 @@
+
+version: '3'
+
+services:
+  syslog:
+    image: jpvriel/rsyslog:latest
+    container_name: rsyslog
+    environment:
+      - TZ
+    volumes:
+      - ./data:/var/log/
+      - ./lib:/var/lib/
+      - ./pki:/etc/pki/
+    stop_grace_period: 1m30s
+    cap_add:
+      - SYS_NICE

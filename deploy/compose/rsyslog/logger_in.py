@@ -6,6 +6,7 @@ logger.setLevel(logging.INFO)
 
 sh = Rfc5424SysLogHandler(
     address=('127.0.0.1', 514),
+    msg_as_utf8=False,
     hostname="otherserver",
     appname="my_wonderfull_app",
     procid=555,

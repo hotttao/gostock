@@ -18,6 +18,7 @@ log_settings = {
             'level': 'INFO',
             'class': 'rfc5424logging.handler.Rfc5424SysLogHandler',
             'address': ('127.0.0.1', 514),
+            'msg_as_utf8': False,
             'enterprise_id': 32473,
             'structured_data': {'sd_id': {'key1': 'value1'}},
         },
