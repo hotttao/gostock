@@ -40,7 +40,12 @@ message Bootstrap {
       google.protobuf.Duration write_timeout = 6;
       google.protobuf.Duration dial_timeout = 7;
     }
+    message Consul {
+      string host = 1;
+      int32 port = 2;
+    }
     Database database = 1;
     Redis redis = 2;
+    Consul consul = 3;
   }
   

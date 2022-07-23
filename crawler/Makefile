@@ -16,7 +16,7 @@ config:
 	python -m grpc_tools.protoc \
 		   --proto_path=./ \
 	       --proto_path=./third_party \
- 	       --python_out=paths=source_relative:./ \
+ 	       --python_out=./ \
 	       $(INTERNAL_PROTO_FILES)
 
 .PHONY: api

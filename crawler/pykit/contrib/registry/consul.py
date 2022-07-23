@@ -1,11 +1,10 @@
 import copy
 import json
 import threading
-from urllib.parse import urlparse
 import consul
 from typing import List, Tuple, Dict
 
-from pykit import error
+from pykit import errors
 from pykit import context
 
 from pykit.registry import Registrar, Discovery
@@ -42,26 +41,25 @@ class ConsulClient:
         return instances
 
     def service(self, ctx: context.Context, service: str, index: int = 0,
-                passing: bool = True) -> Tuple[List[ServiceInstance], int, error.Error]:
+                passing: bool = True) -> Tuple[List[ServiceInstance], int, errors.Error]:
         index, nodes = self.client.health.service(service=service, passing=passing, index=index, wait=55)
         # index, nodes = self.client.catalog.service(service=service, passing=passing, index=index, wait=55)
         return self.resolve(ctx, nodes), index, None
 
-    def deregister(self, ctx: context.Context, service: ServiceInstance) -> error.Error:
+    def deregister(self, ctx: context.Context, service: ServiceInstance) -> errors.Error:
         self.client.agent.service.deregister(service_id=service.id)
 
-    def register(self, ctx: context.Context, service: ServiceInstance) -> error.Error:
+    def register(self, ctx: context.Context, service: ServiceInstance) -> errors.Error:
         endpoints = service.endpoints
         if endpoints:
-            endpoint = endpoints[0]
-            host_info = urlparse(endpoint)
-            check = consul.Check.tcp(host_info.hostname, host_info.port, "5s", "30s", "30s")
-            self.client.agent.service.register(name=service.name,
-                                               service_id=service.id,
-                                               address=host_info.hostname,
-                                               port=host_info.port,
-                                               tags=[f'version={service.version}'],
-                                               check=check)
+            for host_info in endpoints:
+                check = consul.Check.tcp(host_info.hostname, host_info.port, "5s", "30s", "30s")
+                self.client.agent.service.register(name=service.name,
+                                                   service_id=service.id,
+                                                   address=host_info.hostname,
+                                                   port=host_info.port,
+                                                   tags=[f'version={service.version}'],
+                                                   check=check)
         return None
 
 
@@ -71,14 +69,14 @@ class ConsulImp(Registrar, Discovery):
         self.register = {}
         self.lock = threading.Lock()
 
-    def deregister(self, ctx: context.Context, service: ServiceInstance) -> error.Error:
+    def deregister(self, ctx: context.Context, service: ServiceInstance) -> errors.Error:
         return self.client.deregister(ctx, service)
 
-    def register(self, ctx: context.Context, service: ServiceInstance) -> error.Error:
+    def register(self, ctx: context.Context, service: ServiceInstance) -> errors.Error:
         return self.client.register(ctx, service)
 
     def get_service(self, ctx: context.Context,
-                    service_name: str) -> Tuple[List[ServiceInstance], error.Error]:
+                    service_name: str) -> Tuple[List[ServiceInstance], errors.Error]:
         with self.lock:
             server_set = self.register.get(service_name, None)
             if server_set:
@@ -86,7 +84,7 @@ class ConsulImp(Registrar, Discovery):
                 return instances, None
         return [], None
 
-    def watch(self, ctx: context.Context, service_name: str) -> Tuple[Watcher, error.Error]:
+    def watch(self, ctx: context.Context, service_name: str) -> Tuple[Watcher, errors.Error]:
         with self.lock:
             if service_name not in self.register:
                 instances, last_index, err = self.client.service(ctx, service_name)

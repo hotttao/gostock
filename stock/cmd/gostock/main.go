@@ -20,14 +20,17 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
+
+	consul "github.com/go-kratos/kratos/contrib/registry/consul/v2"
+	"github.com/hashicorp/consul/api"
 )
 
 // go build -ldflags "-X main.Version=x.y.z"
 var (
 	// Name is the name of the compiled software.
-	Name string
+	Name string = "gostock"
 	// Version is the version of the compiled software.
-	Version string
+	Version string = "1.0.1"
 	// flagconf is the config flag.
 	flagconf string
 
@@ -63,6 +66,13 @@ func setTracerProvider(url string) error {
 }
 
 func newApp(logger log.Logger, hs *http.Server, gs *grpc.Server) *kratos.App {
+	// new consul client
+	client, err := api.NewClient(api.DefaultConfig())
+	if err != nil {
+		panic(err)
+	}
+	// new reg with consul client
+	reg := consul.New(client)
 	return kratos.New(
 		kratos.ID(id),
 		kratos.Name(Name),
@@ -73,6 +83,7 @@ func newApp(logger log.Logger, hs *http.Server, gs *grpc.Server) *kratos.App {
 			hs,
 			gs,
 		),
+		kratos.Registrar(reg),
 	)
 }
 

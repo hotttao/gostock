@@ -1,11 +1,12 @@
 
 import flask
 from typing import List, Callable
-from urllib import parse
-from pykit.transport import http
+from pykit.utils import host
+import multiprocessing as mp
+from pykit.transport import http, IServer
 
 
-class Server:
+class Server(IServer):
     def __init__(self, address, middlewares: List[Callable] = None,
                  encoder_error: Callable = None, encoder_response: Callable = None) -> None:
         self.app = flask.Flask('test')
@@ -21,6 +22,20 @@ class Server:
         self.encoder_response = encoder_response or http.default_response_encoder
         self.encoder_error = encoder_error or http.default_error_encoder  # EncodeErrorFunc
         self.init()
+        
+        self.stop_event = mp.Event()
+
+    def start(self):
+        self.app.run(host=self.endpoint.hostname, port=self.endpoint.port,
+                     debug=True)
+        print("http server exited")
+
+    def stop(self):
+        func = flask.request.environ.get('werkzeug.server.shutdown')
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+        print("http will stop")
+        func()
 
     def init(self):
         self.listen_and_endpoint()
@@ -28,13 +43,8 @@ class Server:
     def listen_and_endpoint(self):
         """
         """
-        address = self.address
-        if '//' not in self.address:
-            address = f'http://{self.address}'
-        url_parsed = parse.urlparse(address)
-        self.endpoint = parse.ParseResult(scheme='grpc', netloc=url_parsed.netloc, query='isSecure=false',
-                                          path='', params='', fragment='')
-        return
+        self.endpoint = host.parse_address(self.address, scheme='http')
+        return self.endpoint
 
     def router(self, prefix=''):
         return http.Router(self, prefix=prefix)

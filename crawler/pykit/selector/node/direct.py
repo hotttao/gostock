@@ -1,11 +1,11 @@
 
 import time
 from typing import Callable
-from pykit import selector
+from pykit.selector import Node
 
 
 class DirectNode:
-    def __init__(self, node: selector.Node, last_pick: int):
+    def __init__(self, node: Node, last_pick: int):
         """_summary_
 
         Args:
@@ -32,5 +32,5 @@ class DirectNode:
     def pick_elapsed(self) -> int:
         return int(time.time()) - self.last_pick
 
-    def raw(self) -> selector.Node:
+    def raw(self) -> Node:
         return self.Node

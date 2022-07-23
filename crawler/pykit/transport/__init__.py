@@ -1,15 +1,21 @@
 from abc import ABCMeta, abstractmethod
 from werkzeug.datastructures import Headers
+from urllib import parse
 from pykit.context import Context
 
 
-class Server(metaclass=ABCMeta):
+class IServer(metaclass=ABCMeta):
     @abstractmethod
     def start(self, ctx: Context):
         pass
 
     @abstractmethod
     def stop(self, ctx: Context):
+        pass
+
+    @property
+    @abstractmethod
+    def endpoint(self) -> parse.ParseResult:
         pass
 
 # Transporter is transport context value interface.

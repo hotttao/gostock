@@ -1,16 +1,21 @@
 
 import grpc
-from urllib import parse
+
 from typing import List
 from concurrent import futures
 from grpc_health.v1 import health
 from grpc_health.v1 import health_pb2_grpc
-from pykit.error import Error
+from pykit.errors import Error
+import multiprocessing as mp
+from pykit.transport import IServer
 from pykit.middleware import Middleware
 from pykit.transport.grpc.interceptor import MiddlewareInterceptor
+from pykit.utils import host
 
 
-class Server:
+class Server(IServer):
+    endpoint = None
+
     def __init__(self, address: str, network: str = 'tcp', error: Error = None,
                  middleware: List[Middleware] = None, interceptor: grpc.ServerInterceptor = None,
                  ):
@@ -26,6 +31,7 @@ class Server:
         self.metadata = None
         self.server = None
 
+        self.stop_event = mp.Event()
         self.init()
 
     def init(self):
@@ -41,11 +47,8 @@ class Server:
         """
         """
 
-        # url_obj = parse.urlparse(self.address)
-        # print(url_obj)
-        self.endpoint = parse.ParseResult(scheme='grpc', netloc=self.address, query='isSecure=false',
-                                          path='', params='', fragment='')
-        return
+        self.endpoint = host.parse_address(self.address, scheme='grpc')
+        return self.endpoint
 
     def register(self, register_func, servicer):
         """_summary_
@@ -63,10 +66,18 @@ class Server:
         # print(self.address, self.endpoint)
         self.server.add_insecure_port(self.endpoint.netloc)
         self.server.start()
-        self.server.wait_for_termination()
+        print("grpc started")
+        self.stop_event.wait()
+        print('grpc server get stop signal')
+        self.server.stop(grace=60)
+        # self.server.wait_for_termination()
+        print('grpc server exited successfully')
 
     def stop(self):
-        pass
+        print("grpc will stop")
+        self.stop_event.set()
+        # self.server.stop(grace=None)
+        print("grpc stop successfully")
 
     def server_interceptor(self):
         """

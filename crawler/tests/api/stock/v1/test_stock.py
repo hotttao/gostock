@@ -13,7 +13,3 @@ def test_get_stock_info():
         stub = StockServiceStub(channel)
         response = stub.GetStockInfo(StockBasicRequest(is_hs='H'))
     print("Greeter client received: " + MessageToJson(response, indent=4))
-
-grpc.ServerInterceptor
-grpc.UnaryUnaryClientInterceptor
-grpc.RpcContext

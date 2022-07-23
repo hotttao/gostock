@@ -1,13 +1,15 @@
 import json
 from abc import ABCMeta, abstractmethod
 from typing import List, Tuple
+from urllib import parse
 from pykit import context
 from pykit import errors
 
 
 #  ServiceInstance is an instance of a service in a discovery system.
 class ServiceInstance:
-    def __init__(self, id: str, name: str, version: str, endpoints: List[str], metadata: dict = None):
+    def __init__(self, id: str, name: str, version: str, 
+                 endpoints: List[parse.ParseResult], metadata: dict = None):
         #  ID is the unique instance ID as registered.
         # Name is the service name as registered.
         # Version is the version of the compiled.
