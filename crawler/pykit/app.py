@@ -114,7 +114,7 @@ class PyKit:
                 with DelayedKeyboardInterrupt():
                     server.start()
             except KeyboardInterrupt:
-                print('grpc server: got KeyboardInterrupt will exit')
+                print('server: got KeyboardInterrupt will exit')
 
         process = mp.Process(target=_process_worker, args=(server,))
         process.start()

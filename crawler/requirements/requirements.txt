@@ -11,6 +11,7 @@ protobuf==3.18.1
 google-api-python-client==2.52.0
 python-consul==1.1.0
 netifaces==0.11.0
+waitress==2.1.2
 
 grpcio-tools==1.47.0
 grpcio==1.47.0
