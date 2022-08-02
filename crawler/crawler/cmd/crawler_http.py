@@ -5,7 +5,7 @@ from crawler.cmd.wire_gen import wire_stock_info
 from crawler.internal.server.http import NewHTTPServer
 from google.protobuf.json_format import ParseDict, MessageToJson
 from pykit.app import PyKit
-from pykit.contrib.registry.consul import ConsulClient
+from pykit.contrib.registry.consul import ConsulClient, ConsulImp
 
 
 @hydra.main(config_path='../config', config_name='config.yaml')
@@ -19,8 +19,9 @@ def start_http(cfg: DictConfig) -> None:
 
     # 3. 启动服务
     consul = ConsulClient(host=cfg.connection.consul.host, port=cfg.connection.consul.port)
+    registrar = ConsulImp(client=consul)
     app = PyKit(id='1111', name='crawler', version='1.0.1',
-                servers=[http_srv], registrar=consul)
+                servers=[http_srv], registrar=registrar)
     app.run()
 
 

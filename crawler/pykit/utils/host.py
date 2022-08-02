@@ -1,5 +1,4 @@
 
-
 import netifaces
 import ipaddress
 from urllib import parse
@@ -32,19 +31,21 @@ def extract(addr: str):
     return get_interface_ip()
 
 
-def parse_address(address: str, scheme: str) -> parse.ParseResult:
+def parse_address(address: str, scheme: str = None) -> parse.ParseResult:
     """解析 ip:port 的 url
 
     Args:
         address (str): ip:port
 
     Returns:
-        parse.ParseResult: 
+        parse.ParseResult:
     """
     if '//' not in address:
         address = f'http://{address}'
     url_parsed = parse.urlparse(address)
     address = extract(url_parsed.hostname)
+    if '//' in address:
+        scheme = url_parsed.scheme
     port = url_parsed.port
     netloc = f'{address}:{port}'
     endpoint = parse.ParseResult(scheme=scheme, netloc=netloc, query='isSecure=false',

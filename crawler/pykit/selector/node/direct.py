@@ -5,7 +5,7 @@ from pykit.selector import Node
 
 
 class DirectNode:
-    def __init__(self, node: Node, last_pick: int):
+    def __init__(self, node: Node, last_pick: int = -1):
         """_summary_
 
         Args:
@@ -19,7 +19,7 @@ class DirectNode:
         self.address = node.address
         self.weight = node.weight or 100
         self.version = node.version
-        self.name = node.name
+        self.name = node.service_name
         self.metadata = node.metadata
         self.last_pick = last_pick
         self.node = node
@@ -33,4 +33,4 @@ class DirectNode:
         return int(time.time()) - self.last_pick
 
     def raw(self) -> Node:
-        return self.Node
+        return self.node

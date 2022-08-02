@@ -5,7 +5,7 @@ from pykit.errors import Error
 from pykit import context
 from pykit.selector import Selector, Node
 from pykit.selector.balancer import Balancer, WeightedNodeBuilder
-
+from api.crawler.v1.error_reason_pb2_erros import error_node_not_found
 # Default is composite selector.
 
 
@@ -21,15 +21,15 @@ class DefaultSelector(Selector):
     def apply(self, nodes: List[Node]):
         weighted_nodes = []
         for i in nodes:
-            weighted_nodes.append(self.node_builder.build(i))
+            weighted_nodes.append(self.node_builder(i))
         self.nodes = weighted_nodes
 
     # Select is select one node.
-    def select(self, ctx: context.Context, filters: List[Callable]) -> Tuple[Node, Callable, Error]:
+    def select(self, ctx: context.Context, filters: List[Callable] = None) -> Tuple[Node, Callable, Error]:
 
         nodes = self.nodes
         if not nodes:
-            return None, None, Error()
+            return None, None, error_node_not_found('backend node not found')
 
         filters = filters or []
         filters = filters.extend(self.filters)
@@ -45,4 +45,4 @@ class DefaultSelector(Selector):
         if err:
             return None, None, Error()
 
-        return wn.Raw(), done, None
+        return wn.raw(), done, None

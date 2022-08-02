@@ -16,7 +16,7 @@ from google.api import annotations_pb2 as google_dot_api_dot_annotations__pb2
 from api.crawler.v1 import index_pb2 as api_dot_crawler_dot_v1_dot_index__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1f\x61pi/crawler/v1/stock_info.proto\x12\x0e\x61pi.crawler.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1a\x61pi/crawler/v1/index.proto\"\x97\x01\n\x11StockBasicRequest\x12\r\n\x05is_hs\x18\x01 \x01(\t\x12\x13\n\x0blist_status\x18\x02 \x01(\t\x12\x10\n\x08\x65xchange\x18\x03 \x01(\t\x12\x0f\n\x07ts_code\x18\x04 \x01(\t\x12\x0e\n\x06market\x18\x05 \x01(\t\x12\r\n\x05limit\x18\x06 \x01(\x05\x12\x0e\n\x06offset\x18\x07 \x01(\x05\x12\x0c\n\x04name\x18\x08 \x01(\t\"\x8f\x02\n\nStockBasic\x12\x0f\n\x07ts_code\x18\x01 \x01(\t\x12\x0e\n\x06symbol\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x0c\n\x04\x61rea\x18\x04 \x01(\t\x12\x10\n\x08industry\x18\x05 \x01(\t\x12\x10\n\x08\x66ullname\x18\x06 \x01(\t\x12\x0e\n\x06\x65nname\x18\x07 \x01(\t\x12\x0f\n\x07\x63nspell\x18\x08 \x01(\t\x12\x0e\n\x06market\x18\t \x01(\t\x12\x10\n\x08\x65xchange\x18\n \x01(\t\x12\x11\n\tcurr_type\x18\x0b \x01(\t\x12\x13\n\x0blist_status\x18\x0c \x01(\t\x12\x11\n\tlist_date\x18\r \x01(\t\x12\x13\n\x0b\x64\x65list_date\x18\x0e \x01(\t\x12\r\n\x05is_hs\x18\x0f \x01(\t2\xcc\x01\n\x0cStockService\x12\x62\n\x0cGetStockInfo\x12!.api.crawler.v1.StockBasicRequest\x1a\x1a.api.crawler.v1.StockBasic\"\x13\x82\xd3\xe4\x93\x02\r\x12\x0b/stock/{id}\x12X\n\x0cGetIndexInfo\x12\x1c.api.crawler.v1.IndexRequest\x1a\x15.api.crawler.v1.Index\"\x13\x82\xd3\xe4\x93\x02\r\x12\x0b/index/{id}B-\n\x0e\x61pi.crawler.v1P\x01Z\x19gostock/api/crawler/v1;v1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1f\x61pi/crawler/v1/stock_info.proto\x12\x0e\x61pi.crawler.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1a\x61pi/crawler/v1/index.proto\"\xa3\x01\n\x11StockBasicRequest\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05is_hs\x18\x02 \x01(\t\x12\x13\n\x0blist_status\x18\x03 \x01(\t\x12\x10\n\x08\x65xchange\x18\x04 \x01(\t\x12\x0f\n\x07ts_code\x18\x05 \x01(\t\x12\x0e\n\x06market\x18\x06 \x01(\t\x12\r\n\x05limit\x18\x07 \x01(\x05\x12\x0e\n\x06offset\x18\t \x01(\x05\x12\x0c\n\x04name\x18\n \x01(\t\"\x9b\x02\n\nStockBasic\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0f\n\x07ts_code\x18\x02 \x01(\t\x12\x0e\n\x06symbol\x18\x03 \x01(\t\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x0c\n\x04\x61rea\x18\x05 \x01(\t\x12\x10\n\x08industry\x18\x06 \x01(\t\x12\x10\n\x08\x66ullname\x18\x07 \x01(\t\x12\x0e\n\x06\x65nname\x18\x08 \x01(\t\x12\x0f\n\x07\x63nspell\x18\t \x01(\t\x12\x0e\n\x06market\x18\n \x01(\t\x12\x10\n\x08\x65xchange\x18\x0b \x01(\t\x12\x11\n\tcurr_type\x18\x0c \x01(\t\x12\x13\n\x0blist_status\x18\r \x01(\t\x12\x11\n\tlist_date\x18\x0e \x01(\t\x12\x13\n\x0b\x64\x65list_date\x18\x0f \x01(\t\x12\r\n\x05is_hs\x18\x10 \x01(\t2\xcc\x01\n\x0cStockService\x12\x62\n\x0cGetStockInfo\x12!.api.crawler.v1.StockBasicRequest\x1a\x1a.api.crawler.v1.StockBasic\"\x13\x82\xd3\xe4\x93\x02\r\x12\x0b/stock/{id}\x12X\n\x0cGetIndexInfo\x12\x1c.api.crawler.v1.IndexRequest\x1a\x15.api.crawler.v1.Index\"\x13\x82\xd3\xe4\x93\x02\r\x12\x0b/index/{id}B-\n\x0e\x61pi.crawler.v1P\x01Z\x19gostock/api/crawler/v1;v1b\x06proto3')
 
 
 
@@ -46,9 +46,9 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _STOCKSERVICE.methods_by_name['GetIndexInfo']._options = None
   _STOCKSERVICE.methods_by_name['GetIndexInfo']._serialized_options = b'\202\323\344\223\002\r\022\013/index/{id}'
   _STOCKBASICREQUEST._serialized_start=110
-  _STOCKBASICREQUEST._serialized_end=261
-  _STOCKBASIC._serialized_start=264
-  _STOCKBASIC._serialized_end=535
-  _STOCKSERVICE._serialized_start=538
-  _STOCKSERVICE._serialized_end=742
+  _STOCKBASICREQUEST._serialized_end=273
+  _STOCKBASIC._serialized_start=276
+  _STOCKBASIC._serialized_end=559
+  _STOCKSERVICE._serialized_start=562
+  _STOCKSERVICE._serialized_end=766
 # @@protoc_insertion_point(module_scope)

@@ -52,9 +52,19 @@ class IContext(six.with_metaclass(abc.ABCMeta)):
 
 class Context(IContext):
 
-    def __init__(self, stop_event: mp.Event):
-        self.stop_event = stop_event
+    def __init__(self, stop_event: mp.Event = None):
+        self.stop_event = stop_event or mp.Event()
         self.metadata = {}
+        self.callback = []
+
+    def __getitem__(self, key):
+        return self.metadata[key]
+
+    def get(self, key, value):
+        return self.metadata.get(key, value)
+
+    def __setitem__(self, key, value):
+        self.metadata[key] = value
 
     def is_active(self):
         return self.stop_event.is_set()
@@ -63,7 +73,9 @@ class Context(IContext):
         raise NotImplementedError()
 
     def cancel(self):
-        raise NotImplementedError()
+        self.stop_event.set()
 
     def add_callback(self, callback):
-        raise NotImplementedError()
+        self.callback.append(callback)
+
+    

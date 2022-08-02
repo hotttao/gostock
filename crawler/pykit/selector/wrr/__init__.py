@@ -32,10 +32,10 @@ class WrrBalancer(balancer.Balancer):
                 select_weight = cwt
                 selected = node
 
-        self.currentWeight[selected.address] = select_weight - total_weight
+        self.current_weight[selected.address] = select_weight - total_weight
         # p.mu.Unlock()
 
-        d = selected.Pick()
+        d = selected.pick()
         return selected, d, None
 
 

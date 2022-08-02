@@ -5,13 +5,19 @@ from pykit.context import Context
 
 
 class Transport(transport.ITransporter):
-    def __init__(self, endpoint: str, operation: str, request_header: Headers, 
-                 reply_header: Headers, kind: str = 'http',
+    endpoint = ''
+    kind = 'http'
+    operation = ''
+    request_header = None
+    reply_header = None
+
+    def __init__(self, endpoint: str, operation: str, request_header: Headers,
+                 reply_header: Headers = None, kind: str = 'http',
                  request: Request = None, path_template: str = ''):
         self.endpoint = endpoint
         self.operation = operation
         self.request_header = request_header
-        self.reply_header = reply_header
+        self.reply_header = reply_header or Headers()
         self.kind = kind
         self.request = request
         self.path_template = path_template

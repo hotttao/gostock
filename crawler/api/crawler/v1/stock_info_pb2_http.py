@@ -7,6 +7,7 @@ from abc import ABCMeta
 from abc import abstractmethod
 from typing import Tuple
 from pykit.transport import http
+from pykit.context import Context
 from api.crawler.v1.stock_info_pb2 import StockBasicRequest, StockBasic
 
 
@@ -46,15 +47,14 @@ class StockInfoServiceHTTPClientImpl(StockInfoServiceHTTPClient):
     def __init__(self, cc: http.Client):
         self.cc = cc
 
-    def GetStockInfo(self, ctx: http.Context, req: StockBasicRequest,
+    def GetStockInfo(self, ctx: Context, req: StockBasicRequest,
                      *args, **kwargs) -> Tuple[StockBasic, Exception]:
-        # out = StockBasic()
-        # pattern = "/stock/<id>"
-        # path = binding.EncodeURL(pattern, req, true)
+        pattern = "/stock/<id>"
+        path = http.encode_url(pattern, req)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
-        # return out, err
-        pass
+        out = self.cc.invoke(ctx=ctx, method="GET", path=path, req_pb2=req, *args, **kwargs)
+        return out, None
 
 
 def NewStockInfoServiceHTTPClient(client: http.Client) -> StockInfoServiceHTTPClient:

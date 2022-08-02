@@ -70,7 +70,3 @@ class Server(IServer):
     def handler(self, method: str, url: str, h: Callable):
         # self.app.route()
         self.app.add_url_rule(rule=url, view_func=h, methods=[method])
-
-
-class Client:
-    pass

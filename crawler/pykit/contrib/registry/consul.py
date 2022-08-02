@@ -26,7 +26,7 @@ class ConsulClient:
         """
         instances = []
         for node in nodes:
-            print(json.dumps(node, indent=4))
+            # print(json.dumps(node, indent=4))
             service = node['Service']
             endpoint = f"http://{service['Address']}:{service['Port']}"
             version = ''
@@ -66,7 +66,7 @@ class ConsulClient:
 class ConsulImp(Registrar, Discovery):
     def __init__(self, client: ConsulClient):
         self.client = client
-        self.register = {}
+        self.watched_services = {}
         self.lock = threading.Lock()
 
     def deregister(self, ctx: context.Context, service: ServiceInstance) -> errors.Error:
@@ -78,30 +78,36 @@ class ConsulImp(Registrar, Discovery):
     def get_service(self, ctx: context.Context,
                     service_name: str) -> Tuple[List[ServiceInstance], errors.Error]:
         with self.lock:
-            server_set = self.register.get(service_name, None)
+            server_set = self.watched_services.get(service_name, None)
             if server_set:
                 instances = copy.deepcopy(server_set.instances)
                 return instances, None
         return [], None
 
-    def watch(self, ctx: context.Context, service_name: str) -> Tuple[Watcher, errors.Error]:
+    def watch(self, ctx: context.Context, service_name: str, callback=None) -> Watcher:
         with self.lock:
-            if service_name not in self.register:
+            if service_name not in self.watched_services:
                 instances, last_index, err = self.client.service(ctx, service_name)
                 print("init instance: %s" % instances)
-                server_set = ServerSet(service_name=service_name, service_instances=instances)
-                self.register[service_name] = server_set
-            server_set = self.register[service_name]
+                server_set = ServerSet(service_name=service_name, service_instances=instances, 
+                                       callback=callback)
+                self.watched_services[service_name] = server_set
+            server_set = self.watched_services[service_name]
             watcher = ConsulWatcher(service_set=server_set, imp=self)
             watcher.start()
             return watcher, None
 
 
 class ServerSet:
-    def __init__(self, service_name: str, service_instances: List[ServiceInstance]) -> None:
+    def __init__(self, service_name: str, service_instances: List[ServiceInstance],
+                 callback=None) -> None:
         self.service_name = service_name
         self.service_instances = service_instances
         self.lock = threading.Lock()
+        self.callback = callback
+
+        if self.callback:
+            self.callback(self.service_instances)
 
     @property
     def instances(self):
@@ -111,6 +117,8 @@ class ServerSet:
     def update_instance(self, service_instances: List[ServiceInstance]):
         with self.lock:
             self.service_instances = service_instances
+            if self.callback:
+                self.callback(self.service_instances)
 
 
 class ConsulWatcher(BaseThread):
@@ -127,7 +135,7 @@ class ConsulWatcher(BaseThread):
             print('consule watcher running')
             s = self.imp.client.service(None, service=self.service_set.service_name)
             instances, tmp_index, error = s
-            print(json.dumps(instances, indent=4))
+            # print(json.dumps(instances, indent=4))
             if tmp_index != last_index and tmp_index != 0:
                 print('update instances')
                 self.service_set.update_instance(instances)

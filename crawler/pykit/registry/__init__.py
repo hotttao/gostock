@@ -8,7 +8,7 @@ from pykit import errors
 
 #  ServiceInstance is an instance of a service in a discovery system.
 class ServiceInstance:
-    def __init__(self, id: str, name: str, version: str, 
+    def __init__(self, id: str, name: str, version: str,
                  endpoints: List[parse.ParseResult], metadata: dict = None):
         #  ID is the unique instance ID as registered.
         # Name is the service name as registered.
@@ -79,3 +79,7 @@ class Discovery(metaclass=ABCMeta):
     @abstractmethod
     def watch(ctx: context.Context, service_name: str) -> Tuple[Watcher, errors.Error]:
         pass
+
+    # @abstractmethod
+    # def add_callback(ctx: context.Context, service_name: str) -> Tuple[Watcher, errors.Error]:
+    #     pass

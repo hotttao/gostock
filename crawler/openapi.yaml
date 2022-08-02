@@ -40,7 +40,8 @@ paths:
                   in: path
                   required: true
                   schema:
-                    type: string
+                    type: integer
+                    format: int32
                 - name: isHs
                   in: query
                   schema:
@@ -150,6 +151,9 @@ components:
         StockBasic:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: int32
                 tsCode:
                     type: string
                 symbol:

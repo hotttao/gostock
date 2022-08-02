@@ -4,7 +4,7 @@ import grpc
 from typing import Dict
 from pykit.errors.errors_pb2 import Status
 from pykit.transport.http import status as http_status
-from google.protobuf.json_format import MessageToDict
+from google.protobuf.json_format import MessageToDict, ParseDict
 
 
 # UnknownCode is unknown code for error info.
@@ -24,6 +24,17 @@ class Error(Exception):
         self.message = message
         self.metadata = metadata
         self.cause = cause
+
+    @classmethod
+    def from_dict(cls, error_dict):
+        """_summary_
+
+        Args:
+            dict (_type_): _description_
+        """
+        status = ParseDict(error_dict, Status())
+        return cls(code=status.code, reason=status.reason,
+                   message=status.message, metadata=status.metadata)
 
     def clone(self) -> Exception:
         metadata = copy.deepcopy(self.metadata)

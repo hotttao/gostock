@@ -20,3 +20,16 @@ def is_stock_not_found(err: Exception) -> bool:
 def error_stock_not_found(msg: str) -> errors.Error:
     reason = error_reason_pb2.ErrorReason.Name(error_reason_pb2.STOCK_NOT_FOUND)
     return errors.Error(code=400, reason=reason, message=msg)
+
+
+def is_node_not_found(err: Exception) -> bool:
+    if not err:
+        return False
+    e = errors.from_error(err)
+    reason = error_reason_pb2.ErrorReason.Name(error_reason_pb2.NODE_NOT_FOUND)
+    return e.reason == reason and e.code == 500
+
+
+def error_node_not_found(msg: str) -> errors.Error:
+    reason = error_reason_pb2.ErrorReason.Name(error_reason_pb2.NODE_NOT_FOUND)
+    return errors.Error(code=500, reason=reason, message=msg)

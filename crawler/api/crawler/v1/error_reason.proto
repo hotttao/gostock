@@ -11,4 +11,5 @@ option objc_class_prefix = "APIStockV1";
 enum ErrorReason {
   option (errors.default_code) = 500;
   STOCK_NOT_FOUND = 0 [(errors.code) = 404];
+  NODE_NOT_FOUND = 1 [(errors.code) = 500];
 }
