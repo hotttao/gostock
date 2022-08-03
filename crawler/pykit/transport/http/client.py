@@ -1,3 +1,4 @@
+
 import requests
 from typing import Any, List
 from urllib import parse
@@ -98,7 +99,8 @@ class Client:
             #     cs = csAttempt{res: res
             #     for _, o = range opts:
             #         o.after(& c, & cs)
-            reply = self.response_decoder(ctx, res)
+            reply = self.response_decoder(res)
+            print(reply)
             return reply
 
         if self.middlewares:
@@ -127,15 +129,16 @@ class Client:
                 scheme = "http"
             else:
                 scheme = "https"
-
-            url = f'{scheme}://{node.address}'
+            target = parse.urlparse(req.url)
+            endpoint = parse.ParseResult(scheme=scheme, netloc=node.address, query=target.query,
+                                         path=target.path, params=target.params, fragment=target.fragment)
+            url = endpoint.geturl()
             print(url)
             req.url = url
-
-        resp = self.cc.send(req)
-        err = self.error_decoder(req.Context(), resp)
-
-        if done:
-            done(req.Context(), DoneInfo(err))
+        prepped = req.prepare()
+        resp = self.cc.send(prepped)
+        # err = self.error_decoder(resp)
+        # if done:
+        # done(req, DoneInfo(err))
 
         return resp

@@ -32,3 +32,4 @@ def test_get_stock_info_http():
     req = StockBasicRequest(id=1)
     ctx = Context()
     stock_client.GetStockInfo(ctx=ctx, req=req)
+    client.close()
