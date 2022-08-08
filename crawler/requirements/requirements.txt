@@ -21,14 +21,14 @@ grpcio-reflection==1.47.0
 grpc-interceptor==0.14.2
 
 
-opentelemetry-api==1.11.1
-opentelemetry-sdk==1.11.1
-opentelemetry-exporter-jaeger==1.11.1
-opentelemetry-exporter-jaeger-proto-grpc==1.11.1
-opentelemetry-exporter-jaeger-thrift==1.11.1
-opentelemetry-instrumentation==0.31b0
-opentelemetry-instrumentation-flask==0.31b0
-opentelemetry-instrumentation-requests==0.31b0
-opentelemetry-instrumentation-wsgi==0.31b0
-opentelemetry-semantic-conventions==0.31b0
-opentelemetry-util-http==0.31b0
+opentelemetry-api==1.12.0rc2
+opentelemetry-sdk==1.12.0rc2
+opentelemetry-exporter-jaeger==1.12.0rc2
+opentelemetry-exporter-jaeger-proto-grpc==1.12.0rc2
+opentelemetry-exporter-jaeger-thrift==1.12.0rc2
+opentelemetry-instrumentation==0.32b0
+opentelemetry-instrumentation-flask==0.32b0
+opentelemetry-instrumentation-requests==0.32b0
+opentelemetry-instrumentation-wsgi==0.32b0
+opentelemetry-semantic-conventions==0.32b0
+opentelemetry-util-http==0.32b0
