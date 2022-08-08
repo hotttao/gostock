@@ -32,3 +32,7 @@ opentelemetry-instrumentation-requests==0.32b0
 opentelemetry-instrumentation-wsgi==0.32b0
 opentelemetry-semantic-conventions==0.32b0
 opentelemetry-util-http==0.32b0
+
+opentelemetry-exporter-otlp==1.12.0rc2
+opentelemetry-exporter-otlp-proto-grpc==1.12.0rc2
+opentelemetry-exporter-otlp-proto-http==1.12.0rc2
