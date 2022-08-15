@@ -1,5 +1,6 @@
 from pykit.transport import grpc
 from crawler.internal.config import config_pb2
+from api.crawler.v1 import stock_info_pb2
 from api.crawler.v1 import stock_info_pb2_grpc
 from pykit.middleware import recovery
 
@@ -21,5 +22,7 @@ def NewGrpcServer(c: config_pb2.Server,
     ]
     server = grpc.Server(address=c.grpc.addr, network=c.grpc.network,
                          middleware=middleware)
-    server.register(stock_info_pb2_grpc.add_StockServiceServicer_to_server, stock_info)
+    server.register(descriptor=stock_info_pb2.DESCRIPTOR.services_by_name['StockService'],
+                    register_func=stock_info_pb2_grpc.add_StockServiceServicer_to_server,
+                    servicer=stock_info)
     return server
