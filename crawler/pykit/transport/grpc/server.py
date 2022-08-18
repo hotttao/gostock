@@ -10,7 +10,7 @@ from grpc_health.v1 import health_pb2_grpc
 from grpc_reflection.v1alpha import reflection
 from pykit.transport import IServer
 from pykit.middleware import Middleware
-from pykit.transport.grpc.interceptor import MiddlewareInterceptor
+from pykit.transport.grpc.interceptor import ServerInterceptorWrapt
 from pykit.utils import host
 
 
@@ -94,4 +94,4 @@ class Server(IServer):
         """
         返回包含自定义中间件的 grpc unary_interceptor
         """
-        return MiddlewareInterceptor(middlewares=self.middleware)
+        return ServerInterceptorWrapt(middlewares=self.middleware)

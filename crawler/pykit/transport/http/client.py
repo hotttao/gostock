@@ -5,7 +5,7 @@ from urllib import parse
 from pykit import context
 
 from pykit.selector import Selector
-from pykit.selector import wrr, DoneInfo
+from pykit.selector import wrr
 from pykit.registry import Discovery
 from pykit.middleware import Middleware, Chain
 from pykit.transport.http import resolver
