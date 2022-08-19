@@ -74,7 +74,7 @@ class Server(IServer):
         """启动服务
         """
         self.add_reflection_servicer()
-        # print(self.address, self.endpoint)
+        print(self.address, self.endpoint)
         self.server.add_insecure_port(self.endpoint.netloc)
         self.server.start()
         print("grpc started")

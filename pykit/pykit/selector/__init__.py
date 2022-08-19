@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from typing import Callable, Dict, List, Tuple
-from pykit.errors import Error
+# from pykit.errors import Error
 from pykit import context
 
 # Node is node(metaclass=ABCMeta).
@@ -56,7 +56,7 @@ class Node(metaclass=ABCMeta):
 
 # DoneInfo is callback info when RPC invoke done.
 class DoneInfo:
-    def __init__(self, error: Error, reply_meta: ReplyMeta, bytes_sent: bool, bytes_received: bool):
+    def __init__(self, error, reply_meta: ReplyMeta, bytes_sent: bool, bytes_received: bool):
         """_summary_
 
         Args:
@@ -88,7 +88,7 @@ class Selector(Rebalancer):
     # Select nodes
     # if err == nil, selected and done must not be empty.
     @abstractmethod
-    def select(ctx: context.Context, filters: List[Callable]) -> Tuple[Node, Callable, Error]:
+    def select(ctx: context.Context, filters: List[Callable]) -> Tuple[Node, Callable]:
         pass
 
 

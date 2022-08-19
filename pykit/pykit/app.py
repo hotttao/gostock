@@ -73,10 +73,10 @@ class DelayedKeyboardInterrupt:
 
 
 class PyKit:
-    def __init__(self, id: str, name: str, version: str, registrar: Registrar,
+    def __init__(self, id: str, name: str, version: str,
                  servers: List[IServer], registry_timeout: int = 60,
                  metadata: dict = None, stop_timeout: int = 60,
-                 endpoints: List[ParseResult] = None):
+                 endpoints: List[ParseResult] = None, registrar: Registrar=None):
         """_summary_
 
         Args:

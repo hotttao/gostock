@@ -3,7 +3,7 @@ import copy
 import grpc
 from typing import Dict
 from pykit.errors.errors_pb2 import Status
-from pykit.transport.http import status as http_status
+from pykit.transport import status as http_status
 
 
 # UnknownCode is unknown code for error info.

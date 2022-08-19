@@ -1,0 +1,10 @@
+database:
+  driver: mysql
+  source: mysql+pymysql://root:hy1234@127.0.0.1:3306/gostock?charset=utf8mb4
+redis:
+  addr: 127.0.0.1:6379
+  read_timeout: 0.2s
+  write_timeout: 0.2s
+consul:
+  host: 127.0.0.1
+  port: 8500
