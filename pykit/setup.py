@@ -56,15 +56,15 @@ with open("README.md", "r") as fh:
         install_requires=install_requires,
         entry_points={
             'console_scripts': [
-
+                'protoc-gen-python-http = pykit.cmd.gen_http:main'
             ]
         },
         # data_files=[
         #     ('', ['pykit/config/*.yaml']),
         # ],
-        package_data={
-            '': ['pykit/config/*.yaml']
-        }
+        # package_data={
+        #     '': ['pykit/config/*.yaml']
+        # }
         # Install development dependencies with
         # pip install -r requirements/dev.txt -e .
     )
