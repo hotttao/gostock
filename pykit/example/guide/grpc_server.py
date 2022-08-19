@@ -1,4 +1,4 @@
-import add_pythonpath
+
 from typing import Dict
 import hydra
 from omegaconf import DictConfig, OmegaConf
@@ -8,8 +8,6 @@ from pykit.app import PyKit
 from pykit.transport import grpc
 from pykit.middleware import recovery
 # from pykit.contrib.registry.consul import ConsulClient
-
-add_pythonpath.log_sys_path()
 
 
 class GreeterImp(helloworld_pb2_grpc.GreeterServicer):
