@@ -15,18 +15,35 @@ _sym_db = _symbol_database.Default()
 from google.api import annotations_pb2 as google_dot_api_dot_annotations__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\x1a\x1cgoogle/api/annotations.proto\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t2t\n\x07Greeter\x12i\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"+\x82\xd3\xe4\x93\x02%\x12\x12/helloworld/{name}Z\x0f\"\n/say_hello:\x01*B\x17Z\x15helloworld/helloworldb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\x1a\x1cgoogle/api/annotations.proto\"\x1b\n\x05Inner\x12\x12\n\ninner_name\x18\x01 \x01(\t\"\xab\x01\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x05inner\x18\x02 \x01(\x0b\x32\x11.helloworld.Inner\x12\x0c\n\x04nums\x18\x03 \x03(\x05\x12\x30\n\x04maps\x18\x04 \x03(\x0b\x32\".helloworld.HelloRequest.MapsEntry\x1a+\n\tMapsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t2t\n\x07Greeter\x12i\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"+\x82\xd3\xe4\x93\x02%\x12\x12/helloworld/{name}Z\x0f\"\n/say_hello:\x01*B\x17Z\x15helloworld/helloworldb\x06proto3')
 
 
 
+_INNER = DESCRIPTOR.message_types_by_name['Inner']
 _HELLOREQUEST = DESCRIPTOR.message_types_by_name['HelloRequest']
+_HELLOREQUEST_MAPSENTRY = _HELLOREQUEST.nested_types_by_name['MapsEntry']
 _HELLOREPLY = DESCRIPTOR.message_types_by_name['HelloReply']
+Inner = _reflection.GeneratedProtocolMessageType('Inner', (_message.Message,), {
+  'DESCRIPTOR' : _INNER,
+  '__module__' : 'helloworld_pb2'
+  # @@protoc_insertion_point(class_scope:helloworld.Inner)
+  })
+_sym_db.RegisterMessage(Inner)
+
 HelloRequest = _reflection.GeneratedProtocolMessageType('HelloRequest', (_message.Message,), {
+
+  'MapsEntry' : _reflection.GeneratedProtocolMessageType('MapsEntry', (_message.Message,), {
+    'DESCRIPTOR' : _HELLOREQUEST_MAPSENTRY,
+    '__module__' : 'helloworld_pb2'
+    # @@protoc_insertion_point(class_scope:helloworld.HelloRequest.MapsEntry)
+    })
+  ,
   'DESCRIPTOR' : _HELLOREQUEST,
   '__module__' : 'helloworld_pb2'
   # @@protoc_insertion_point(class_scope:helloworld.HelloRequest)
   })
 _sym_db.RegisterMessage(HelloRequest)
+_sym_db.RegisterMessage(HelloRequest.MapsEntry)
 
 HelloReply = _reflection.GeneratedProtocolMessageType('HelloReply', (_message.Message,), {
   'DESCRIPTOR' : _HELLOREPLY,
@@ -40,12 +57,18 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'Z\025helloworld/helloworld'
+  _HELLOREQUEST_MAPSENTRY._options = None
+  _HELLOREQUEST_MAPSENTRY._serialized_options = b'8\001'
   _GREETER.methods_by_name['SayHello']._options = None
   _GREETER.methods_by_name['SayHello']._serialized_options = b'\202\323\344\223\002%\022\022/helloworld/{name}Z\017\"\n/say_hello:\001*'
-  _HELLOREQUEST._serialized_start=62
-  _HELLOREQUEST._serialized_end=90
-  _HELLOREPLY._serialized_start=92
-  _HELLOREPLY._serialized_end=121
-  _GREETER._serialized_start=123
-  _GREETER._serialized_end=239
+  _INNER._serialized_start=62
+  _INNER._serialized_end=89
+  _HELLOREQUEST._serialized_start=92
+  _HELLOREQUEST._serialized_end=263
+  _HELLOREQUEST_MAPSENTRY._serialized_start=220
+  _HELLOREQUEST_MAPSENTRY._serialized_end=263
+  _HELLOREPLY._serialized_start=265
+  _HELLOREPLY._serialized_end=294
+  _GREETER._serialized_start=296
+  _GREETER._serialized_end=412
 # @@protoc_insertion_point(module_scope)

@@ -33,7 +33,8 @@ api:
 .PHONY: build
 # build
 build:
-
+	# source .nox/pykit-3-8/bin/activate
+	python setup.py develop 
 
 .PHONY: generate
 # generate
