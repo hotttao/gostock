@@ -27,7 +27,7 @@ class AutoGen:
         """
         self.request = request
 
-    def gen(self) -> plugin_pb2.CodeGeneratorResponse:
+    def gen(self, omitempty: bool = False) -> plugin_pb2.CodeGeneratorResponse:
         """
 
         Returns:
@@ -36,11 +36,13 @@ class AutoGen:
         response = plugin_pb2.CodeGeneratorResponse()
         for proto_file in self.request.proto_file:
             service = proto_file.service
+            if not service or (omitempty and not self.has_http_rule(service)):
+                continue
 
             f = response.file.add()
             f.name = f'{os.path.splitext(proto_file.name)[0]}_pb2_http.py'
-            self.gen_service(response, proto_file, f, service)
-            # f.content = 'import json'
+            # self.gen_service(response, proto_file, f, service)
+            f.content = 'import json'
         return response
 
     def gen_service(self, response: plugin_pb2.CodeGeneratorResponse,
@@ -166,14 +168,17 @@ class AutoGen:
                                             f"declaration in message could not be found in '{path}'\n")
                     sys.exit(2)
 
-                if fd.type == FieldDescriptor.TYPE_MESSAGE:
+                # if fd.type == FieldDescriptor.TYPE_MESSAGE:
+                #     sys.stderr.buffer.write(
+                #         f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a map.\n")
+                # elif fd.IsList():
+                #     sys.stderr.buffer.write(
+                #         f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a list.\n")
+                if fd.label == FieldDescriptor.LABEL_REPEATED:
                     sys.stderr.buffer.write(
-                        f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a map.\n")
-                elif fd.IsList():
-                    sys.stderr.buffer.write(
-                        f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a list.\n")
-                elif fd.type == FieldDescriptor.TYPE_MESSAGE or fd.type == FieldDescriptor.TYPE_MESSAGE:
-                    fields = fd.Message().Fields()
+                        f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a list/map.\n")
+                elif fd.type == FieldDescriptor.TYPE_MESSAGE or fd.type == FieldDescriptor.TYPE_GROUP:
+                    fields = fd.message_type.fields_by_name
 
         method_detail = MethodDetail(
             name=m.name,

@@ -28,7 +28,7 @@ message HelloRequest {
   string name = 1;
   Inner inner = 2;
   repeated int32 nums = 3;
-  map<string, string> maps = 4;
+  map<string, string> metadata = 4;
 }
 
 // The response message containing the greetings
