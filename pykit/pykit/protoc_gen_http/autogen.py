@@ -5,11 +5,12 @@ from typing import List, Dict
 from collections import defaultdict
 from google.protobuf.compiler import plugin_pb2
 from google.protobuf import descriptor_pb2
-from google.protobuf import type_pb2
+# from google.protobuf import type_pb2
 from google.api import annotations_pb2
 from google.api import http_pb2
 from google.protobuf.descriptor import FieldDescriptor
 from pykit.protoc_gen_http.template import MethodDetail, ServiceDetail
+from pykit.protoc_gen_http.template import FileDetail
 
 
 DeprecationComment = "// Deprecated: Do not use."
@@ -26,8 +27,9 @@ class AutoGen:
             request (plugin_pb2.CodeGeneratorRequest): _description_
         """
         self.request = request
+        self.file_detail = FileDetail()
 
-    def gen(self, omitempty: bool = False) -> plugin_pb2.CodeGeneratorResponse:
+    def gen(self, omitempty: bool = True) -> plugin_pb2.CodeGeneratorResponse:
         """
 
         Returns:
@@ -35,14 +37,19 @@ class AutoGen:
         """
         response = plugin_pb2.CodeGeneratorResponse()
         for proto_file in self.request.proto_file:
-            service = proto_file.service
-            if not service or (omitempty and not self.has_http_rule(service)):
+            service_list = proto_file.service
+            if not service_list or (omitempty and not has_http_rule(service_list)):
                 continue
 
             f = response.file.add()
             f.name = f'{os.path.splitext(proto_file.name)[0]}_pb2_http.py'
-            # self.gen_service(response, proto_file, f, service)
-            f.content = 'import json'
+            content_list = []
+            for service in service_list:
+                content = self.gen_service(response=response, file_desc=proto_file,
+                                           file_generate=f, service=service, omitempty=omitempty)
+                if content:
+                    content_list.append(content)
+            f.content = '\n'.join(content_list)
         return response
 
     def gen_service(self, response: plugin_pb2.CodeGeneratorResponse,
@@ -51,6 +58,7 @@ class AutoGen:
                     service: descriptor_pb2.ServiceDescriptorProto, omitempty: bool):
         if service.options.deprecated:
             comment = DeprecationComment
+            self.file_detail.comment.append(comment)
         # HTTP Server.
         sd = ServiceDetail(
             service_type=service.name,
@@ -64,134 +72,138 @@ class AutoGen:
                 rule = method_desc.options.Extensions[annotations_pb2.http]
 
                 for bind in rule.additional_bindings:
-                    sd.methods.append(
-                        self.build_http_rule(file_desc, file_generate, method_desc, bind))
-                sd.methods.append(self.build_http_rule(
+                    sd.methods.append(build_http_rule(
+                        file_desc, file_generate, method_desc, bind))
+                sd.methods.append(build_http_rule(
                     file_desc, file_generate, method_desc, bind))
             elif not omitempty:
                 path = f"/{service.full_name}/{method_desc.name}"
-                sd.methods.append(self.build_method_detail(
+                sd.methods.append(build_method_detail(
                     file_desc, file_generate, method_desc, "POST", path))
 
+        service_content = ''
         if len(sd.Methods) != 0:
-            content = sd.execute()
-            return content
+            service_content = sd.execute()
+        return service_content
 
-    def has_http_rule(self, services: List[descriptor_pb2.ServiceDescriptorProto]) -> bool:
-        for service_desc in services:
-            for method_desc in service_desc.method:
-                if method_desc.client_streaming or method_desc.server_streaming:
-                    continue
-                if annotations_pb2.http in method_desc.options.Extensions:
-                    return True
 
-        return False
+def has_http_rule(services: List[descriptor_pb2.ServiceDescriptorProto]) -> bool:
+    for service_desc in services:
+        for method_desc in service_desc.method:
+            if method_desc.client_streaming or method_desc.server_streaming:
+                continue
+            if annotations_pb2.http in method_desc.options.Extensions:
+                return True
 
-    def build_http_rule(self, file_desc: descriptor_pb2.FileDescriptorProto,
+    return False
+
+
+def build_http_rule(file_desc: descriptor_pb2.FileDescriptorProto,
+                    file_generate: plugin_pb2.CodeGeneratorResponse.File,
+                    m: descriptor_pb2.MethodDescriptorProto,
+                    rule: http_pb2.HttpRule) -> MethodDetail:
+
+    path = ''
+    method = ''
+    body = ''
+    response_body = ''
+
+    pattern = rule.WhichOneof('pattern')
+    pattern_map = {
+        'get': (rule.get, 'GET'),
+        'put': (rule.put, "PUT"),
+        'post': (rule.post, "POST"),
+        'delete': (rule.delete, "DELETE"),
+        'patch': (rule.patch, "PATCH"),
+        'custom': (rule.custom.path, rule.custom.kind),
+    }
+    if pattern in pattern_map:
+        path, method = pattern_map[pattern]
+
+    body = rule.Body
+    response_body = rule.response_body
+    method_detail = build_method_detail(
+        file_desc, file_generate, m, method, path)
+    if method in ["GET", "DELETE"]:
+        if body != "":
+            sys.stderr.buffer.write(
+                f"\u001B[31mWARN\u001B[m: {method} {path} body should not be declared.\n")
+
+    else:
+        if body == "":
+            sys.stderr.buffer.write(
+                f"\u001B[31mWARN\u001B[m: {method} {path} does not declare a body.\n")
+
+    if body == "*":
+        method_detail.has_body = True
+        method_detail.body = ""
+    elif body != "":
+        method_detail.has_body = True
+        method_detail.body = "." + camel_case_vars(body)
+    else:
+        method_detail.has_body = False
+
+    if response_body == "*":
+        method_detail.response_body = ""
+    elif response_body != "":
+        method_detail.response_body = "." + \
+            camel_case_vars(response_body)
+
+    return method_detail
+
+
+def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
                         file_generate: plugin_pb2.CodeGeneratorResponse.File,
                         m: descriptor_pb2.MethodDescriptorProto,
-                        rule: http_pb2.HttpRule) -> MethodDetail:
+                        method: str, path: str) -> MethodDetail:
 
-        path = ''
-        method = ''
-        body = ''
-        response_body = ''
+    path_vars = build_path_vars(path)
 
-        pattern = rule.WhichOneof('pattern')
-        pattern_map = {
-            'get': (rule.get, 'GET'),
-            'put': (rule.put, "PUT"),
-            'post': (rule.post, "POST"),
-            'delete': (rule.delete, "DELETE"),
-            'patch': (rule.patch, "PATCH"),
-            'custom': (rule.custom.path, rule.custom.kind),
-        }
-        if pattern in pattern_map:
-            path, method = pattern_map[pattern]
+    for v, s in path_vars.items():
+        input_type = m.input_type
+        message_type = file_desc.message_types_by_name[input_type]
+        fields = message_type.fields_by_name
+        if s:
+            path = replace_path(v, s, path)
 
-        body = rule.Body
-        response_body = rule.response_body
-        method_detail = self.build_method_detail(
-            file_desc, file_generate, m, method, path)
-        if method in ["GET", "DELETE"]:
-            if body != "":
+        for field in v.split("."):
+            field = field.trim()
+            if not field:
+                continue
+
+            if ":" in field:
+                field = field.split(":")[0]
+
+            fd = fields.get(field)
+            if not fd:
+                sys.stderr.buffer.write(f"\u001B[31mERROR\u001B[m: The corresponding field '{v}'"
+                                        f"declaration in message could not be found in '{path}'\n")
+                sys.exit(2)
+
+            # if fd.type == FieldDescriptor.TYPE_MESSAGE:
+            #     sys.stderr.buffer.write(
+            #         f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a map.\n")
+            # elif fd.IsList():
+            #     sys.stderr.buffer.write(
+            #         f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a list.\n")
+            if fd.label == FieldDescriptor.LABEL_REPEATED:
                 sys.stderr.buffer.write(
-                    f"\u001B[31mWARN\u001B[m: {method} {path} body should not be declared.\n")
+                    f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a list/map.\n")
+            elif fd.type == FieldDescriptor.TYPE_MESSAGE or fd.type == FieldDescriptor.TYPE_GROUP:
+                fields = fd.message_type.fields_by_name
 
-        else:
-            if body == "":
-                sys.stderr.buffer.write(
-                    f"\u001B[31mWARN\u001B[m: {method} {path} does not declare a body.\n")
-
-        if body == "*":
-            method_detail.has_body = True
-            method_detail.body = ""
-        elif body != "":
-            method_detail.has_body = True
-            method_detail.body = "." + camel_case_vars(body)
-        else:
-            method_detail.has_body = False
-
-        if response_body == "*":
-            method_detail.response_body = ""
-        elif response_body != "":
-            method_detail.response_body = "." + \
-                camel_case_vars(response_body)
-
-        return method_detail
-
-    def build_method_detail(self, file_desc: descriptor_pb2.FileDescriptorProto,
-                            file_generate: plugin_pb2.CodeGeneratorResponse.File,
-                            m: descriptor_pb2.MethodDescriptorProto,
-                            method: str, path: str) -> MethodDetail:
-
-        path_vars = build_path_vars(path)
-
-        for v, s in path_vars.items():
-            input_type = m.input_type
-            message_type = file_desc.message_types_by_name[input_type]
-            fields = message_type.fields_by_name
-            if s:
-                path = replace_path(v, s, path)
-
-            for field in v.split("."):
-                field = field.trim()
-                if not field:
-                    continue
-
-                if ":" in field:
-                    field = field.split(":")[0]
-
-                fd = fields.get(field)
-                if not fd:
-                    sys.stderr.buffer.write(f"\u001B[31mERROR\u001B[m: The corresponding field '{v}'"
-                                            f"declaration in message could not be found in '{path}'\n")
-                    sys.exit(2)
-
-                # if fd.type == FieldDescriptor.TYPE_MESSAGE:
-                #     sys.stderr.buffer.write(
-                #         f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a map.\n")
-                # elif fd.IsList():
-                #     sys.stderr.buffer.write(
-                #         f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a list.\n")
-                if fd.label == FieldDescriptor.LABEL_REPEATED:
-                    sys.stderr.buffer.write(
-                        f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a list/map.\n")
-                elif fd.type == FieldDescriptor.TYPE_MESSAGE or fd.type == FieldDescriptor.TYPE_GROUP:
-                    fields = fd.message_type.fields_by_name
-
-        method_detail = MethodDetail(
-            name=m.name,
-            original_name=str(m.Desc.Name()),
-            num=MethodSets[m.name],
-            request=file_generate.QualifiedGoIdent(m.Input.GoIdent),
-            reply=file_generate.QualifiedGoIdent(m.Output.GoIdent),
-            path=path,
-            method=method,
-            has_vars=len(path_vars) > 0
-        )
-        MethodSets[m.name] += 1
-        return method_detail
+    method_detail = MethodDetail(
+        name=m.name,
+        original_name=str(m.Desc.Name()),
+        num=MethodSets[m.name],
+        request=file_generate.QualifiedGoIdent(m.Input.GoIdent),
+        reply=file_generate.QualifiedGoIdent(m.Output.GoIdent),
+        path=path,
+        method=method,
+        has_vars=len(path_vars) > 0
+    )
+    MethodSets[m.name] += 1
+    return method_detail
 
 
 def build_path_vars(path: str) -> Dict[str, str]:
