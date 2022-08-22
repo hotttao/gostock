@@ -9,7 +9,6 @@ from pykit.transport import http
 from pykit.middleware import recovery
 # from pykit.contrib.registry.consul import ConsulClient
 
-
 class GreeterImp(helloworld_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
         reply = helloworld_pb2.HelloReply(message=f'hello {request.name}')

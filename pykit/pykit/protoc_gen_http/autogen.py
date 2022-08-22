@@ -12,7 +12,9 @@ from google.protobuf.descriptor import FieldDescriptor
 from pykit.protoc_gen_http.template import MethodDetail, ServiceDetail
 from pykit.protoc_gen_http.template import FileDetail
 from pykit.protoc_gen_http.utils import get_attrs
+import logging
 
+logger = logging.getLogger('proto-python-http')
 
 DeprecationComment = "// Deprecated: Do not use."
 MethodSets = defaultdict(lambda: 0)
@@ -46,6 +48,7 @@ class AutoGen:
             f.name = f'{os.path.splitext(proto_file.name)[0]}_pb2_http.py'
             content_list = []
             for service_proto in service_list:
+                # logging.info(get_attrs(service_proto))
                 # sys.stdout.write(str(get_attrs(service_proto)))
                 content = self.gen_service(response=response, file_desc=proto_file,
                                            file_generate=f, service_proto=service_proto, 
@@ -79,7 +82,7 @@ class AutoGen:
                     sd.methods.append(build_http_rule(
                         file_desc, file_generate, method_desc, bind))
                 sd.methods.append(build_http_rule(
-                    file_desc, file_generate, method_desc, bind))
+                    file_desc, file_generate, method_desc, rule))
             elif not omitempty:
                 path = f"/{service_proto.full_name}/{method_desc.name}"
                 sd.methods.append(build_method_detail(
@@ -88,6 +91,7 @@ class AutoGen:
         service_content = ''
         if len(sd.methods) != 0:
             service_content = sd.execute()
+        logging.info(sd.to_json())
         return service_content
 
 
@@ -207,6 +211,7 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
         has_vars=len(path_vars) > 0
     )
     MethodSets[m.name] += 1
+    logging.info(method_detail.to_json())
     return method_detail
 
 

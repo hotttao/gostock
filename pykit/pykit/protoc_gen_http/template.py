@@ -1,3 +1,5 @@
+import json
+import os
 from jinja2 import Template
 from typing import List
 
@@ -5,60 +7,66 @@ template = Template("""
                     
 from abc import ABCMeta
 from abc import abstractmethod
-from typing import Tuple
 from pykit.transport import http
 from pykit.context import Context
-from api.crawler.v1.stock_info_pb2 import StockBasicRequest, StockBasic
+import {{ service_detail.pb2_import }} as {{ service_detail.pb2_import_as }}
 
 
-class IStockInfoServiceHTTPServer(metaclass=ABCMeta):
+class I{{ service_detail.service_name }}ServiceHTTPServer(metaclass=ABCMeta):
 
+{% for method in service_detail.methods %}
     @abstractmethod
-    def GetStockInfo(context: http.Context, req: StockBasicRequest) -> Tuple[StockBasic, Exception]:
+    def {{ method.name }}(context: http.Context, req: {{ service_detail.pb2_import_as }}.{{ method.request }}) -> {{ service_detail.pb2_import_as }}.{{ method.reply }}:
         pass
 
+{% endfor %}
 
-def RegisterStockInfoServiceHTTPServer(s: http.Server, srv: IStockInfoServiceHTTPServer):
+def Register{{ service_detail.service_name }}ServiceHTTPServer(s: http.Server, srv: I{{ service_detail.service_name }}ServiceHTTPServer):
     r = s.router("/")
-    r.get("/stock/<id>", _StockInfoService_GetStockInfo0_HTTP_Handler(r, srv))
+    {% for method in service_detail.methods %}
+    r.get("/stock/<id>", _{{ service_detail.service_name }}Service_{{ method.name }}_HTTP_Handler(r, srv))
+    {% endfor %}
     pass
 
-
-def _StockInfoService_GetStockInfo0_HTTP_Handler(router: http.Router, srv: IStockInfoServiceHTTPServer):
-    def _stock_info_hanlder(ctx: http.Context):
-        req = StockBasicRequest()
+{% for method in service_detail.methods %}
+def _{{ service_detail.service_name }}Service_{{ method.name }}_HTTP_Handler(router: http.Router, srv: I{{ service_detail.service_name }}ServiceHTTPServer):
+    def _{{ method.name|lower }}_hanlder(ctx: http.Context):
+        req = {{ service_detail.pb2_import_as }}.{{ method.request }}()
         req = ctx.bind_vars(req)
         # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
-        h = router.middleware(srv.GetStockInfo)
+        h = router.middleware(srv.{{ method.name }})
         reply = h(req, ctx)
         return ctx.result(reply)
-    return _stock_info_hanlder
+    return _{{ method.name|lower }}_hanlder
 
+{% endfor %}
 
-class StockInfoServiceHTTPClient(metaclass=ABCMeta):
-
+class I{{ service_detail.service_name }}ServiceHTTPClient(metaclass=ABCMeta):
+{% for method in service_detail.methods %}
     @abstractmethod
-    def GetStockInfo(self, ctx: http.Context, req: StockBasicRequest, *args,
-                     **kwargs) -> Tuple[StockBasic, Exception]:
+    def {{ method.name }}(self, ctx: http.Context, req: {{ service_detail.pb2_import_as }}.{{ method.request }}, *args,
+                     **kwargs) -> {{ service_detail.pb2_import_as }}.{{ method.reply }}:
         pass
 
+{% endfor %}
 
-class StockInfoServiceHTTPClientImpl(StockInfoServiceHTTPClient):
+class {{ service_detail.service_name }}ServiceHTTPClientImpl(I{{ service_detail.service_name }}ServiceHTTPClient):
     def __init__(self, cc: http.Client):
         self.cc = cc
 
-    def GetStockInfo(self, ctx: Context, req: StockBasicRequest,
-                     *args, **kwargs) -> Tuple[StockBasic, Exception]:
+{% for method in service_detail.methods %}
+    def {{ method.name }}(self, ctx: Context, req: {{ service_detail.pb2_import_as }}.{{ method.request }},
+                     *args, **kwargs) -> {{ service_detail.pb2_import_as }}.{{ method.reply }}:
         pattern = "/stock/<id>"
         path = http.encode_url(pattern, req)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
         out = self.cc.invoke(ctx=ctx, method="GET", path=path, req_pb2=req, *args, **kwargs)
         return out, None
+{% endfor %}
 
-
-def NewStockInfoServiceHTTPClient(client: http.Client) -> StockInfoServiceHTTPClient:
-    return StockInfoServiceHTTPClientImpl(client)                    
+def New{{ service_detail.service_name }}ServiceHTTPClient(client: http.Client) -> I{{ service_detail.service_name }}ServiceHTTPClient:
+    return {{ service_detail.service_name }}ServiceHTTPClientImpl(client)                    
 
 """)
 
@@ -93,14 +101,32 @@ class MethodDetail:
         self.name = name
         self.original_name = original_name
         self.num = num
-        self.request = request
-        self.reply = reply
+        self.request = request.split('.')[-1] if request else ''
+        self.reply = reply.split('.')[-1] if reply else ''
         self.path = path
         self.method = method
         self.has_vars = has_vars
         self.has_body = has_body
         self.body = body
         self.response_body = response_body
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'original_name': self.original_name,
+            'num': self.num,
+            'request': self.request,
+            'reply': self.reply,
+            'path': self.path,
+            'method': self.method,
+            'has_vars': self.has_vars,
+            'has_body': self.has_body,
+            'body': self.body,
+            'response_body': self.response_body,
+        }
+
+    def to_json(self):
+        return json.dumps(self.to_dict(), indent=4)
 
 
 class ServiceDetail:
@@ -120,8 +146,27 @@ class ServiceDetail:
         self.methods = methods or []
 
     def execute(self) -> str:
-        method_sets = {}
-        for m in self.methods:
-            method_sets[m.name] = m
-        # 加载模板，生成代码
-        return ''
+        return template.render(service_detail=self)
+
+    @property
+    def pb2_import(self):
+        """protoc 对应的 python 导入路径
+        """
+        return f'{os.path.splitext(self.metadata)[0]}_pb2'
+
+    @property
+    def pb2_import_as(self):
+        """protoc 对应的 python 导入路径
+        """
+        return os.path.basename(self.pb2_import)
+
+    def to_dict(self):
+        return {
+            'service_type': self.service_type,
+            'service_name': self.service_name,
+            'metadata': self.metadata,
+            # 'methods': self.methods,
+        }
+
+    def to_json(self):
+        return json.dumps(self.to_dict(), indent=4)
