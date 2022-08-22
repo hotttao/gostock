@@ -19,17 +19,6 @@ paths:
                   required: true
                   schema:
                     type: string
-                - name: inner.innerName
-                  in: query
-                  schema:
-                    type: string
-                - name: nums
-                  in: query
-                  schema:
-                    type: array
-                    items:
-                        type: integer
-                        format: int32
             responses:
                 "200":
                     description: OK

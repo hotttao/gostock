@@ -70,8 +70,8 @@ class FileDetail:
 
 class MethodDetail:
     def __init__(self, name: str, original_name: str, num: int, request: str, reply: str,
-                 path: str, method: str, has_vars: bool, has_body: bool, body: str,
-                 response_body: str):
+                 path: str, method: str, has_vars: bool, has_body: bool = False, body: str = '',
+                 response_body: str = ''):
         """_summary_
 
             Args:

@@ -38,10 +38,16 @@ def get_attrs(obj):
 
 df_inner = get_attrs(message.fields_by_name['inner'].message_type)
 df_metadata = get_attrs(message.fields_by_name['metadata'].message_type)
-df = pandas.merge(df_inner, df_metadata, on=['attr'], suffixes=['_inner', "_meta"])
+df = pandas.merge(df_inner, df_metadata, on=[
+                  'attr'], suffixes=['_inner', "_meta"])
 print(df)
 
 df_inner = get_attrs(message.fields_by_name['inner'])
 df_metadata = get_attrs(message.fields_by_name['metadata'])
-df = pandas.merge(df_inner, df_metadata, on=['attr'], suffixes=['_inner', "_meta"])
+df = pandas.merge(df_inner, df_metadata, on=[
+                  'attr'], suffixes=['_inner', "_meta"])
+print(df)
+
+service = DESCRIPTOR.services_by_name['Greeter']
+df = get_attrs(service)
 print(df)

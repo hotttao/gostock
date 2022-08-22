@@ -11,6 +11,7 @@ from google.api import http_pb2
 from google.protobuf.descriptor import FieldDescriptor
 from pykit.protoc_gen_http.template import MethodDetail, ServiceDetail
 from pykit.protoc_gen_http.template import FileDetail
+from pykit.protoc_gen_http.utils import get_attrs
 
 
 DeprecationComment = "// Deprecated: Do not use."
@@ -44,9 +45,11 @@ class AutoGen:
             f = response.file.add()
             f.name = f'{os.path.splitext(proto_file.name)[0]}_pb2_http.py'
             content_list = []
-            for service in service_list:
+            for service_proto in service_list:
+                # sys.stdout.write(str(get_attrs(service_proto)))
                 content = self.gen_service(response=response, file_desc=proto_file,
-                                           file_generate=f, service=service, omitempty=omitempty)
+                                           file_generate=f, service_proto=service_proto, 
+                                           omitempty=omitempty)
                 if content:
                     content_list.append(content)
             f.content = '\n'.join(content_list)
@@ -55,17 +58,18 @@ class AutoGen:
     def gen_service(self, response: plugin_pb2.CodeGeneratorResponse,
                     file_desc: descriptor_pb2.FileDescriptorProto,
                     file_generate: plugin_pb2.CodeGeneratorResponse.File,
-                    service: descriptor_pb2.ServiceDescriptorProto, omitempty: bool):
-        if service.options.deprecated:
+                    service_proto: descriptor_pb2.ServiceDescriptorProto, omitempty: bool):
+        if service_proto.options.deprecated:
             comment = DeprecationComment
             self.file_detail.comment.append(comment)
         # HTTP Server.
+        # service = file_desc.services_by_name[service_proto.name]
         sd = ServiceDetail(
-            service_type=service.name,
-            service_name=service.full_name,
+            service_type=service_proto.name,
+            service_name=service_proto.name,
             metadata=file_desc.name,
         )
-        for method_desc in service.method:
+        for method_desc in service_proto.method:
             if method_desc.client_streaming or method_desc.server_streaming:
                 continue
             if annotations_pb2.http in method_desc.options.Extensions:
@@ -77,12 +81,12 @@ class AutoGen:
                 sd.methods.append(build_http_rule(
                     file_desc, file_generate, method_desc, bind))
             elif not omitempty:
-                path = f"/{service.full_name}/{method_desc.name}"
+                path = f"/{service_proto.full_name}/{method_desc.name}"
                 sd.methods.append(build_method_detail(
                     file_desc, file_generate, method_desc, "POST", path))
 
         service_content = ''
-        if len(sd.Methods) != 0:
+        if len(sd.methods) != 0:
             service_content = sd.execute()
         return service_content
 
@@ -120,7 +124,7 @@ def build_http_rule(file_desc: descriptor_pb2.FileDescriptorProto,
     if pattern in pattern_map:
         path, method = pattern_map[pattern]
 
-    body = rule.Body
+    body = rule.body
     response_body = rule.response_body
     method_detail = build_method_detail(
         file_desc, file_generate, m, method, path)
@@ -194,10 +198,10 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
 
     method_detail = MethodDetail(
         name=m.name,
-        original_name=str(m.Desc.Name()),
+        original_name=m.name,
         num=MethodSets[m.name],
-        request=file_generate.QualifiedGoIdent(m.Input.GoIdent),
-        reply=file_generate.QualifiedGoIdent(m.Output.GoIdent),
+        request=m.input_type,
+        reply=m.output_type,
         path=path,
         method=method,
         has_vars=len(path_vars) > 0
