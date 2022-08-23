@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 from google.api import annotations_pb2 as google_dot_api_dot_annotations__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\x1a\x1cgoogle/api/annotations.proto\"\x1b\n\x05Inner\x12\x12\n\ninner_name\x18\x01 \x01(\t\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\xb7\x01\n\x0cMultiRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x05inner\x18\x02 \x01(\x0b\x32\x11.helloworld.Inner\x12\x0c\n\x04nums\x18\x03 \x03(\x05\x12\x38\n\x08metadata\x18\x04 \x03(\x0b\x32&.helloworld.MultiRequest.MetadataEntry\x1a/\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t2t\n\x07Greeter\x12i\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"+\x82\xd3\xe4\x93\x02%\x12\x12/helloworld/{name}Z\x0f\"\n/say_hello:\x01*B\x17Z\x15helloworld/helloworldb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\x1a\x1cgoogle/api/annotations.proto\"\x1b\n\x05Inner\x12\x12\n\ninner_name\x18\x01 \x01(\t\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\xb7\x01\n\x0cMultiRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x05inner\x18\x02 \x01(\x0b\x32\x11.helloworld.Inner\x12\x0c\n\x04nums\x18\x03 \x03(\x05\x12\x38\n\x08metadata\x18\x04 \x03(\x0b\x32&.helloworld.MultiRequest.MetadataEntry\x1a/\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t2\xeb\x01\n\x07Greeter\x12i\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"+\x82\xd3\xe4\x93\x02%\x12\x12/helloworld/{name}Z\x0f\"\n/say_hello:\x01*\x12u\n\x08SayMulti\x12\x18.helloworld.MultiRequest\x1a\x16.helloworld.HelloReply\"7\x82\xd3\xe4\x93\x02\x31\x12\x1e/helloworld/{inner.inner_name}Z\x0f\"\n/say_multi:\x01*B\x17Z\x15helloworld/helloworldb\x06proto3')
 
 
 
@@ -69,6 +69,8 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _MULTIREQUEST_METADATAENTRY._serialized_options = b'8\001'
   _GREETER.methods_by_name['SayHello']._options = None
   _GREETER.methods_by_name['SayHello']._serialized_options = b'\202\323\344\223\002%\022\022/helloworld/{name}Z\017\"\n/say_hello:\001*'
+  _GREETER.methods_by_name['SayMulti']._options = None
+  _GREETER.methods_by_name['SayMulti']._serialized_options = b'\202\323\344\223\0021\022\036/helloworld/{inner.inner_name}Z\017\"\n/say_multi:\001*'
   _INNER._serialized_start=62
   _INNER._serialized_end=89
   _HELLOREQUEST._serialized_start=91
@@ -79,6 +81,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _MULTIREQUEST_METADATAENTRY._serialized_end=305
   _HELLOREPLY._serialized_start=307
   _HELLOREPLY._serialized_end=336
-  _GREETER._serialized_start=338
-  _GREETER._serialized_end=454
+  _GREETER._serialized_start=339
+  _GREETER._serialized_end=574
 # @@protoc_insertion_point(module_scope)

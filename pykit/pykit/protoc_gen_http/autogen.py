@@ -48,10 +48,10 @@ class AutoGen:
             f.name = f'{os.path.splitext(proto_file.name)[0]}_pb2_http.py'
             content_list = []
             for service_proto in service_list:
-                # logging.info(get_attrs(service_proto))
+                # logger.info(get_attrs(service_proto))
                 # sys.stdout.write(str(get_attrs(service_proto)))
                 content = self.gen_service(response=response, file_desc=proto_file,
-                                           file_generate=f, service_proto=service_proto, 
+                                           file_generate=f, service_proto=service_proto,
                                            omitempty=omitempty)
                 if content:
                     content_list.append(content)
@@ -91,7 +91,7 @@ class AutoGen:
         service_content = ''
         if len(sd.methods) != 0:
             service_content = sd.execute()
-        logging.info(sd.to_json())
+        logger.info(sd.to_json())
         return service_content
 
 
@@ -166,16 +166,23 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
                         method: str, path: str) -> MethodDetail:
 
     path_vars = build_path_vars(path)
-
+    message_map = {f'.{file_desc.package}.{i.name}': i for i in file_desc.message_type}
+    logger.info(f'path_vars: {path_vars}')
+    logger.info(f'file_desc: {file_desc.name}-{file_desc.package}')
+    # logger.info(f'message_map: {message_map}')
     for v, s in path_vars.items():
         input_type = m.input_type
-        message_type = file_desc.message_types_by_name[input_type]
-        fields = message_type.fields_by_name
+
+        message_proto = message_map[input_type]
+        fields = {i.name: i for i in message_proto.field}
+        logger.info(f'fields: {fields}')
+        logger.info(f'path_vars: {v}-{s}')
+        logger.info(f'input_type: {input_type}')
         if s:
             path = replace_path(v, s, path)
 
         for field in v.split("."):
-            field = field.trim()
+            field = field.strip()
             if not field:
                 continue
 
@@ -183,6 +190,7 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
                 field = field.split(":")[0]
 
             fd = fields.get(field)
+            logger.info(f"fd type: {fd.label == FieldDescriptor.LABEL_OPTIONAL}")
             if not fd:
                 sys.stderr.buffer.write(f"\u001B[31mERROR\u001B[m: The corresponding field '{v}'"
                                         f"declaration in message could not be found in '{path}'\n")
@@ -198,7 +206,8 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
                 sys.stderr.buffer.write(
                     f"\u001B[31mWARN\u001B[m: The field in path:'{v}' shouldn't be a list/map.\n")
             elif fd.type == FieldDescriptor.TYPE_MESSAGE or fd.type == FieldDescriptor.TYPE_GROUP:
-                fields = fd.message_type.fields_by_name
+                logger.info(f"fd.type_name: {fd.type_name}-{fd.type}")
+                fields = {i.name: i for i in message_map[fd.type_name].field}
 
     method_detail = MethodDetail(
         name=m.name,
@@ -211,7 +220,7 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
         has_vars=len(path_vars) > 0
     )
     MethodSets[m.name] += 1
-    logging.info(method_detail.to_json())
+    logger.info(method_detail.to_json())
     return method_detail
 
 
@@ -226,6 +235,7 @@ def build_path_vars(path: str) -> Dict[str, str]:
         name = name.strip()
         if name and value:
             res[name] = value
+        else:
             res[name] = None
     return res
 
@@ -237,7 +247,8 @@ def replace_path(name: str, value: str, path: str) -> str:
         start = match.start()
         end = match.end()
         new_value = value.replace("*", ".*")
-        path = path.replace(path[start:end], f'{name}:{new_value}')
+        print(path[start:end])
+        path = path.replace(path[start + 1:end - 1], f'{name}:{new_value}')
     return path
 
 

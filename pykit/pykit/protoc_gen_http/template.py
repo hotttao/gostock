@@ -144,8 +144,10 @@ class ServiceDetail:
         self.service_name = service_name
         self.metadata = metadata
         self.methods = methods or []
+        self.method_map = {}
 
     def execute(self) -> str:
+        self.method_map = {i.name: i for i in self.methods}
         return template.render(service_detail=self)
 
     @property

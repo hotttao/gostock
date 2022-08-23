@@ -17,6 +17,16 @@ service Greeter {
             }
         };
   }
+
+  rpc SayMulti (MultiRequest) returns (HelloReply)  {
+    option (google.api.http) = {
+        get: "/helloworld/{inner.inner_name}",
+        additional_bindings {
+            post: "/say_multi",
+            body: "*",
+        }
+    };
+}
 }
 
 message Inner {
