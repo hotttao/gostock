@@ -5,7 +5,7 @@ from pykit.errors import Error
 from pykit import context
 from pykit.selector import Selector, Node
 from pykit.selector.balancer import Balancer, WeightedNodeBuilder
-from api.crawler.v1.error_reason_pb2_erros import error_node_not_found
+from pykit.errors.types import ErrNoAvailable
 # Default is composite selector.
 
 
@@ -29,7 +29,7 @@ class DefaultSelector(Selector):
 
         nodes = self.nodes
         if not nodes:
-            return None, None, error_node_not_found('backend node not found')
+            return None, None, ErrNoAvailable
 
         filters = filters or []
         filters = filters.extend(self.filters)

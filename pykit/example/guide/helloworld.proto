@@ -10,7 +10,7 @@ service Greeter {
   // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply)  {
         option (google.api.http) = {
-            get: "/helloworld/{name}",
+            get: "/helloworld/{name=test}",
             additional_bindings {
                 post: "/say_hello",
                 body: "*",
@@ -26,7 +26,16 @@ service Greeter {
             body: "*",
         }
     };
-}
+  }
+  rpc Echo (MultiRequest) returns (HelloReply)  {
+    option (google.api.http) = {
+        get: "/echo/{inner.inner_name=echo/*}",
+        additional_bindings {
+            post: "/echo",
+            body: "*",
+        }
+    };
+  }
 }
 
 message Inner {

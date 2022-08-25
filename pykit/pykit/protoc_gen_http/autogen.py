@@ -118,11 +118,11 @@ def build_http_rule(file_desc: descriptor_pb2.FileDescriptorProto,
 
     pattern = rule.WhichOneof('pattern')
     pattern_map = {
-        'get': (rule.get, 'GET'),
-        'put': (rule.put, "PUT"),
-        'post': (rule.post, "POST"),
-        'delete': (rule.delete, "DELETE"),
-        'patch': (rule.patch, "PATCH"),
+        'get': (rule.get, 'get'),
+        'put': (rule.put, "put"),
+        'post': (rule.post, "post"),
+        'delete': (rule.delete, "delete"),
+        'patch': (rule.patch, "patch"),
         'custom': (rule.custom.path, rule.custom.kind),
     }
     if pattern in pattern_map:
@@ -132,15 +132,17 @@ def build_http_rule(file_desc: descriptor_pb2.FileDescriptorProto,
     response_body = rule.response_body
     method_detail = build_method_detail(
         file_desc, file_generate, m, method, path)
-    if method in ["GET", "DELETE"]:
+    if method in ["get", "delete"]:
         if body != "":
             sys.stderr.buffer.write(
-                f"\u001B[31mWARN\u001B[m: {method} {path} body should not be declared.\n")
+                bytes(f"\u001B[31mWARN\u001B[m: {method} {path} body"
+                      f"should not be declared.\n", encoding='utf8'))
 
     else:
         if body == "":
             sys.stderr.buffer.write(
-                f"\u001B[31mWARN\u001B[m: {method} {path} does not declare a body.\n")
+                bytes(f"\u001B[31mWARN\u001B[m: {method} {path}"
+                      f"does not declare a body.\n", encoding='utf8'))
 
     if body == "*":
         method_detail.has_body = True
@@ -166,7 +168,8 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
                         method: str, path: str) -> MethodDetail:
 
     path_vars = build_path_vars(path)
-    message_map = {f'.{file_desc.package}.{i.name}': i for i in file_desc.message_type}
+    message_map = {
+        f'.{file_desc.package}.{i.name}': i for i in file_desc.message_type}
     logger.info(f'path_vars: {path_vars}')
     logger.info(f'file_desc: {file_desc.name}-{file_desc.package}')
     # logger.info(f'message_map: {message_map}')
@@ -190,7 +193,8 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
                 field = field.split(":")[0]
 
             fd = fields.get(field)
-            logger.info(f"fd type: {fd.label == FieldDescriptor.LABEL_OPTIONAL}")
+            logger.info(
+                f"fd type: {fd.label == FieldDescriptor.LABEL_OPTIONAL}")
             if not fd:
                 sys.stderr.buffer.write(f"\u001B[31mERROR\u001B[m: The corresponding field '{v}'"
                                         f"declaration in message could not be found in '{path}'\n")
@@ -247,7 +251,7 @@ def replace_path(name: str, value: str, path: str) -> str:
         start = match.start()
         end = match.end()
         new_value = value.replace("*", ".*")
-        print(path[start:end])
+        # print(path[start:end])
         path = path.replace(path[start + 1:end - 1], f'{name}:{new_value}')
     return path
 

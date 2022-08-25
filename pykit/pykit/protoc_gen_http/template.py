@@ -1,5 +1,6 @@
 import json
 import os
+import autopep8
 from jinja2 import Template
 from typing import List
 
@@ -14,7 +15,7 @@ import {{ service_detail.pb2_import }} as {{ service_detail.pb2_import_as }}
 
 class I{{ service_detail.service_name }}ServiceHTTPServer(metaclass=ABCMeta):
 
-{% for method in service_detail.methods %}
+{% for method in service_detail.method_set %}
     @abstractmethod
     def {{ method.name }}(context: http.Context, req: {{ service_detail.pb2_import_as }}.{{ method.request }}) -> {{ service_detail.pb2_import_as }}.{{ method.reply }}:
         pass
@@ -24,12 +25,12 @@ class I{{ service_detail.service_name }}ServiceHTTPServer(metaclass=ABCMeta):
 def Register{{ service_detail.service_name }}ServiceHTTPServer(s: http.Server, srv: I{{ service_detail.service_name }}ServiceHTTPServer):
     r = s.router("/")
     {% for method in service_detail.methods %}
-    r.get("/stock/<id>", _{{ service_detail.service_name }}Service_{{ method.name }}_HTTP_Handler(r, srv))
+    r.{{ method.method }}("{{ method.path }}", _{{ service_detail.service_name }}Service_{{ method.name }}{{ method.num }}_HTTP_Handler(r, srv))
     {% endfor %}
     pass
 
 {% for method in service_detail.methods %}
-def _{{ service_detail.service_name }}Service_{{ method.name }}_HTTP_Handler(router: http.Router, srv: I{{ service_detail.service_name }}ServiceHTTPServer):
+def _{{ service_detail.service_name }}Service_{{ method.name }}{{ method.num }}_HTTP_Handler(router: http.Router, srv: I{{ service_detail.service_name }}ServiceHTTPServer):
     def _{{ method.name|lower }}_hanlder(ctx: http.Context):
         req = {{ service_detail.pb2_import_as }}.{{ method.request }}()
         req = ctx.bind_vars(req)
@@ -42,7 +43,7 @@ def _{{ service_detail.service_name }}Service_{{ method.name }}_HTTP_Handler(rou
 {% endfor %}
 
 class I{{ service_detail.service_name }}ServiceHTTPClient(metaclass=ABCMeta):
-{% for method in service_detail.methods %}
+{% for method in service_detail.method_set %}
     @abstractmethod
     def {{ method.name }}(self, ctx: http.Context, req: {{ service_detail.pb2_import_as }}.{{ method.request }}, *args,
                      **kwargs) -> {{ service_detail.pb2_import_as }}.{{ method.reply }}:
@@ -54,14 +55,14 @@ class {{ service_detail.service_name }}ServiceHTTPClientImpl(I{{ service_detail.
     def __init__(self, cc: http.Client):
         self.cc = cc
 
-{% for method in service_detail.methods %}
+{% for method in service_detail.method_set %}
     def {{ method.name }}(self, ctx: Context, req: {{ service_detail.pb2_import_as }}.{{ method.request }},
                      *args, **kwargs) -> {{ service_detail.pb2_import_as }}.{{ method.reply }}:
-        pattern = "/stock/<id>"
+        pattern = "{{ method.path }}"
         path = http.encode_url(pattern, req)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
-        out = self.cc.invoke(ctx=ctx, method="GET", path=path, req_pb2=req, *args, **kwargs)
+        out = self.cc.invoke(ctx=ctx, method="{{ method.method }}", path=path, req_pb2=req, *args, **kwargs)
         return out, None
 {% endfor %}
 
@@ -110,6 +111,12 @@ class MethodDetail:
         self.body = body
         self.response_body = response_body
 
+    def __hash__(self) -> int:
+        return hash(self.name)
+
+    def __eq__(self, __o: object) -> bool:
+        return self.name == __o.name
+
     def to_dict(self):
         return {
             'name': self.name,
@@ -144,11 +151,21 @@ class ServiceDetail:
         self.service_name = service_name
         self.metadata = metadata
         self.methods = methods or []
-        self.method_map = {}
+        self.method_set = {}
+
+    def __hash__(self) -> int:
+        return hash(self.service_name)
+
+    def __eq__(self, __o: object) -> bool:
+        return self.service_name == __o.service_name
 
     def execute(self) -> str:
-        self.method_map = {i.name: i for i in self.methods}
-        return template.render(service_detail=self)
+        post_set = {i for i in self.methods if i.method == 'post'}
+        get_set = {i for i in self.methods if i.method == 'get'}
+        post_set.update(get_set)
+        self.method_set = post_set
+        code = template.render(service_detail=self)
+        return autopep8.fix_code(code)
 
     @property
     def pb2_import(self):

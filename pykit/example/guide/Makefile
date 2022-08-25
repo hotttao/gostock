@@ -18,6 +18,7 @@ api:
  	       --python_out=./ \
  	       --grpc_python_out=./ \
 		   --python-http_out=./ \
+		   --go-http_out=paths=source_relative:./ \
  	       --openapi_out==paths=source_relative:. \
 	       $(API_PROTO_FILES)
 

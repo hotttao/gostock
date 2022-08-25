@@ -3,14 +3,23 @@ import hydra
 from omegaconf import DictConfig, OmegaConf
 import helloworld_pb2
 import helloworld_pb2_grpc
-
+import helloworld_pb2_http
 from pykit.app import PyKit
 from pykit.transport import http
 from pykit.middleware import recovery
 # from pykit.contrib.registry.consul import ConsulClient
 
+
 class GreeterImp(helloworld_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
+        reply = helloworld_pb2.HelloReply(message=f'hello {request.name}')
+        return reply
+
+    def SayMulti(self, request, context):
+        reply = helloworld_pb2.HelloReply(message=f'hello {request.name}')
+        return reply
+
+    def Echo(self, request, context):
         reply = helloworld_pb2.HelloReply(message=f'hello {request.name}')
         return reply
 
@@ -21,7 +30,7 @@ def new_http_server(c: DictConfig,
         recovery.Recovery()
     ]
     srv = http.Server(c.http.addr, middlewares=middlewares)
-    stock_v1.RegisterStockInfoServiceHTTPServer(srv, greeter_server)
+    helloworld_pb2_http.RegisterGreeterServiceHTTPServer(srv, greeter_server)
     # srv.Handle("/metrics", promhttp.Handler())
     # v1.RegisterGreeterHTTPServer(srv, greeter)
     # evaluate_v2.RegisterIncomeHTTPServer(srv, income)
@@ -43,3 +52,7 @@ def start_http_server(cfg: DictConfig) -> None:
     app = PyKit(id='1111', name='crawler', version='1.0.1',
                 servers=[http_srv])
     app.run()
+
+
+if __name__ == '__main__':
+    start_http_server()

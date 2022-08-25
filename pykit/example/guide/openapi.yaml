@@ -7,14 +7,15 @@ info:
     description: The greeting service definition.
     version: 0.0.1
 paths:
-    /helloworld/{inner.inner_name}:
+    /echo/echo/{echo}:
         get:
             tags:
                 - Greeter
-            operationId: Greeter_SayMulti
+            operationId: Greeter_Echo
             parameters:
-                - name: inner.inner_name
+                - name: echo
                   in: path
+                  description: The echo id.
                   required: true
                   schema:
                     type: string
@@ -46,18 +47,51 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /helloworld/{name}:
+    /helloworld/test:
         get:
             tags:
                 - Greeter
             description: Sends a greeting
             operationId: Greeter_SayHello
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/HelloReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /helloworld/{inner.inner_name}:
+        get:
+            tags:
+                - Greeter
+            operationId: Greeter_SayMulti
             parameters:
-                - name: name
+                - name: inner.inner_name
                   in: path
                   required: true
                   schema:
                     type: string
+                - name: name
+                  in: query
+                  schema:
+                    type: string
+                - name: inner.innerName
+                  in: query
+                  schema:
+                    type: string
+                - name: nums
+                  in: query
+                  schema:
+                    type: array
+                    items:
+                        type: integer
+                        format: int32
             responses:
                 "200":
                     description: OK
