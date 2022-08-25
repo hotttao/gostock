@@ -8,6 +8,7 @@ template = Template("""
                     
 from abc import ABCMeta
 from abc import abstractmethod
+from flask import request
 from pykit.transport import http
 from pykit.context import Context
 import {{ service_detail.pb2_import }} as {{ service_detail.pb2_import_as }}
@@ -31,14 +32,19 @@ def Register{{ service_detail.service_name }}ServiceHTTPServer(s: http.Server, s
 
 {% for method in service_detail.methods %}
 def _{{ service_detail.service_name }}Service_{{ method.name }}{{ method.num }}_HTTP_Handler(router: http.Router, srv: I{{ service_detail.service_name }}ServiceHTTPServer):
-    def _{{ method.name|lower }}_hanlder(ctx: http.Context):
-        req = {{ service_detail.pb2_import_as }}.{{ method.request }}()
-        req = ctx.bind_vars(req)
-        # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
-        h = router.middleware(srv.{{ method.name }})
-        reply = h(req, ctx)
-        return ctx.result(reply)
-    return _{{ method.name|lower }}_hanlder
+    def _{{ method.name|lower }}{{ method.num }}_hanlder(**kwargs):
+        try:
+            ctx = http.Context(request=request, url_params=kwargs, router=router)
+            req = {{ service_detail.pb2_import_as }}.{{ method.request }}()
+            req = ctx.bind_vars(req)
+            # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
+            h = router.middleware(srv.{{ method.name }})
+            reply = h(req, ctx)
+            return ctx.result(reply)
+        except Exception as e:
+            print(e)
+            return router.srv.encoder_error(request=ctx.request, response=ctx.response, err=e)
+    return _{{ method.name|lower }}{{ method.num }}_hanlder
 
 {% endfor %}
 
@@ -162,8 +168,8 @@ class ServiceDetail:
     def execute(self) -> str:
         post_set = {i for i in self.methods if i.method == 'post'}
         get_set = {i for i in self.methods if i.method == 'get'}
-        post_set.update(get_set)
-        self.method_set = post_set
+        get_set.update(post_set)
+        self.method_set = get_set
         code = template.render(service_detail=self)
         return autopep8.fix_code(code)
 

@@ -69,5 +69,5 @@ class Server(IServer):
 
     def handler(self, method: str, url: str, h: Callable):
         # self.app.route()
-        print(self.app.view_functions)
+        print(self.app.url_map)
         self.app.add_url_rule(rule=url, view_func=h, methods=[method])

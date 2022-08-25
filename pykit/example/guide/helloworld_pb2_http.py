@@ -2,6 +2,7 @@
 
 from abc import ABCMeta
 from abc import abstractmethod
+from flask import request
 from pykit.transport import http
 from pykit.context import Context
 import helloworld_pb2 as helloworld_pb2
@@ -27,86 +28,122 @@ def RegisterGreeterServiceHTTPServer(s: http.Server, srv: IGreeterServiceHTTPSer
 
     r.post("/say_hello", _GreeterService_SayHello0_HTTP_Handler(r, srv))
 
-    # r.get("/helloworld/<name:test>",
-    #       _GreeterService_SayHello1_HTTP_Handler(r, srv))
+    r.get("/helloworld/{name:test}",
+          _GreeterService_SayHello1_HTTP_Handler(r, srv))
 
     r.post("/say_multi", _GreeterService_SayMulti0_HTTP_Handler(r, srv))
 
-    # r.get("/helloworld/<inner.inner_name>",
-    #       _GreeterService_SayMulti1_HTTP_Handler(r, srv))
+    r.get("/helloworld/{inner.inner_name}",
+          _GreeterService_SayMulti1_HTTP_Handler(r, srv))
 
-    # r.post("/echo", _GreeterService_Echo0_HTTP_Handler(r, srv))
+    r.post("/echo", _GreeterService_Echo0_HTTP_Handler(r, srv))
 
-    # r.get("/echo/{inner.inner_name:echo/.*}",
-    #       _GreeterService_Echo1_HTTP_Handler(r, srv))
+    r.get("/echo/{inner.inner_name:echo/.*}",
+          _GreeterService_Echo1_HTTP_Handler(r, srv))
 
     pass
 
 
 def _GreeterService_SayHello0_HTTP_Handler(router: http.Router, srv: IGreeterServiceHTTPServer):
-    def _sayhello_hanlder(ctx: http.Context):
-        req = helloworld_pb2.HelloRequest()
-        req = ctx.bind_vars(req)
-        # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
-        h = router.middleware(srv.SayHello)
-        reply = h(req, ctx)
-        return ctx.result(reply)
-    return _sayhello_hanlder
+    def _sayhello0_hanlder(**kwargs):
+        try:
+            ctx = http.Context(
+                request=request, url_params=kwargs, router=router)
+            req = helloworld_pb2.HelloRequest()
+            req = ctx.bind_vars(req)
+            # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
+            h = router.middleware(srv.SayHello)
+            reply = h(req, ctx)
+            return ctx.result(reply)
+        except Exception as e:
+            print(e)
+            return router.srv.encoder_error(request=ctx.request, response=ctx.response, err=e)
+    return _sayhello0_hanlder
 
 
 def _GreeterService_SayHello1_HTTP_Handler(router: http.Router, srv: IGreeterServiceHTTPServer):
-    def _sayhello_hanlder(ctx: http.Context):
-        req = helloworld_pb2.HelloRequest()
-        req = ctx.bind_vars(req)
-        # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
-        h = router.middleware(srv.SayHello)
-        reply = h(req, ctx)
-        return ctx.result(reply)
-    return _sayhello_hanlder
+    def _sayhello1_hanlder(**kwargs):
+        try:
+            ctx = http.Context(
+                request=request, url_params=kwargs, router=router)
+            req = helloworld_pb2.HelloRequest()
+            req = ctx.bind_vars(req)
+            # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
+            h = router.middleware(srv.SayHello)
+            reply = h(req, ctx)
+            return ctx.result(reply)
+        except Exception as e:
+            print(e)
+            return router.srv.encoder_error(request=ctx.request, response=ctx.response, err=e)
+    return _sayhello1_hanlder
 
 
 def _GreeterService_SayMulti0_HTTP_Handler(router: http.Router, srv: IGreeterServiceHTTPServer):
-    def _saymulti_hanlder(ctx: http.Context):
-        req = helloworld_pb2.MultiRequest()
-        req = ctx.bind_vars(req)
-        # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
-        h = router.middleware(srv.SayMulti)
-        reply = h(req, ctx)
-        return ctx.result(reply)
-    return _saymulti_hanlder
+    def _saymulti0_hanlder(**kwargs):
+        try:
+            ctx = http.Context(
+                request=request, url_params=kwargs, router=router)
+            req = helloworld_pb2.MultiRequest()
+            req = ctx.bind_vars(req)
+            # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
+            h = router.middleware(srv.SayMulti)
+            reply = h(req, ctx)
+            return ctx.result(reply)
+        except Exception as e:
+            print(e)
+            return router.srv.encoder_error(request=ctx.request, response=ctx.response, err=e)
+    return _saymulti0_hanlder
 
 
 def _GreeterService_SayMulti1_HTTP_Handler(router: http.Router, srv: IGreeterServiceHTTPServer):
-    def _saymulti_hanlder(ctx: http.Context):
-        req = helloworld_pb2.MultiRequest()
-        req = ctx.bind_vars(req)
-        # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
-        h = router.middleware(srv.SayMulti)
-        reply = h(req, ctx)
-        return ctx.result(reply)
-    return _saymulti_hanlder
+    def _saymulti1_hanlder(**kwargs):
+        try:
+            ctx = http.Context(
+                request=request, url_params=kwargs, router=router)
+            req = helloworld_pb2.MultiRequest()
+            req = ctx.bind_vars(req)
+            # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
+            h = router.middleware(srv.SayMulti)
+            reply = h(req, ctx)
+            return ctx.result(reply)
+        except Exception as e:
+            print(e)
+            return router.srv.encoder_error(request=ctx.request, response=ctx.response, err=e)
+    return _saymulti1_hanlder
 
 
 def _GreeterService_Echo0_HTTP_Handler(router: http.Router, srv: IGreeterServiceHTTPServer):
-    def _echo_hanlder(ctx: http.Context):
-        req = helloworld_pb2.MultiRequest()
-        req = ctx.bind_vars(req)
-        # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
-        h = router.middleware(srv.Echo)
-        reply = h(req, ctx)
-        return ctx.result(reply)
-    return _echo_hanlder
+    def _echo0_hanlder(**kwargs):
+        try:
+            ctx = http.Context(
+                request=request, url_params=kwargs, router=router)
+            req = helloworld_pb2.MultiRequest()
+            req = ctx.bind_vars(req)
+            # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
+            h = router.middleware(srv.Echo)
+            reply = h(req, ctx)
+            return ctx.result(reply)
+        except Exception as e:
+            print(e)
+            return router.srv.encoder_error(request=ctx.request, response=ctx.response, err=e)
+    return _echo0_hanlder
 
 
 def _GreeterService_Echo1_HTTP_Handler(router: http.Router, srv: IGreeterServiceHTTPServer):
-    def _echo_hanlder(ctx: http.Context):
-        req = helloworld_pb2.MultiRequest()
-        req = ctx.bind_vars(req)
-        # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
-        h = router.middleware(srv.Echo)
-        reply = h(req, ctx)
-        return ctx.result(reply)
-    return _echo_hanlder
+    def _echo1_hanlder(**kwargs):
+        try:
+            ctx = http.Context(
+                request=request, url_params=kwargs, router=router)
+            req = helloworld_pb2.MultiRequest()
+            req = ctx.bind_vars(req)
+            # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
+            h = router.middleware(srv.Echo)
+            reply = h(req, ctx)
+            return ctx.result(reply)
+        except Exception as e:
+            print(e)
+            return router.srv.encoder_error(request=ctx.request, response=ctx.response, err=e)
+    return _echo1_hanlder
 
 
 class IGreeterServiceHTTPClient(metaclass=ABCMeta):
@@ -133,31 +170,31 @@ class GreeterServiceHTTPClientImpl(IGreeterServiceHTTPClient):
 
     def SayMulti(self, ctx: Context, req: helloworld_pb2.MultiRequest,
                  *args, **kwargs) -> helloworld_pb2.HelloReply:
-        pattern = "/say_multi"
+        pattern = "/helloworld/{inner.inner_name}"
         path = http.encode_url(pattern, req)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
-        out = self.cc.invoke(ctx=ctx, method="post",
+        out = self.cc.invoke(ctx=ctx, method="get",
                              path=path, req_pb2=req, *args, **kwargs)
         return out, None
 
     def Echo(self, ctx: Context, req: helloworld_pb2.MultiRequest,
              *args, **kwargs) -> helloworld_pb2.HelloReply:
-        pattern = "/echo"
+        pattern = "/echo/{inner.inner_name:echo/.*}"
         path = http.encode_url(pattern, req)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
-        out = self.cc.invoke(ctx=ctx, method="post",
+        out = self.cc.invoke(ctx=ctx, method="get",
                              path=path, req_pb2=req, *args, **kwargs)
         return out, None
 
     def SayHello(self, ctx: Context, req: helloworld_pb2.HelloRequest,
                  *args, **kwargs) -> helloworld_pb2.HelloReply:
-        pattern = "/say_hello"
+        pattern = "/helloworld/{name:test}"
         path = http.encode_url(pattern, req)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
-        out = self.cc.invoke(ctx=ctx, method="post",
+        out = self.cc.invoke(ctx=ctx, method="get",
                              path=path, req_pb2=req, *args, **kwargs)
         return out, None
 
