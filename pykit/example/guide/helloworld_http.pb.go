@@ -28,7 +28,7 @@ func RegisterGreeterHTTPServer(s *http.Server, srv GreeterHTTPServer) {
 	r.POST("/say_hello", _Greeter_SayHello0_HTTP_Handler(srv))
 	r.GET("/helloworld/{name:test}", _Greeter_SayHello1_HTTP_Handler(srv))
 	r.POST("/say_multi", _Greeter_SayMulti0_HTTP_Handler(srv))
-	r.GET("/helloworld/{inner.inner_name}", _Greeter_SayMulti1_HTTP_Handler(srv))
+	r.GET("/app/{inner.inner_name}", _Greeter_SayMulti1_HTTP_Handler(srv))
 	r.POST("/echo", _Greeter_Echo0_HTTP_Handler(srv))
 	r.GET("/echo/{inner.inner_name:echo/.*}", _Greeter_Echo1_HTTP_Handler(srv))
 }
@@ -198,7 +198,7 @@ func (c *GreeterHTTPClientImpl) SayHello(ctx context.Context, in *HelloRequest, 
 
 func (c *GreeterHTTPClientImpl) SayMulti(ctx context.Context, in *MultiRequest, opts ...http.CallOption) (*HelloReply, error) {
 	var out HelloReply
-	pattern := "/helloworld/{inner.inner_name}"
+	pattern := "/app/{inner.inner_name}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation("/helloworld.Greeter/SayMulti"))
 	opts = append(opts, http.PathTemplate(pattern))

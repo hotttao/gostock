@@ -20,7 +20,7 @@ service Greeter {
 
   rpc SayMulti (MultiRequest) returns (HelloReply)  {
     option (google.api.http) = {
-        get: "/helloworld/{inner.inner_name}",
+        get: "/app/{inner.inner_name}",
         additional_bindings {
             post: "/say_multi",
             body: "*",
@@ -40,6 +40,7 @@ service Greeter {
 
 message Inner {
   string inner_name = 1;
+  int32 inner_id = 2;
 }
 
 
@@ -54,6 +55,7 @@ message MultiRequest {
   Inner inner = 2;
   repeated int32 nums = 3;
   map<string, string> metadata = 4;
+  bool is_true = 5;
 }
 
 // The response message containing the greetings

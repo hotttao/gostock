@@ -11,7 +11,7 @@ from google.api import http_pb2
 from google.protobuf.descriptor import FieldDescriptor
 from pykit.protoc_gen_http.template import MethodDetail, ServiceDetail
 from pykit.protoc_gen_http.template import FileDetail
-from pykit.protoc_gen_http.utils import get_attrs
+# from pykit.protoc_gen_http.utils import get_attrs
 import logging
 
 logger = logging.getLogger('proto-python-http')
@@ -181,8 +181,8 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
         logger.info(f'fields: {fields}')
         logger.info(f'path_vars: {v}-{s}')
         logger.info(f'input_type: {input_type}')
-        if s:
-            path = replace_path(v, s, path)
+        # if s:
+        #     path = replace_path(v, s, path)
 
         for field in v.split("."):
             field = field.strip()
@@ -221,7 +221,8 @@ def build_method_detail(file_desc: descriptor_pb2.FileDescriptorProto,
         reply=m.output_type,
         path=path,
         method=method,
-        has_vars=len(path_vars) > 0
+        has_vars=len(path_vars) > 0,
+        path_vars=path_vars
     )
     MethodSets[m.name] += 1
     logger.info(method_detail.to_json())
@@ -242,18 +243,6 @@ def build_path_vars(path: str) -> Dict[str, str]:
         else:
             res[name] = None
     return res
-
-
-def replace_path(name: str, value: str, path: str) -> str:
-    pattern = re.compile(r"(?i){([\s]*%s[\s]*)=?([^{}]*)}" % name)
-    match = pattern.search(path)
-    if match:
-        start = match.start()
-        end = match.end()
-        new_value = value.replace("*", ".*")
-        # print(path[start:end])
-        path = path.replace(path[start + 1:end - 1], f'{name}:{new_value}')
-    return path
 
 
 def camel_case_vars(s: str):

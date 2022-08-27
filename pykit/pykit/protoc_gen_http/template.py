@@ -1,11 +1,12 @@
-import json
+import re
 import os
+import json
 import autopep8
 from jinja2 import Template
 from typing import List
 
 template = Template("""
-                    
+import traceback
 from abc import ABCMeta
 from abc import abstractmethod
 from flask import request
@@ -35,14 +36,15 @@ def _{{ service_detail.service_name }}Service_{{ method.name }}{{ method.num }}_
     def _{{ method.name|lower }}{{ method.num }}_hanlder(**kwargs):
         try:
             ctx = http.Context(request=request, url_params=kwargs, router=router)
+            url_to_proto = {{ method.url_to_proto }}
             req = {{ service_detail.pb2_import_as }}.{{ method.request }}()
-            req = ctx.bind_vars(req)
+            req = ctx.bind_vars(req, url_to_proto)
             # http.SetOperation(ctx, "/api.stock.v1.StockInfoService/GetStockInfo")
             h = router.middleware(srv.{{ method.name }})
             reply = h(req, ctx)
             return ctx.result(reply)
         except Exception as e:
-            print(e)
+            traceback.print_exc(e)
             return router.srv.encoder_error(request=ctx.request, response=ctx.response, err=e)
     return _{{ method.name|lower }}{{ method.num }}_hanlder
 
@@ -65,7 +67,8 @@ class {{ service_detail.service_name }}ServiceHTTPClientImpl(I{{ service_detail.
     def {{ method.name }}(self, ctx: Context, req: {{ service_detail.pb2_import_as }}.{{ method.request }},
                      *args, **kwargs) -> {{ service_detail.pb2_import_as }}.{{ method.reply }}:
         pattern = "{{ method.path }}"
-        path = http.encode_url(pattern, req)
+        url_to_proto = {{ method.url_to_proto }}
+        path = http.encode_url(pattern, req, url_to_proto)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
         out = self.cc.invoke(ctx=ctx, method="{{ method.method }}", path=path, req_pb2=req, *args, **kwargs)
@@ -86,7 +89,7 @@ class FileDetail:
 class MethodDetail:
     def __init__(self, name: str, original_name: str, num: int, request: str, reply: str,
                  path: str, method: str, has_vars: bool, has_body: bool = False, body: str = '',
-                 response_body: str = ''):
+                 response_body: str = '', path_vars=None):
         """_summary_
 
             Args:
@@ -110,12 +113,14 @@ class MethodDetail:
         self.num = num
         self.request = request.split('.')[-1] if request else ''
         self.reply = reply.split('.')[-1] if reply else ''
-        self.path = path
         self.method = method
         self.has_vars = has_vars
         self.has_body = has_body
         self.body = body
         self.response_body = response_body
+        self.path_vars = path_vars or {}
+        self.path, self.url_to_proto, self.proto_to_url = trans_path(
+            path, self.path_vars)
 
     def __hash__(self) -> int:
         return hash(self.name)
@@ -136,6 +141,9 @@ class MethodDetail:
             'has_body': self.has_body,
             'body': self.body,
             'response_body': self.response_body,
+            'path_vars': self.path_vars,
+            'url_to_proto': self.url_to_proto,
+            'proto_to_url': self.proto_to_url
         }
 
     def to_json(self):
@@ -195,3 +203,51 @@ class ServiceDetail:
 
     def to_json(self):
         return json.dumps(self.to_dict(), indent=4)
+
+
+def trans_path(path, path_vars):
+    """
+    把 HttpRule 中定义的 url 转换成 flask 的 url 定义
+    """
+    proto_to_url = {}
+    for proto_key, value in path_vars.items():
+        url_var = proto_key
+        if '.' in proto_key:
+            url_var = proto_key.replace('.', '_')
+            proto_to_url[proto_key] = {'url_var': url_var, 'prefix': ''}
+
+    for proto_key, value in path_vars.items():
+        if value:
+            path, prefix = replace_path(proto_key, value, path)
+            if prefix:
+                proto_to_url[proto_key]['prefix'] = prefix
+
+    for proto_key, var_map in proto_to_url.items():
+        url_var = var_map['url_var']
+        path = path.replace('{%s}' % proto_key, f'<{url_var}>')
+    url_to_proto = {var_map['url_var']: {'proto_key': proto_key, 'prefix': var_map['prefix']}
+                    for proto_key, var_map in proto_to_url.items()}
+    return path, url_to_proto, proto_to_url
+
+
+def replace_path(name: str, value: str, path: str) -> str:
+    pattern = re.compile(r"(?i){([\s]*%s[\s]*)=?([^{}]*)}" % name)
+    match = pattern.search(path)
+    path_vars_trans = {}
+    prefix = ''
+    if match:
+        start = match.start()
+        end = match.end()
+        url_var = name.replace('.', '_')
+        path_vars_trans[url_var] = name
+        if '/*' in value:
+            # messages/* 变成 flask <path:>
+            prefix = value.split('/*')[0]
+            sub_path = f"{prefix}/<path:{url_var}>"
+        else:
+
+            sub_path = f"<{url_var}>"
+        # new_value = value.replace("*", ".*")
+        # print(path, path[start:end], prefix, sub_path)
+        path = path.replace(path[start:end], f'{sub_path}')
+    return path, prefix
