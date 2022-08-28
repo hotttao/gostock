@@ -27,15 +27,19 @@ class Context:
         return self.request.headers
 
     def bind_vars(self, req_proto, url_to_proto):
-        """_summary_
+        """get 请求绑定 url 路径中的参数，以及 url 查询参数
 
         Args:
             req_proto (_type_): _description_
             url_to_proto (_type_): url 中的变量到  proto message 字段的映射关系
         """
-
+        body = self.router.srv.decoder_request(self.request)
+        # print(body)
         return decode_url(url_query_map=self.request.args,
-                          url_vars_map=self.url_params, url_to_proto=url_to_proto,
+                          url_vars_map=self.url_params,
+                          form_map=self.request.form,
+                          url_to_proto=url_to_proto,
+                          body=body,
                           req_proto=req_proto)
 
     def result(self, res_proto, code=200):

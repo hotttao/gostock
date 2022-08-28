@@ -31,7 +31,7 @@ service Greeter {
     option (google.api.http) = {
         get: "/echo/{inner.inner_name=echo/*}",
         additional_bindings {
-            post: "/echo",
+            post: "/echo_post/{inner.inner_name=echo/*}",
             body: "*",
         }
     };

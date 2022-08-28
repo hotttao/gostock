@@ -4,7 +4,7 @@ from werkzeug.routing import Rule, Map
 from google.protobuf.json_format import MessageToDict
 from pykit.protoc_gen_http.utils import get_attrs
 from google.protobuf.descriptor import FieldDescriptor
-from google.protobuf.json_format import ParseDict
+from google.protobuf.json_format import ParseDict, ParseDict
 
 
 def encode_url(path_template, req_pb2, url_to_proto):
@@ -46,20 +46,26 @@ def encode_url_vars(req_pb2, proto_to_url):
     return message_dict
 
 
-def decode_url(url_query_map, url_vars_map, url_to_proto, req_proto):
+def decode_url(url_query_map, url_vars_map, form_map, url_to_proto, body, req_proto):
     """_summary_
 
     Args:
         url_quer_map (_type_): url 的查询参数
         url_vars_map (_type_): url 中的路径参数
+        form_map (_type_): form 表单中的数据
+        body (_type_): requet 解析后的 json 数据
         url_to_proto (_type_): url 路径参数到 proto message 的映射关系
     """
     # print(url_query_map)
     # print(url_vars_map)
+    # print(form_map)
     # print(get_attrs(req_proto))
     url_vars_map = decode_url_vars(url_vars_map, url_to_proto)
     url_query_map = MultiDict(copy.deepcopy(url_query_map))
     url_query_map.update(url_vars_map)
+    url_query_map.update(form_map)
+    if body:
+        req_proto = ParseDict(body, req_proto, ignore_unknown_fields=True)
     proto_pb2 = multi_dict_to_message(url_query_map, req_proto)
     return proto_pb2
 
@@ -121,6 +127,7 @@ def multi_dict_to_message(multi_dict, protoc):
         # if len(value) == 1:
         # value = value[0]
         parse_multi_dict_key(key, value, collect)
+    # print(collect)
     message_dict = multi_dict_type_trans(collect, protoc)
     message_pb2 = ParseDict(message_dict, protoc)
     return message_pb2

@@ -27,11 +27,12 @@ def codec_for_request(request: Request, name: str) -> Tuple[encoding.Codec, bool
     if name == "Content-Type":
         mimetypes = [request.content_type]
     else:
-        mimetypes = request.accept_mimetypes
+        mimetypes = [i[0] for i in request.accept_mimetypes]
 
     for accept in mimetypes:
-        content_subtype = accept[0].split("/")[1]
-        print(content_subtype)
+        # print(accept)
+        content_subtype = accept.split("/")[1]
+        # print(content_subtype)
         codec = encoding.get_codec(content_subtype)
         if codec:
             return codec, True
@@ -43,8 +44,8 @@ def default_request_decoder(request) -> Any:
     if not ok:
         return errors.BadRequest("CODEC", request.content_type)
 
-    data = request.body
-
+    data = request.data
+    # print(data)
     v = codec.unmarshal(data)
     return v
 
@@ -58,7 +59,7 @@ def default_response_encoder(request: Request, response: Response, v):
         data = codec.marshal(v)
 
     except Exception:
-        pass
+        raise
 
     response.mimetype = f'application/{codec.name}'
     response.set_data(data)

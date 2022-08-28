@@ -1,4 +1,5 @@
 
+import requests
 from helloworld_pb2 import HelloRequest, Inner, MultiRequest, Inner
 from helloworld_pb2_http import GreeterServiceHTTPClientImpl
 from pykit.transport.http.client import Client
@@ -35,7 +36,34 @@ def start_http_client():
     client.close()
 
 
+def req_server_post():
+    url = 'http://192.168.2.70:8001/echo_post/echo/tsong'
+    headers = {'Content-Type': 'application/json'}
+
+    # 以字典的形式构造数据
+    data = {
+        "name": "tao",
+        "inner": {
+            "innerId": 1
+        },
+        "nums": [
+            1,
+            2
+        ],
+        "metadata": {
+            "path": "/about",
+            "detail": "sky"
+        },
+        "isTrue": True,
+        "market": "B"
+    }
+    # 与 get 请求一样，r 为响应对象
+    r = requests.post(url, json=data)
+    # r = requests.post(url, data=data)
+    # 查看响应结果
+    print(r.content)
+
+
 if __name__ == '__main__':
-    print(ParseDict({'inner_name': "tao"}, Inner()))
-    print(ParseDict({'innerName': "tao"}, Inner()))
+    req_server_post()
     start_http_client()

@@ -29,7 +29,7 @@ func RegisterGreeterHTTPServer(s *http.Server, srv GreeterHTTPServer) {
 	r.GET("/helloworld/{name:test}", _Greeter_SayHello1_HTTP_Handler(srv))
 	r.POST("/say_multi", _Greeter_SayMulti0_HTTP_Handler(srv))
 	r.GET("/app/{inner.inner_name}", _Greeter_SayMulti1_HTTP_Handler(srv))
-	r.POST("/echo", _Greeter_Echo0_HTTP_Handler(srv))
+	r.POST("/echo_post/{inner.inner_name:echo/.*}", _Greeter_Echo0_HTTP_Handler(srv))
 	r.GET("/echo/{inner.inner_name:echo/.*}", _Greeter_Echo1_HTTP_Handler(srv))
 }
 
@@ -119,6 +119,9 @@ func _Greeter_Echo0_HTTP_Handler(srv GreeterHTTPServer) func(ctx http.Context) e
 	return func(ctx http.Context) error {
 		var in MultiRequest
 		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, "/helloworld.Greeter/Echo")

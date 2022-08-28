@@ -12,7 +12,8 @@ class Server(IServer):
     endpoint = None
 
     def __init__(self, address, middlewares: List[Callable] = None,
-                 encoder_error: Callable = None, encoder_response: Callable = None) -> None:
+                 encoder_error: Callable = None, encoder_response: Callable = None,
+                 decoder_requst: Callable = None) -> None:
         self.app = flask.Flask('test')
         self.err = None  # error
         self.network = None  # string
@@ -21,8 +22,9 @@ class Server(IServer):
         self.timeout = None  # time.Duration
         self.filters = []  # []FilterFunc
         self.middlewares = middlewares or []  # []middleware.Middleware
-        self.dec = []  # DecodeRequestFunc
+        # self.dec = []  # DecodeRequestFunc
         # EncodeResponseFunc
+        self.decoder_request = decoder_requst or http.default_request_decoder
         self.encoder_response = encoder_response or http.default_response_encoder
         self.encoder_error = encoder_error or http.default_error_encoder  # EncodeErrorFunc
         self.init()
