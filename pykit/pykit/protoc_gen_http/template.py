@@ -225,7 +225,7 @@ def trans_path(path, path_vars):
     for proto_key, var_map in proto_to_url.items():
         url_var = var_map['url_var']
         path = path.replace('{%s}' % proto_key, f'<{url_var}>')
-    url_to_proto = {var_map['url_var']: {'proto_key': proto_key, 'prefix': var_map['prefix']}
+    url_to_proto = {var_map['url_var']: {'proto_key': camel_case_vars(proto_key), 'prefix': var_map['prefix']}
                     for proto_key, var_map in proto_to_url.items()}
     return path, url_to_proto, proto_to_url
 
@@ -251,3 +251,35 @@ def replace_path(name: str, value: str, path: str) -> str:
         # print(path, path[start:end], prefix, sub_path)
         path = path.replace(path[start:end], f'{sub_path}')
     return path, prefix
+
+
+def camel_case_vars(s: str):
+    subs = s.split(".")
+    case_vars = [camel_case(sub) for sub in subs]
+    return '.'.join(case_vars)
+
+
+def camel_case(s: str) -> str:
+    # camelCase返回CamelCased名称。如果有一个内部下划线和一个小写字母，删除下划线并转换为大写字母。
+    # 这种重写导致名称冲突的可能性很小，但由于太过遥远，我们准备假装它不存在—因为c++生成器的名称是小写的，
+    # 所以极不可能有两个大写不同的字段。简而言之，_my_field_name_2变成了XMyFieldName_2。
+
+    if s == "":
+        return ""
+    # 不变量:如果下一个字母是小写，它必须转换为大写。
+    # 也就是说，我们一次处理一个单词，其中单词用_或大写字母标记。数字被视为单词。
+    stubs = []
+    first = True
+    for i in s.split("_"):
+        if not i:
+            continue
+        if i[0].isdigit():
+            stub = f'_{i}'
+        else:
+            if first:
+                first = False
+                stub = i
+            else:
+                stub = i.capitalize()
+        stubs.append(stub)
+    return ''.join(stubs)

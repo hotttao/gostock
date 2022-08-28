@@ -7,20 +7,24 @@ import helloworld_pb2_http
 from pykit.app import PyKit
 from pykit.transport import http
 from pykit.middleware import recovery
+from google.protobuf.json_format import MessageToJson
 # from pykit.contrib.registry.consul import ConsulClient
 
 
 class GreeterImp(helloworld_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
         reply = helloworld_pb2.HelloReply(message=f'hello {request.name}')
+        print(MessageToJson(request, indent=4))
         return reply
 
     def SayMulti(self, request, context):
         reply = helloworld_pb2.HelloReply(message=f'hello {request.name}')
+        print(MessageToJson(request, indent=4))
         return reply
 
     def Echo(self, request, context):
         reply = helloworld_pb2.HelloReply(message=f'hello {request.name}')
+        print(MessageToJson(request, indent=4))
         return reply
 
 

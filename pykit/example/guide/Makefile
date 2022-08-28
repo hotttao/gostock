@@ -15,10 +15,12 @@ api:
 	python -m grpc_tools.protoc \
 		   --proto_path=./ \
 	       --proto_path=../third_party \
- 	       --python_out=./ \
- 	       --grpc_python_out=./ \
-		   --python-http_out=./ \
-		   --go-http_out=paths=source_relative:./ \
+ 	       --python_out=./python_app \
+ 	       --grpc_python_out=./python_app \
+		   --python-http_out=./python_app \
+		   --go-http_out=paths=source_relative:./go_app/helloworld \
+		   --go_out=paths=source_relative:./go_app/helloworld \
+		   --go-grpc_out=paths=source_relative:./go_app/helloworld \
  	       --openapi_out==paths=source_relative:. \
 	       $(API_PROTO_FILES)
 
