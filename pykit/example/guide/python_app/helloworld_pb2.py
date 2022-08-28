@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 from google.api import annotations_pb2 as google_dot_api_dot_annotations__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\x1a\x1cgoogle/api/annotations.proto\"-\n\x05Inner\x12\x12\n\ninner_name\x18\x01 \x01(\t\x12\x10\n\x08inner_id\x18\x02 \x01(\x05\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\xc8\x01\n\x0cMultiRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x05inner\x18\x02 \x01(\x0b\x32\x11.helloworld.Inner\x12\x0c\n\x04nums\x18\x03 \x03(\x05\x12\x38\n\x08metadata\x18\x04 \x03(\x0b\x32&.helloworld.MultiRequest.MetadataEntry\x12\x0f\n\x07is_true\x18\x05 \x01(\x08\x1a/\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t2\xd8\x02\n\x07Greeter\x12n\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"0\x82\xd3\xe4\x93\x02*\x12\x17/helloworld/{name=test}Z\x0f\"\n/say_hello:\x01*\x12n\n\x08SayMulti\x12\x18.helloworld.MultiRequest\x1a\x16.helloworld.HelloReply\"0\x82\xd3\xe4\x93\x02*\x12\x17/app/{inner.inner_name}Z\x0f\"\n/say_multi:\x01*\x12m\n\x04\x45\x63ho\x12\x18.helloworld.MultiRequest\x1a\x16.helloworld.HelloReply\"3\x82\xd3\xe4\x93\x02-\x12\x1f/echo/{inner.inner_name=echo/*}Z\n\"\x05/echo:\x01*B\x17Z\x15helloworld/helloworldb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\x1a\x1cgoogle/api/annotations.proto\"-\n\x05Inner\x12\x12\n\ninner_name\x18\x01 \x01(\t\x12\x10\n\x08inner_id\x18\x02 \x01(\x05\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x9f\x02\n\x0cMultiRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x05inner\x18\x02 \x01(\x0b\x32\x11.helloworld.Inner\x12\x0c\n\x04nums\x18\x03 \x03(\x05\x12\x38\n\x08metadata\x18\x04 \x03(\x0b\x32&.helloworld.MultiRequest.MetadataEntry\x12\x0f\n\x07is_true\x18\x05 \x01(\x08\x12/\n\x06market\x18\x06 \x01(\x0e\x32\x1f.helloworld.MultiRequest.Market\x1a/\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"$\n\x06Market\x12\x05\n\x01\x41\x10\x00\x12\x05\n\x01\x42\x10\x01\x12\x05\n\x01H\x10\x02\x12\x05\n\x01N\x10\x03\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t2\xd8\x02\n\x07Greeter\x12n\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"0\x82\xd3\xe4\x93\x02*\x12\x17/helloworld/{name=test}Z\x0f\"\n/say_hello:\x01*\x12n\n\x08SayMulti\x12\x18.helloworld.MultiRequest\x1a\x16.helloworld.HelloReply\"0\x82\xd3\xe4\x93\x02*\x12\x17/app/{inner.inner_name}Z\x0f\"\n/say_multi:\x01*\x12m\n\x04\x45\x63ho\x12\x18.helloworld.MultiRequest\x1a\x16.helloworld.HelloReply\"3\x82\xd3\xe4\x93\x02-\x12\x1f/echo/{inner.inner_name=echo/*}Z\n\"\x05/echo:\x01*B\x17Z\x15helloworld/helloworldb\x06proto3')
 
 
 
@@ -24,6 +24,7 @@ _HELLOREQUEST = DESCRIPTOR.message_types_by_name['HelloRequest']
 _MULTIREQUEST = DESCRIPTOR.message_types_by_name['MultiRequest']
 _MULTIREQUEST_METADATAENTRY = _MULTIREQUEST.nested_types_by_name['MetadataEntry']
 _HELLOREPLY = DESCRIPTOR.message_types_by_name['HelloReply']
+_MULTIREQUEST_MARKET = _MULTIREQUEST.enum_types_by_name['Market']
 Inner = _reflection.GeneratedProtocolMessageType('Inner', (_message.Message,), {
   'DESCRIPTOR' : _INNER,
   '__module__' : 'helloworld_pb2'
@@ -78,11 +79,13 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _HELLOREQUEST._serialized_start=109
   _HELLOREQUEST._serialized_end=137
   _MULTIREQUEST._serialized_start=140
-  _MULTIREQUEST._serialized_end=340
-  _MULTIREQUEST_METADATAENTRY._serialized_start=293
-  _MULTIREQUEST_METADATAENTRY._serialized_end=340
-  _HELLOREPLY._serialized_start=342
-  _HELLOREPLY._serialized_end=371
-  _GREETER._serialized_start=374
-  _GREETER._serialized_end=718
+  _MULTIREQUEST._serialized_end=427
+  _MULTIREQUEST_METADATAENTRY._serialized_start=342
+  _MULTIREQUEST_METADATAENTRY._serialized_end=389
+  _MULTIREQUEST_MARKET._serialized_start=391
+  _MULTIREQUEST_MARKET._serialized_end=427
+  _HELLOREPLY._serialized_start=429
+  _HELLOREPLY._serialized_end=458
+  _GREETER._serialized_start=461
+  _GREETER._serialized_end=805
 # @@protoc_insertion_point(module_scope)

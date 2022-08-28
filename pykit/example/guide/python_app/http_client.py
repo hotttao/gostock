@@ -29,7 +29,7 @@ def start_http_client():
 
     greeter_client = GreeterServiceHTTPClientImpl(cc=client)
     req = MultiRequest(name='tao', inner=Inner(inner_name='tsong', inner_id=1), nums=[1, 2],
-                       metadata={"path": "/about", "detail": "sky"}, is_true=True)
+                       metadata={"path": "/about", "detail": "sky"}, is_true=True, market='B')
     ctx = Context()
     greeter_client.SayMulti(ctx=ctx, req=req)
     client.close()

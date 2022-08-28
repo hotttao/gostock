@@ -42,6 +42,11 @@ paths:
                   in: query
                   schema:
                     type: boolean
+                - name: market
+                  in: query
+                  schema:
+                    type: integer
+                    format: enum
             responses:
                 "200":
                     description: OK
@@ -91,6 +96,11 @@ paths:
                   in: query
                   schema:
                     type: boolean
+                - name: market
+                  in: query
+                  schema:
+                    type: integer
+                    format: enum
             responses:
                 "200":
                     description: OK

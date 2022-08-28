@@ -51,11 +51,18 @@ message HelloRequest {
 
 // The request message containing the user's name.
 message MultiRequest {
+  enum Market {
+    A = 0;
+    B = 1;
+    H = 2;
+    N = 3;
+  }
   string name = 1;
   Inner inner = 2;
   repeated int32 nums = 3;
   map<string, string> metadata = 4;
   bool is_true = 5;
+  Market market = 6;
 }
 
 // The response message containing the greetings

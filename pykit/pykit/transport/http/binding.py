@@ -54,9 +54,9 @@ def decode_url(url_query_map, url_vars_map, url_to_proto, req_proto):
         url_vars_map (_type_): url 中的路径参数
         url_to_proto (_type_): url 路径参数到 proto message 的映射关系
     """
-    print(url_query_map)
-    print(url_vars_map)
-    print(get_attrs(req_proto))
+    # print(url_query_map)
+    # print(url_vars_map)
+    # print(get_attrs(req_proto))
     url_vars_map = decode_url_vars(url_vars_map, url_to_proto)
     url_query_map = MultiDict(copy.deepcopy(url_query_map))
     url_query_map.update(url_vars_map)
@@ -142,7 +142,13 @@ def multi_dict_type_trans(trans_dict, protoc):
         field_value = message_dict[field_name]
 
         if field.type in [FieldDescriptor.TYPE_ENUM]:
-            pass
+            value_map = dict(zip(field.enum_type.values_by_name, field.enum_type.values_by_number))
+            # print(value_map)
+            if field.label == FieldDescriptor.LABEL_REPEATED:
+                message_dict[field_name] = [value_map.get(i, 0) for i in field_value]
+            else:
+                message_dict[field_name] = value_map.get(field_value[0], 0)
+
         elif field.type in [FieldDescriptor.TYPE_BYTES]:
             pass
         elif field.type in [FieldDescriptor.TYPE_MESSAGE, FieldDescriptor.TYPE_GROUP]:
