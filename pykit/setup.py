@@ -56,7 +56,8 @@ with open("README.md", "r") as fh:
         install_requires=install_requires,
         entry_points={
             'console_scripts': [
-                'protoc-gen-python-http = pykit.cmd.gen_http:main'
+                'protoc-gen-python-http = pykit.cmd.gen_http:main',
+                'protoc-gen-python-error = pykit.cmd.gen_error:main'
             ]
         },
         # data_files=[

@@ -18,6 +18,7 @@ api:
  	       --python_out=./python_app \
  	       --grpc_python_out=./python_app \
 		   --python-http_out=./python_app \
+		   --python-error_out=./python_app \
 		   --go-http_out=paths=source_relative:./go_app/helloworld \
 		   --go_out=paths=source_relative:./go_app/helloworld \
 		   --go-grpc_out=paths=source_relative:./go_app/helloworld \

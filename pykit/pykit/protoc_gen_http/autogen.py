@@ -10,7 +10,7 @@ from google.api import annotations_pb2
 from google.api import http_pb2
 from google.protobuf.descriptor import FieldDescriptor
 from pykit.protoc_gen_http.template import MethodDetail, ServiceDetail
-from pykit.protoc_gen_http.template import FileDetail
+from pykit.protoc_gen_http.template import FileDetail, camel_case_vars
 # from pykit.protoc_gen_http.utils import get_attrs
 import logging
 
