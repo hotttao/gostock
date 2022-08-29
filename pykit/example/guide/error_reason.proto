@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package go_app.hellworld;
+
+import "pykit/errors/errors.proto";
+
+option go_package = "go_app/hellworld;hellworld";
+option java_multiple_files = true;
+option java_package = "go_app.hellworld";
+option objc_class_prefix = "APIHelloworldV1";
+
+enum ErrorReason {
+  option (errors.default_code) = 500;
+  STOCK_NOT_FOUND = 0 [(errors.code) = 404];
+  NODE_NOT_FOUND = 1 [(errors.code) = 500];
+}

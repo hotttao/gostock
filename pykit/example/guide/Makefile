@@ -1,5 +1,5 @@
 
-API_PROTO_FILES=$(shell find . -name *.proto)
+API_PROTO_FILES=$(shell find . -name "*.proto")
 
 .PHONY: init
 # init env

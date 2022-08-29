@@ -15,11 +15,11 @@ class IGreeterServiceHTTPServer(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def SayHello(context: http.Context, req: helloworld_pb2.HelloRequest) -> helloworld_pb2.HelloReply:
+    def SayMulti(context: http.Context, req: helloworld_pb2.MultiRequest) -> helloworld_pb2.HelloReply:
         pass
 
     @abstractmethod
-    def SayMulti(context: http.Context, req: helloworld_pb2.MultiRequest) -> helloworld_pb2.HelloReply:
+    def SayHello(context: http.Context, req: helloworld_pb2.HelloRequest) -> helloworld_pb2.HelloReply:
         pass
 
 
@@ -163,12 +163,12 @@ class IGreeterServiceHTTPClient(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def SayHello(self, ctx: http.Context, req: helloworld_pb2.HelloRequest, *args,
+    def SayMulti(self, ctx: http.Context, req: helloworld_pb2.MultiRequest, *args,
                  **kwargs) -> helloworld_pb2.HelloReply:
         pass
 
     @abstractmethod
-    def SayMulti(self, ctx: http.Context, req: helloworld_pb2.MultiRequest, *args,
+    def SayHello(self, ctx: http.Context, req: helloworld_pb2.HelloRequest, *args,
                  **kwargs) -> helloworld_pb2.HelloReply:
         pass
 
@@ -189,10 +189,11 @@ class GreeterServiceHTTPClientImpl(IGreeterServiceHTTPClient):
                              path=path, req_pb2=req, *args, **kwargs)
         return out, None
 
-    def SayHello(self, ctx: Context, req: helloworld_pb2.HelloRequest,
+    def SayMulti(self, ctx: Context, req: helloworld_pb2.MultiRequest,
                  *args, **kwargs) -> helloworld_pb2.HelloReply:
-        pattern = "/helloworld/<name>"
-        url_to_proto = {}
+        pattern = "/app/<inner_inner_name>"
+        url_to_proto = {'inner_inner_name': {
+            'proto_key': 'inner.innerName', 'prefix': ''}}
         path = http.encode_url(pattern, req, url_to_proto)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
@@ -200,11 +201,10 @@ class GreeterServiceHTTPClientImpl(IGreeterServiceHTTPClient):
                              path=path, req_pb2=req, *args, **kwargs)
         return out, None
 
-    def SayMulti(self, ctx: Context, req: helloworld_pb2.MultiRequest,
+    def SayHello(self, ctx: Context, req: helloworld_pb2.HelloRequest,
                  *args, **kwargs) -> helloworld_pb2.HelloReply:
-        pattern = "/app/<inner_inner_name>"
-        url_to_proto = {'inner_inner_name': {
-            'proto_key': 'inner.innerName', 'prefix': ''}}
+        pattern = "/helloworld/<name>"
+        url_to_proto = {}
         path = http.encode_url(pattern, req, url_to_proto)
         # opts = append(opts, http.Operation("/api.stock.v1.StockInfoService/GetStockInfo"))
         # opts = append(opts, http.PathTemplate(pattern))
