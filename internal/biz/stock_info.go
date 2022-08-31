@@ -2,6 +2,7 @@ package biz
 
 import (
 	"context"
+	v1 "gostock/api/stock/v1"
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -47,5 +48,8 @@ func NewStockInfoUsecase(repo StockInfoRepo, logger log.Logger) *StockInfoUsecas
 }
 
 func (uc *StockInfoUsecase) GetStockInfo(ctx context.Context, id int32) (*StockInfo, error) {
-	return uc.repo.FindByID(ctx, id)
+	// return uc.repo.FindByID(ctx, id)
+
+	return nil, v1.ErrorStockNotFound("%v stock not found", 123)
+	// return nil, fmt.Errorf("%v stock not found", 123)
 }
